@@ -6,7 +6,7 @@ import AddCompanyForm from './components/AddCompanyForm'
 
 import fixturesCompanies from '../../fixtures/companies'
 
-import {Switch, Route} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 
 class Candidates extends React.Component{
     constructor(props){
@@ -17,8 +17,9 @@ class Candidates extends React.Component{
             <div className="horizontal-wrapper">
                 <CompanyList companies={fixturesCompanies} />
                 <Switch>
-                    <Route path='/candidates/addcompany' component={AddCompanyForm} />
+                    <Redirect exact={true} from='/candidates/' to='/candidates/0' />
                     <Route path='/candidates/:companyid' component={CandidatesCompany} />
+                    <Route path='/candidates/addcompany' component={AddCompanyForm} />
                 </Switch>
             </div>
         );

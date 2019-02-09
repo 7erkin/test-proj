@@ -8,7 +8,6 @@ import CandidatesTable from '../Table'
 import Search from '../Search'
 
 export default function CandidatesCompany(props){
-    console.log('-----', props.match.params.companyid);
     return (
         <div className="vertical-wrapper">
             <div className="horizontal-wrapper">

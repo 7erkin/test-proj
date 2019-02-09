@@ -4,22 +4,38 @@ import './App.css'
 
 import MainNavigation from './containers/MainNavigation'
 import Candidates from './containers/Candidates'
-import NotFound from './containers/NotFound'    
+import Polls from './containers/Polls'
+import Models from './containers/Models'
+import Indicators from './containers/Indicators'
+import ModifiedIndicators from './containers/ModifiedIndicators'
+import Settings from './containers/Settings'
+import NotFound from './containers/NotFound'
+import Competencies from './containers/Competencies'    
 
 import {Route, BrowserRouter, Switch} from 'react-router-dom'
+import {Provider} from 'react-redux'
+
+import store from './store/config-store'
 
 class App extends React.Component {
     render() {
-        return (
-            <BrowserRouter>
+        return ( 
+            <Provider store={store}>
+                <BrowserRouter>
                 <div className="container">
                     <MainNavigation />
                     <Switch>
                         <Route path="/candidates" component={Candidates} />
+                        <Route path="/polls" component={Polls} />
+                        <Route path="/models" component={Models} />
+                        <Route path="/competencies" component={Competencies} />
+                        <Route path="/indicators" component={ModifiedIndicators} />
+                        <Route path="/settings" component={Settings} />
                         <Route path="*" component={NotFound} />
                     </Switch>
                 </div>
-            </BrowserRouter>
+                </BrowserRouter>
+            </Provider>
         );
     }
 }
