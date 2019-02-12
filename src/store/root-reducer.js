@@ -30,7 +30,14 @@ const addIndicatorReducer = (state = initialState, action) => {
     return newState;
 };
 const addIndicatorGroupReducer = (state = initialState, action) => {
-    return state;
+    const newState = Object.assign({}, state);
+    newState.indicatorGroups.push({
+        id: newState.indicatorGroups.length + 10,
+        name: action.payload.name,
+        description: action.payload.description,
+        indicators: []
+    })
+    return newState;
 };
 const saveLoadedIndicatorGroupsReducer = (state = initialState, action) => {
     return Object.assign({}, state, {
@@ -61,7 +68,17 @@ const deleteIndicatorReducer = (state = initialState, action) => {
     return newState;
 };
 const deleteIndicatorGroupReducer = (state = initialState, action) => {
-    return state;
+    const newState = Object.assign({}, state);
+    console.log('new state: ', newState);
+    newState.indicatorGroups.some((group, index) => {
+        if(group.id != action.payload.id)
+            return false;
+
+        newState.indicatorGroups.splice(index, 1);
+        return true;
+    });
+
+    return newState;
 };
 
 export const rootReducer = (state = initialState, action) => {

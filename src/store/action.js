@@ -10,11 +10,12 @@ export const DELETE_INDICATOR_GROUP = 'DELETE_INDICATOR_GROUP';
 // actions are objects
 
  // action creators - for creating actions
- export const addIndicatorGroup = indicatorGroupName => {
+ export const addIndicatorGroup = (indicatorGroupName, groupDescription) => {
      return {
          type: ADD_INDICATOR_GROUP,
          payload: {
-            name: indicatorGroupName 
+            name: indicatorGroupName,
+            description: groupDescription 
          }
      };
  };
@@ -30,11 +31,11 @@ export const deleteIndicator = (indicatorId, indicatorGroupId) => {
     };
 };
 
-export const deleteIndicatorGroup = indicatorGroupName => {
+export const deleteIndicatorGroup = groupId => {
     return {
         type: DELETE_INDICATOR_GROUP,
         payload: {
-            name: indicatorGroupName
+            id: groupId
         }
     };
 };

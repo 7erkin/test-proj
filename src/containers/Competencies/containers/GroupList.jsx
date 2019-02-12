@@ -16,14 +16,14 @@ class GroupList extends React.Component{
     }
     
     onGroupSelect = (groupId) => {
-        this.setState({
-            activeGroupId: groupId
-        });
+        this.props.onSelectGroup(groupId);
     }
 
     // on Update props or setState. Return new state or null
     static getDerivedStateFromProps = (nextProps, prevState) => {
-        return null;
+        return {
+            activeGroupId: nextProps.activeGroupId
+        };
     }
 
     render() {
@@ -42,15 +42,17 @@ class GroupList extends React.Component{
                         return (
                             <li 
                                 key={group.id}
-                                onClick={(event => {
-                                    if(onValidClick(event))
-                                        onGroupDelete(group.id)
-                                })} 
                                 className={`indicator-group-item ` + `${this.isActive(group.id)}`}>
                                     <Link to={`/indicators/${group.id}`} onClick={() => this.onGroupSelect(group.id)}>
                                         {group.name}
                                     </Link>
-                                    {isEditModeOn ? <button className="btn btn-danger btn-sm">Удалить</button> : <div />}
+                                    {isEditModeOn ? <button 
+                                                        className="btn btn-danger btn-sm" 
+                                                        onClick={event => {
+                                                            event.stopPropagation();
+                                                            if(onValidClick(event))
+                                                                onGroupDelete(group.id)
+                                                        }} >Удалить</button> : <div />}
                             </li>
                         );
                     })}

@@ -6,7 +6,6 @@ const IndicatorList = props => {
     const {
         indicators,
         groupName,
-        groupId,
         onIndicatorDelete,
         onIndicatorAdd,
         isEditModeOn
@@ -24,7 +23,7 @@ const IndicatorList = props => {
                             className="indicator-item" 
                             onClick={event => {
                                 if(onValidClick(event))
-                                    onIndicatorDelete(indicator.id, groupId);
+                                    onIndicatorDelete(indicator.id);
                             }}>
                                 {indicator.name}
                                 {isEditModeOn ? <button className="btn btn-danger btn-sm">Удалить</button> : <div/>}

@@ -1,15 +1,10 @@
 {
-    "indicatorGroups": [
+    "competenciesGroups": [
         {
             "id": "",
             "name": "",
             "description": "",
-            "indicators": [
-                {
-                    "id": "",
-                    "name": ""
-                }
-            ]
+            "indicators": []
         }
     ]
 }

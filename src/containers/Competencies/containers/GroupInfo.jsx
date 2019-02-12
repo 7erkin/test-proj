@@ -1,17 +1,16 @@
 import React from 'react'
 
-import IndicatorList from './IndicatorList'
-import GroupDescription from './GroupDescription'
-import IndicatorSearch from './IndicatorSearch'
+import IndicatorList from './components/IndicatorList'
+import GroupDescription from './components/GroupDescription'
+import IndicatorSearch from './components/IndicatorSearch'
 
 const filterByPattern = (indicators, pattern) => {
-    return indicators.filter(indicator => indicator.name.indexOf(pattern) != -1);
+    return indicators.length == 0 ? [] : indicators.filter(indicator => indicator.name.indexOf(pattern) != -1);
 }
 
 class GroupInfo extends React.Component {
     constructor(props){
         super(props);
-        console.log('group info: ', props);
         const id = this.props.match.params.id;
         const group = this.props.groups[Number(id)];
         this.state = {
@@ -33,8 +32,8 @@ class GroupInfo extends React.Component {
         const id = nextProps.match.params.id;
         const group = Object.assign({}, nextProps.groups[Number(id)]);
 
-        if(group.id == prevState.groupId) return null;
-        console.log('group info props: ', nextProps);
+        //if(group.id == prevState.groupId) return null;
+
         return {
             groupId: group.id,
             indicators: group.indicators,

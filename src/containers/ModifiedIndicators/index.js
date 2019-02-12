@@ -3,11 +3,11 @@ import './style.css'
 
 import {connect} from 'react-redux'
 
-import GroupList from './GroupList'
-import GroupInfo from './GroupInfo'
-import EditMode from './EditMode'
-import AddIndicatorForm from './AddIndicatorForm'
-import AddGroupForm from './AddGroupForm'
+import GroupList from './containers/GroupList'
+import GroupInfo from './containers/GroupInfo'
+import EditMode from './components/EditMode'
+import AddIndicatorForm from './components/AddIndicatorForm'
+import AddGroupForm from './components/AddGroupForm'
 
 import {
     Switch, 
@@ -25,10 +25,12 @@ import {
 
 import mockLoadedData from './mock'
 
+const NO_GROUPS = -1;
+
 const getDefaultRenderedGroupId = groups => {
     const ids = groups.map(group => group.id);
     ids.sort();
-    return ids[0] == undefined ? -1 : ids[0];
+    return ids[0] == undefined ? NO_GROUPS : ids[0];
 };
 
 class ModifiedIndicators extends React.Component {
@@ -36,13 +38,14 @@ class ModifiedIndicators extends React.Component {
         super(props);
 
         const id = getDefaultRenderedGroupId(props.indicatorGroups);
-        
+
         this.state = {
             isEditModeOn: false,
             isAddIndicatorFormOpen: false,
             isAddGroupFormOpen: false,
             indicatorGroups: props.indicatorGroups,
-            defaultGroupId: id
+            defaultGroupId: id,
+            activeGroupId: id
         }
     }
     
@@ -62,11 +65,11 @@ class ModifiedIndicators extends React.Component {
     onGroupDelete = groupId => {
         this.props.dispatch(deleteIndicatorGroup(groupId));
     }
-    onIndicatorAdd = (indicatorName, groupId) => {
-        this.props.dispatch(addIndicator(indicatorName, groupId));
+    onIndicatorAdd = (indicatorName) => {
+        this.props.dispatch(addIndicator(indicatorName, this.state.activeGroupId));
     }
-    onIndicatorDelete = (indicatorId, groupId) => {
-        this.props.dispatch(deleteIndicator(indicatorId, groupId));
+    onIndicatorDelete = (indicatorId) => {
+        this.props.dispatch(deleteIndicator(indicatorId, this.state.activeGroupId));
     }
     onCloseAddGroupForm = () => {
         this.setState({
@@ -84,9 +87,13 @@ class ModifiedIndicators extends React.Component {
     onAddIndicatorFormOpen = () => this.setState({
         isAddIndicatorFormOpen: true
     })
+    onSelectActiveGroup = (groupId) => {
+        this.setState({
+            activeGroupId: groupId
+        });
+    }
 
     static getDerivedStateFromProps = (nextProps, prevState) => {
-        alert('kek');
         console.log(nextProps);
         return {
             indicatorGroups: nextProps.indicatorGroups.slice(),
@@ -95,7 +102,7 @@ class ModifiedIndicators extends React.Component {
     }
 
     render() {
-        return (this.state.defaultGroupId == -1 ? <h1>No groups found</h1> :
+        return (this.state.defaultGroupId == NO_GROUPS ? <h1>No groups found</h1> :
             (<div>
                 <EditMode 
                     isOn={this.state.isEditModeOn} 
@@ -104,8 +111,10 @@ class ModifiedIndicators extends React.Component {
                     <GroupList 
                         groups={this.state.indicatorGroups}
                         defaultGroupId={this.state.defaultGroupId}
+                        activeGroupId={this.state.activeGroupId}
                         onAddGroupFormOpen={this.onAddGroupFormOpen}
                         onGroupDelete={this.onGroupDelete} 
+                        onSelectGroup={this.onSelectActiveGroup}
                         isEditModeOn={this.state.isEditModeOn}/>
                     <Switch>
                         <Redirect exact={true} from="/indicators/" to={`/indicators/${this.state.defaultGroupId}`} />
