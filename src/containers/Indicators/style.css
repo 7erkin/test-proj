@@ -1,0 +1,26 @@
+.visually-hidden{
+    display: none;
+}
+li{
+    list-style: none;
+}
+.active-indicator-group {
+    background-color: azure;
+}
+.vertical-wrap{
+    display: flex;
+    flex-direction: column;
+}
+.horizontal-wrap{
+    display: flex;
+}
+.aside-navigation{
+    width: 250px;
+}
+.edit-list > li{
+    position: relative;
+}
+.delete-checkbox{
+    position: absolute;
+    right: 0px;
+}

@@ -11,7 +11,6 @@ const initialState = {
 }
 const addIndicatorReducer = (state = initialState, action) => {
     const newState = Object.assign({}, state);
-    console.log('action', action.payload);
     const {
         name, 
         groupId
@@ -53,7 +52,6 @@ const deleteIndicatorReducer = (state = initialState, action) => {
         if(group.id != groupId)
             continue;
 
-        console.log('delete indicator reducer: ', group);
         group.indicators.some((indicator, index) => {
             if(indicator.id != indicatorId)
                 return false;
@@ -84,7 +82,6 @@ const deleteIndicatorGroupReducer = (state = initialState, action) => {
 export const rootReducer = (state = initialState, action) => {
     switch(action.type) {
         case ADD_INDICATOR:
-            console.log('ADD INDICATOR: ', state);
             return addIndicatorReducer(state, action);
         case ADD_INDICATOR_GROUP:
             return addIndicatorGroupReducer(state, action);

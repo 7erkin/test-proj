@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Competencies page</title>
+    </head>
+    <body>
+        <h1 class="visually-hidden">Competencies</h1>
+        <section class="navigation-competence-group-list">
+            <h2 class="visually-hidden">Competence group list</h2>
+            <ul class="competence-group-list">
+                <li class="competence-group-item">Competence group 1</li>
+                <li class="competence-group-item">Competence group 2</li>
+                <li class="competence-group-item">Competence group 3</li>
+            </ul>
+            <button type="button">Group</button>
+        </section>
+        <section class="competence-group-info">
+            <h2 class="visually-hidden">Competence group information</h2>
+            <form>
+                <input type="search" placeholder="Input competence name">
+                <button type="button">Add competence</button>
+                <button type="button">Delete competence</button>
+                <p class="competence-group-description">
+                    Some description
+                </p>
+                <table class="competence-group-competencies">
+                    <th>
+                        <td></td>
+                        <td></td>
+                        <td><input type="checkbox"></td>
+                    </th>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+                </table>
+            </form>
+        </section>
+        <section class="competence-group-editor">
+            <h2 class="visually-hidden">Competence group editor</h2>
+            <form method="POST">
+                <button type="button">Add competence</button>
+                <button type="submit">Remove competence</button>
+                <ul class="competence-list">
+                    <li class="competence-item">Competence 1<input type="text"></li>
+                    <li class="competence-item">Competence 2<input type="text"></li>
+                    <li class="competence-item">Competence 3<input type="text"></li>
+                </ul>
+            </form>
+            <form method="POST" action="#">
+                <input type="text">
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+                <button type="button">Cancel</button>
+                <button type="submit">Save</button>
+            </form>
+        </section>
+        <section class="competencies-editor">
+            <h2 class="visually-hidden">Competencies editor</h2>
+            <button type="button">Cancel</button>
+            <button type="submit">Save</button>
+        </section>
+    </body>
+</html>
