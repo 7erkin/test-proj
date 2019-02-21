@@ -5,13 +5,14 @@ import {
 } from 'react-router-dom'
 
 const CompetenceTableRow = props => {
+    console.log(props.competence);
     return (
         <tr>
             <td>
-                <Link to={`.../${props.competence.id}`}>props.competence.name</Link>    
+                <Link to={`.../${props.competence.id}`}>{props.competence.name}</Link>    
             </td>
             <td>
-                props.competence.description
+                {props.competence.description}
             </td>
         </tr>
     );

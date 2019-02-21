@@ -8,7 +8,7 @@ import Polls from './containers/Polls'
 import Models from './containers/Models'
 import Indicators from './containers/Indicators'
 import NotFound from './containers/NotFound'
-//import Competencies from './containers/Competencies'    
+import Competencies from './containers/Competencies'    
 
 import {Route, BrowserRouter, Switch} from 'react-router-dom'
 import {Provider} from 'react-redux'
@@ -26,6 +26,7 @@ class App extends React.Component {
                         <Route path="/candidates" component={Candidates} />
                         <Route path="/polls" component={Polls} />
                         <Route path="/models" component={Models} />
+                        <Route path="/competencies" component={Competencies} />
                         <Route path="/indicators" component={Indicators} />
                         <Route path="*" component={NotFound} />
                     </Switch>

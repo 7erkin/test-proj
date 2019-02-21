@@ -4,12 +4,9 @@ import {
     SAVE_LOADED_INDICATOR_GROUPS,
     DELETE_INDICATOR,
     DELETE_INDICATOR_GROUP
-} from '../store/action'
+} from './../actions/indicator'
 
-const initialState = {
-    indicatorGroups: []
-}
-const addIndicatorReducer = (state = initialState, action) => {
+const addIndicatorReducer = (state, action) => {
     const newState = Object.assign({}, state);
     const {
         name, 
@@ -28,7 +25,7 @@ const addIndicatorReducer = (state = initialState, action) => {
     });
     return newState;
 };
-const addIndicatorGroupReducer = (state = initialState, action) => {
+const addIndicatorGroupReducer = (state, action) => {
     const newState = Object.assign({}, state);
     newState.indicatorGroups.push({
         id: newState.indicatorGroups.length + 10,
@@ -38,16 +35,13 @@ const addIndicatorGroupReducer = (state = initialState, action) => {
     })
     return newState;
 };
-const saveLoadedIndicatorGroupsReducer = (state = initialState, action) => {
-    return Object.assign({}, state, {
-        indicatorGroups: action.payload.indicatorGroups
-    });
+const saveLoadedIndicatorGroupsReducer = (state, action) => {
+    return action.payload.indicatorGroups;
 }
-const deleteIndicatorReducer = (state = initialState, action) => {
+const deleteIndicatorReducer = (state, action) => {
     const {indicatorId, groupId} = action.payload;
-    const newState = Object.assign({}, state);
-    console.log(newState);
     debugger;
+    const newState = Object.assign({}, state);
     for(const group of newState.indicatorGroups){
         if(group.id != groupId)
             continue;
@@ -65,9 +59,8 @@ const deleteIndicatorReducer = (state = initialState, action) => {
 
     return newState;
 };
-const deleteIndicatorGroupReducer = (state = initialState, action) => {
+const deleteIndicatorGroupReducer = (state, action) => {
     const newState = Object.assign({}, state);
-    console.log('new state: ', newState);
     newState.indicatorGroups.some((group, index) => {
         if(group.id != action.payload.id)
             return false;
@@ -79,7 +72,7 @@ const deleteIndicatorGroupReducer = (state = initialState, action) => {
     return newState;
 };
 
-export const rootReducer = (state = initialState, action) => {
+const rootReducer = (state = [], action) => {
     switch(action.type) {
         case ADD_INDICATOR:
             return addIndicatorReducer(state, action);
@@ -95,3 +88,5 @@ export const rootReducer = (state = initialState, action) => {
             return state; 
     }
 };
+
+export default rootReducer;

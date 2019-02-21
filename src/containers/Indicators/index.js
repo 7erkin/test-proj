@@ -11,7 +11,7 @@ import {connect} from 'react-redux'
 
 import './style.css'
 
-import indicatorGroups from './mock'
+import mockData from './mock'
 
 import IndicatorGroupList from './AsideIndicatorGroupList'
 import IndicatorEditor from './IndicatorEditor'
@@ -25,8 +25,8 @@ import {
     saveLoadedIndicatorGroups,
     deleteIndicator,
     deleteIndicatorGroup
-} from '../../store/action'
-
+} from '../../store/actions/indicator'
+    
 const getInitialGroupId = groups => {
     const ids = groups.map(group => group.id);
     ids.sort();
@@ -43,8 +43,7 @@ class Indicators extends React.Component {
     }
 
     componentDidMount = () => {
-        const loadedIndicatorGroups = indicatorGroups;
-        this.props.dispatch(saveLoadedIndicatorGroups(loadedIndicatorGroups));
+        this.props.dispatch(saveLoadedIndicatorGroups(mockData));
     }
 
     onAddIndicator = (indicatorName, groupId) => {
@@ -80,7 +79,7 @@ class Indicators extends React.Component {
                 <div className="horizontal-wrap">
                     <div className="aside-navigation vertical-wrap">
                         <IndicatorGroupList 
-                            indicatorGroups={indicatorGroups} 
+                            indicatorGroups={this.props.indicatorGroups} 
                             onGroupSelect={this.onSetActiveIndicatorGroup} 
                             activeGroupId={this.state.activeGroupId == -1 ? initialGroupId : this.state.activeGroupId}
                         />
@@ -92,13 +91,13 @@ class Indicators extends React.Component {
                         <Switch>
                             <Redirect exact={true} from="/indicators" to={`/indicators/indicator-editor/${1}`} />
                             <Route path="/indicators/indicator-editor/:groupid" render={props => {
-                                const index = indicatorGroups.findIndex(group => group.id == props.match.params.groupid);
-                                return index == -1 ? <div>Indicator group wasn't found</div> : <IndicatorEditor indicatorGroup={indicatorGroups[index]} onRemoveIndicators={this.onRemoveIndicators} />
+                                const index = this.props.indicatorGroups.findIndex(group => group.id == props.match.params.groupid);
+                                return index == -1 ? <div>Indicator group wasn't found</div> : <IndicatorEditor indicatorGroup={this.props.indicatorGroups[index]} onRemoveIndicators={this.onRemoveIndicators} />
                             }}/>
                             <Route path="/indicators/indicator-group-editor" render={() => {
-                                return <IndicatorGroupEditor indicatorGroups={indicatorGroups} onRemoveGroups={this.onRemoveIndicatorGroups}/>
+                                return <IndicatorGroupEditor indicatorGroups={this.props.indicatorGroups} onRemoveGroups={this.onRemoveIndicatorGroups}/>
                             }}/>
-                            <Route path="/indicators/addindicator" render={() => <AddIndicatorForm indicatorGroups={indicatorGroups} onSubmit={this.onAddIndicator}/>}/>
+                            <Route path="/indicators/addindicator" render={() => <AddIndicatorForm indicatorGroups={this.props.indicatorGroups} onSubmit={this.onAddIndicator}/>}/>
                             <Route path="/indicators/addgroup" render={() => <AddIndicatorGroupForm onSubmit={this.onAddIndicatorGroup}/>} />
                         </Switch>
                     </div>
@@ -109,6 +108,7 @@ class Indicators extends React.Component {
 } 
 
 const putStateToProps = store => {
+    console.log('---store', store);
     return {
         indicatorGroups: store.indicatorGroups.slice()
     }

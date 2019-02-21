@@ -3,102 +3,123 @@ import React from 'react'
 import {
     Switch,
     Route,
+    Link,
     Redirect
 } from 'react-router-dom'
 
-import CompetenceEditor from './containers/CompetenceEditor';
-import AddCompetenceGroupButton from './components/AddCompetenceGroupButton'
-import EditorSwitcher from './components/EditorSwitcher';
+import mockData from './mock'
 
-/* 
-const state = {
-    isEditModeOn: '',
-    activeCompetenceGroupId: '',
-    defaultCompetenceGroupId: ''
+import './style.css'
+
+import {
+    connect
+} from 'react-redux'
+
+import CompetenceGroupInfo from './CompetenceGroupInfo'
+import CompetenceEditor from './CompetenceEditor'
+
+import {
+    changeCompetence,
+    createCompetence,
+    createCompetenceGroup,
+    deleteCompetence,
+    deleteCompetenceGroup,
+    saveLoadedCompetenceGroups
+} from '../../store/actions/competence'
+
+import AsideCompetenceGroupList from './AsideCompetenceGroupList';
+import RemoveCompetenceGroupForm from './RemoveCompetenceGroupForm';
+import AddCompetenceGroupForm from './AddCompetenceGroupForm'
+import CompetenceGroupDescription from './CompetenceGroupDescription';
+
+const getCompetenceGroupById = (competenceGroups, competenceGroupId) => {
+    const index = competenceGroups.findIndex(group => group.id == competenceGroupId);
+    console.log(competenceGroups[index], 'sd');
+    return competenceGroups[index];
 }
-*/
 
-const getEditForCompetence = (competenceGroups, activeCompetenceGroupId, competenceId) => {
-    let properCompetence;
-
-    competenceGroups.some(group => {
-        if(group.id != activeCompetenceGroupId)
-            return false;
-
-        group.competencies.some(competence => {
-            if(competence.id != competenceId)
-                return false;
-
-            properCompetence = competence;
-            return true;
-        });
-
-        return true;
-    });
-
-    return properCompetence
-};
-
-class Competencies extends React.Component {
-    constructor(props) {
+class Competence extends React.Component {
+    constructor(props){
         super(props);
 
         this.state = {
-            isEditorOn: false,
-            activeCompetenceGroupId: 0
+            activeCompetenceGroupId: 1
         };
     }
 
-    onSelectCompetenceGroup = (competenceGroupId) => {}
-    onEditModeChange = () => {};
-    onRemoveCompetenceGroup = (competenceGroupId) => {}
-    onRemoveCompetence = (competenceId) => {}
+    componentDidMount() {
+        this.props.dispatch(saveLoadedCompetenceGroups(mockData))
+    }
+
     onSaveCompetence = () => {}
+    onDeleteCompetence = () => {}
+
+    onSetActiveCompetenceGroup = groupId => this.setState({activeCompetenceGroupId: groupId});
+
+    onCompetenceGroupAdd = (competenceGroupName, CompetenceGroupDescription) => {};
 
     render() {
-        const {
-            competenceGroups
-        } = props;
-
         return (
-            <section className="competencies">
-                <EditorSwitcher />
-                <div className="horizontal-wrapper">
-                    <div className="vertical-wrapper">
-                        {this.state.isEditorOn ? <AddCompetenceGroupButton /> : <div></div>}
-                        <CompetenceGroupList 
-                            competenceGroupList={competenceGroups} 
-                            activeCompetenceGroupId={this.state.activeCompetenceGroupId}
-                        />
-                    </div>
-                    <div className="vertical-wrapper">
-                        <Switch>
-                            <Redirect exact={true} from="/competence" to="/competence" />
-                            <Route 
-                                path="/competence/:id" 
-                                render={props => 
-                                    <CompetenceGroupInfo 
-                                        {...props} 
-                                        isEditorOn={this.state.isEditorOn}
-                                        competenceGroups={competenceGroups}
-                                    />
-                                }
-                            />
-                            <Route exact={true} path="/competence-editor/new" component={CompetenceEditor}/> 
-                            <Route path="/competence-editor/:id" render={props => 
+            <div className="horizontal-wrap">
+                <h1 className="visually-hidden">Competencies</h1>
+                <section className="navigation-competence-group-list vertical-wrap">
+                    <h2 className="visually-hidden">Competence group list</h2>
+                    <AsideCompetenceGroupList 
+                        competenceGroups={this.props.competenceGroups} 
+                        activeGroupId={this.state.activeCompetenceGroupId} 
+                        onGroupSelect={this.onSetActiveCompetenceGroup}/>
+                    <Link to="/competencies/group-editor">Group</Link>
+                </section>
+                <div className="vertical-wrap">
+                    <Switch>
+                        <Redirect exact={true} from="/competencies" to={`/competencies/group-info/${1}`}/>
+                        <Route path="/competencies/group-info/:groupid" render={props => {  
+                            const index = this.props.competenceGroups.findIndex(group => group.id == props.match.params.groupid);
+                            return index == -1 ? <div>Err</div> : <CompetenceGroupInfo competenceGroup={this.props.competenceGroups[index]} />
+                        }}></Route>
+                        <Route path="/competencies/group-editor" render={() => {
+                            return (
+                                <section class="competence-group-editor">
+                                    <h2 class="visually-hidden">Competence group editor</h2>
+                                    <Switch>
+                                        <Redirect exact={true} from="/competencies/group-editor" to="/competencies/group-editor/remove-group"/>
+                                        <Route path="/competencies/group-editor/remove-group" render={() => {
+                                            return (
+                                                <RemoveCompetenceGroupForm competenceGroups={this.props.competenceGroups} onRemoveGroups={this.onRemoveGroups}/>
+                                            );
+                                        }} />
+                                        <Route path="/competencies/group-editor/add-group" render={() => {
+                                            return (
+                                                <AddCompetenceGroupForm onCompetenceGroupAdd={this.onCompetenceGroupAdd}/>
+                                            );
+                                        }}/>
+                                    </Switch>
+                                </section>
+                            );
+                        }}></Route>
+                        <Route path="/competencies/competence-editor" render={() => {
+                            console.log('sdbdgbfgb', this.props);
+                            return (
                                 <CompetenceEditor 
-                                    {...props} 
-                                    competence={getEditForCompetence(competenceGroups, this.state.activeCompetenceGroup, props.match.params.id)}
-                                    />
-                                }
-                                onSaveCompetence={onSaveCompetence} 
-                            />
-                        </Switch>
-                    </div>
+                                    indicatorGroups={this.props.indicatorGroups}
+                                    competenceGroups={this.props.competenceGroups}
+                                    onSaveCompetence={this.onSaveCompetence} 
+                                    onDeleteCompetence={this.onDeleteCompetence}/>
+                            );
+                        }}></Route>
+                    </Switch>
                 </div>
-            </section>
+            </div>
         );
     }
 }
 
-export default Competencies;
+const putStateToProps = store => {
+    console.log('---store in competence', store);
+    return {
+        competenceGroups: store.competenceGroups,
+        indicatorGroups: store.indicatorGroups
+    }
+}
+
+export default connect(putStateToProps)(Competence);

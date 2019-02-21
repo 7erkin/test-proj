@@ -14,12 +14,12 @@
             </ul>
             <button type="button">Group</button>
         </section>
+
         <section class="competence-group-info">
             <h2 class="visually-hidden">Competence group information</h2>
             <form>
                 <input type="search" placeholder="Input competence name">
                 <button type="button">Add competence</button>
-                <button type="button">Delete competence</button>
                 <p class="competence-group-description">
                     Some description
                 </p>
@@ -27,23 +27,22 @@
                     <th>
                         <td></td>
                         <td></td>
-                        <td><input type="checkbox"></td>
                     </th>
                     <tr>
                         <td></td>
                         <td></td>
-                        <td><input type="checkbox"></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
-                        <td><input type="checkbox"></td>
                     </tr>
                 </table>
             </form>
         </section>
+
         <section class="competence-group-editor">
             <h2 class="visually-hidden">Competence group editor</h2>
+            <!--RemoveCompetenceGroupForm-->
             <form method="POST">
                 <button type="button">Add competence</button>
                 <button type="submit">Remove competence</button>
@@ -53,6 +52,7 @@
                     <li class="competence-item">Competence 3<input type="text"></li>
                 </ul>
             </form>
+            <!--AddCompetenceGroupForm-->
             <form method="POST" action="#">
                 <input type="text">
                 <textarea name="" id="" cols="30" rows="10"></textarea>
@@ -60,6 +60,7 @@
                 <button type="submit">Save</button>
             </form>
         </section>
+        
         <section class="competencies-editor">
             <h2 class="visually-hidden">Competencies editor</h2>
             <button type="button">Cancel</button>

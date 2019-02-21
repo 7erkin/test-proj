@@ -8,7 +8,6 @@ const findByPattern = (indicators, pattern) => indicators.filter(indicator => in
 class IndicatorEditor extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state={
             originalIndicators: props.indicatorGroup.indicators,
             visibleIndicators: props.indicatorGroup.indicators,

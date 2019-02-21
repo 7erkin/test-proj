@@ -1,58 +1,52 @@
 export default [
     {
         id: 1,
-        name: 'Некая группа компетенеций А',
-        description: 'Описание некоторой группы компетенции А',
+        name: 'Competence group A',
+        description: 'Description A',
         competencies: [
             {
-                id: 234,
-                name: 'Первая компетенция из А'
+                id: 100,
+                name: 'Competence 1A',
+                description: 'Description competence 1A'
             },
             {
-                id: 32,
-                name: 'Вторая компетенция из А' 
-            },
-            {
-                id: 234,
-                name: 'Третья компетенция из А'
+                id: 110,
+                name: 'Competence 2A',
+                description: 'Description competence 2A'
             }
         ]
     },
     {
-        id: 5,
-        name: 'Некая группа компетенций Б',
-        description: 'Описание некой группы компетенций Б',
+        id: 2,
+        name: 'Competence group B',
+        description: 'Description B',
         competencies: [
             {
-                id: 473,
-                name: 'Первая компетенция из Б'
+                id: 101,
+                name: 'Competence 1B',
+                description: 'Description competence 1B'
             },
             {
-                id: 32435,
-                name: 'Первая компетенция из А'
+                id: 111,
+                name: 'Competence 2B',
+                description: 'Description competence 2B'
             }
         ]
     },
     {
-        id: 10,
-        name: 'Некая группа компетенций Б',
-        description: '',
+        id: 3,
+        name: 'Competence group C',
+        description: 'Description C',
         competencies: [
             {
-                id: 1457,
-                name: 'Первая компетенция из А'
+                id: 102,
+                name: 'Competence 1C',
+                description: 'Description competence 1C'
             },
             {
-                id: 664,
-                name: 'Первая компетенция из А'
-            },
-            {
-                id: 3436,
-                name: 'Первая компетенция из А'
-            },
-            {
-                id: 9656,
-                name: 'Первая компетенция из А'
+                id: 112,
+                name: 'Competence 2C',
+                description: 'Description competence 2C'
             }
         ]
     }
