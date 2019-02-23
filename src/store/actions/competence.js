@@ -17,11 +17,12 @@ export const deleteCompetenceGroup = (competenceGroupId) => {
     };
 }
 
-export const createCompetenceGroup = (competenceGroupName) => {
+export const createCompetenceGroup = (competenceGroupName, competenceGroupDescription) => {
     return {
         type: CREATE_COMPETENCE_GROUP,
         payload: {
-            name: competenceGroupName
+            name: competenceGroupName,
+            description: competenceGroupDescription
         }
     }
 }

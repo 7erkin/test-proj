@@ -27,11 +27,11 @@ class AddCompetenceGroupForm extends React.Component {
             }}>
                 <input type="text" className="form-control" 
                     value={this.state.competenceGroupName} 
-                    onChange={this.onNameChange} 
+                    onChange={event => this.onNameChange(event.target.value)} 
                     placeholder="Input competence group name" /> 
                 <textarea className="form-control"
                     value={this.state.competenceGroupDescription}  
-                    onChange={this.onDescriptionChange} 
+                    onChange={event => this.onDescriptionChange(event.target.value)} 
                     placeholder="Input competence group description" /> 
                 <button type="button">Cancel</button>
                 <button type="submit">Save</button>

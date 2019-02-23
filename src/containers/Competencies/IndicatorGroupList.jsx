@@ -7,36 +7,21 @@ class IndicatorGroupList extends React.Component {
         super(props);
 
         this.state = {
-            activeIndicatorGroupId: '',
-            checkedIndicatorIds: new Set()
+            activeIndicatorGroupId: ''
         }
     }
 
     onSetActiveIndicatorGroup = indicatorGroupId => this.setState({activeIndicatorGroupId: indicatorGroupId});
 
-    // wrong approach
-    onCheckIndicator = indicatorId => {
-        let nextCheckedIndicatorIds = this.state.checkedIndicatorIds;
-        this.state.checkedIndicatorIds.has(indicatorId) ? nextCheckedIndicatorIds.delete(indicatorId) : nextCheckedIndicatorIds.add(indicatorId);
-        this.setState({checkedIndicatorIds: nextCheckedIndicatorIds});
-    }
-
-    isIndicatorChecked = (indicatorId) => this.state.checkedIndicatorIds.has(indicatorId);
-
     render() {
-        const {
-            indicatorGroups
-        } = this.props;
         return (
             <ul className="indicator-group-list">
-                {indicatorGroups.map(group => {
+                {this.props.indicatorGroups.map(group => {
                     return (
-                        <IndicatorGroupItem 
+                        <IndicatorGroupItem
                             indicatorGroup={group} 
                             activeIndicatorGroupId={this.state.activeIndicatorGroupId} 
-                            onClick={this.onSetActiveIndicatorGroup}
-                            onCheckIndicator={this.onCheckIndicator}
-                            isIndicatorChecked={this.isIndicatorChecked}/>
+                            {...this.props}/>
                     );
                 })}
             </ul>

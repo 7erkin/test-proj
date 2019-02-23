@@ -18,7 +18,7 @@ const CompetenceGroupList = props => {
             {competenceGroups.map(group => {
                 return (
                     <li onClick={() => onGroupSelect(group.id)} key={group.id} className={isCompetenceGroupActive(activeGroupId, group.id)}>
-                        <Link to={`.../${group.id}`}>
+                        <Link to={`/competencies/group-info/${group.id}`}>
                             {group.name}
                         </Link>
                     </li>

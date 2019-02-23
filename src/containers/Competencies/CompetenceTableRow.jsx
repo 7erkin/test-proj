@@ -9,7 +9,7 @@ const CompetenceTableRow = props => {
     return (
         <tr>
             <td>
-                <Link to={`.../${props.competence.id}`}>{props.competence.name}</Link>    
+                <Link to={`/competencies/competence-editor/${props.competence.id}`}>{props.competence.name}</Link>    
             </td>
             <td>
                 {props.competence.description}

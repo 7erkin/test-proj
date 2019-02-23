@@ -1,5 +1,7 @@
 import React from 'react'
 
+
+
 // когда группа активна - показывать все индикаторы
 // когда группа неактивна - показывать только отмеченные индикаторы
 const IndicatorGroupItem = props => {
@@ -11,7 +13,6 @@ const IndicatorGroupItem = props => {
         onCheckIndicator
     } = props;
 
-    console.log('propsss: ', props);
     return (
         <li key={indicatorGroup.id} className="card indicator-group-item">
             <div class="card-header">
@@ -24,6 +25,9 @@ const IndicatorGroupItem = props => {
             <ul className={`indicator-list ${indicatorGroup.id !== activeIndicatorGroupId ? 'indicator-list-hidden' : ''}`}>
                 {indicatorGroup.indicators.map(indicator => <li key={indicator.id} className={`indicator-item ${isIndicatorChecked(indicator.id) ? '' : 'indicator-item-hidden'}`}>
                     {indicator.name}
+                    <select value={-1}>
+                        
+                    </select>
                     <input type="checkbox" onChange={() => onCheckIndicator(indicator.id)}/>
                 </li>)}
             </ul>

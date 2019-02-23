@@ -56,7 +56,9 @@ class Competence extends React.Component {
 
     onSetActiveCompetenceGroup = groupId => this.setState({activeCompetenceGroupId: groupId});
 
-    onCompetenceGroupAdd = (competenceGroupName, CompetenceGroupDescription) => {};
+    onCompetenceGroupAdd = (competenceGroupName, competenceGroupDescription) => {
+        this.props.dispatch(createCompetenceGroup(competenceGroupName, competenceGroupDescription));
+    };
 
     render() {
         return (
@@ -97,14 +99,25 @@ class Competence extends React.Component {
                                 </section>
                             );
                         }}></Route>
-                        <Route path="/competencies/competence-editor" render={() => {
-                            console.log('sdbdgbfgb', this.props);
+                        <Route path="/competencies/competence-editor/:id" render={props => {
+                            const id = props.match.params.id;
+                            if(isNaN(+id)) {
+                                return (
+                                    <CompetenceEditor 
+                                        indicatorGroups={this.props.indicatorGroups}
+                                        competenceGroups={this.props.competenceGroups}
+                                        onSaveCompetence={this.onSaveCompetence} 
+                                        onDeleteCompetence={this.onDeleteCompetence}/>
+                                );
+                            } 
                             return (
                                 <CompetenceEditor 
                                     indicatorGroups={this.props.indicatorGroups}
                                     competenceGroups={this.props.competenceGroups}
                                     onSaveCompetence={this.onSaveCompetence} 
-                                    onDeleteCompetence={this.onDeleteCompetence}/>
+                                    onDeleteCompetence={this.onDeleteCompetence}
+                                    competenceGroupId={this.state.activeCompetenceGroupId}
+                                    competenceId={id}/>
                             );
                         }}></Route>
                     </Switch>

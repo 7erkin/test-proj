@@ -7,9 +7,23 @@ import {
     SAVE_LOADED_COMPETENCE_GROUPS
 } from '../actions/competence'
 
+import {
+    getRandomId
+} from '../../library'
+
 const deleteCompetenceGroupReducer = (state, action) => {}
 
-const createCompetenceGroupReducer = (state, action) => {}
+// bad variant
+const createCompetenceGroupReducer = (state, action) => {
+    const newState = state.slice();
+    newState.push({
+        id: getRandomId(),
+        name: action.payload.name,
+        description: action.payload.description,
+        competencies: []
+    });
+    return newState;
+}
 
 const createCompetenceReducer = (state, action) => {}
 
