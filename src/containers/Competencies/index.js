@@ -16,7 +16,7 @@ import {
 } from 'react-redux'
 
 import CompetenceGroupInfo from './CompetenceGroupInfo'
-import CompetenceEditor from './CompetenceEditor'
+import CompetenceEditor from './CompetenceEditor/CompetenceEditor'
 
 import {
     changeCompetence,
@@ -53,6 +53,7 @@ class Competence extends React.Component {
 
     onSaveCompetence = () => {}
     onDeleteCompetence = () => {}
+    onUpdateCompetence = () => {}
 
     onSetActiveCompetenceGroup = groupId => this.setState({activeCompetenceGroupId: groupId});
 
@@ -101,15 +102,7 @@ class Competence extends React.Component {
                         }}></Route>
                         <Route path="/competencies/competence-editor/:id" render={props => {
                             const id = props.match.params.id;
-                            if(isNaN(+id)) {
-                                return (
-                                    <CompetenceEditor 
-                                        indicatorGroups={this.props.indicatorGroups}
-                                        competenceGroups={this.props.competenceGroups}
-                                        onSaveCompetence={this.onSaveCompetence} 
-                                        onDeleteCompetence={this.onDeleteCompetence}/>
-                                );
-                            } 
+
                             return (
                                 <CompetenceEditor 
                                     indicatorGroups={this.props.indicatorGroups}
@@ -117,7 +110,8 @@ class Competence extends React.Component {
                                     onSaveCompetence={this.onSaveCompetence} 
                                     onDeleteCompetence={this.onDeleteCompetence}
                                     competenceGroupId={this.state.activeCompetenceGroupId}
-                                    competenceId={id}/>
+                                    competenceId={id}
+                                    isNew={isNaN(+id)}/>
                             );
                         }}></Route>
                     </Switch>

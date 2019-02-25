@@ -11,17 +11,30 @@ class IndicatorGroupList extends React.Component {
         }
     }
 
-    onSetActiveIndicatorGroup = indicatorGroupId => this.setState({activeIndicatorGroupId: indicatorGroupId});
+    onSetActiveIndicatorGroup = (indicatorGroupId) => this.setState({activeIndicatorGroupId: indicatorGroupId});
 
     render() {
+        const {
+            indicatorGroups,
+            onChecked,
+            isIndicatorChecked,
+            onUnchecked,
+            getIndicatorInfluence,
+            competence
+        } = this.props;
+
+        debugger;
         return (
             <ul className="indicator-group-list">
-                {this.props.indicatorGroups.map(group => {
+                {indicatorGroups.map(group => {
                     return (
                         <IndicatorGroupItem
+                            competence={competence}
                             indicatorGroup={group} 
                             activeIndicatorGroupId={this.state.activeIndicatorGroupId} 
-                            {...this.props}/>
+                            onSetActiveIndicatorGroup={this.onSetActiveIndicatorGroup}
+                            onChecked={onChecked} 
+                            onUnchecked={onUnchecked} />
                     );
                 })}
             </ul>
