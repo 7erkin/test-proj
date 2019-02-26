@@ -11,18 +11,10 @@ interface Props {
     competence: Competence
 };
 
-interface State {
-    isChecked: boolean
-}
-
-
-class IndicatorItem extends React.Component<Props, State> {
+class IndicatorItem extends React.Component<Props, any> {
     constructor(props: Props){
         super(props);
 
-        this.state = {
-            isChecked: props.competence.hasIndicator(props.indicator.id)
-        };
     }
 
     render() {
@@ -33,26 +25,30 @@ class IndicatorItem extends React.Component<Props, State> {
             competence
         } = this.props as Props;
 
-        debugger; 
+        const isChecked = competence.hasIndicator(indicator.id);
 
         return (
             <li 
                 key={indicator.id} 
-                className={`indicator-item ${this.state.isChecked ? '' : 'indicator-item-hidden'}`}>
+                className={`indicator-item ${isChecked ? '' : 'indicator-item-hidden'}`}>
                     {indicator.name}
-                    <select 
-                        onChange={event => {
-                            const influence = event.target.value as unknown;
-                            onChecked(indicator.id, influence as Influence);
-                        }} 
-                        value={this.state.isChecked ? Influence.Positive : Influence.Undefined}>
-                        <option value={Influence.Undefined}>Choose influence</option>
-                        <option value={Influence.Positive}>Positive</option>
-                        <option value={Influence.Negative}>Negative</option>
-                    </select>
-                    <input type="checkbox" checked={this.state.isChecked} onChange={() => {
-                        if(this.state.isChecked) onUnchecked(indicator.id);
-                    }}/>
+                    {isChecked ? (
+                        <select 
+                            onChange={event => {
+                                const influence = event.target.value as unknown;
+                                onChecked(indicator.id, influence as Influence);
+                            }} 
+                            value={competence.getIndicatorInfluence(indicator.id)}>
+                            <option value={Influence.Positive}>Positive</option>
+                            <option value={Influence.Negative}>Negative</option>
+                        </select>) : ''}
+                        <input type="checkbox" checked={isChecked} onChange={() => {
+                            if(isChecked){
+                                onUnchecked(indicator.id);
+                                return;
+                            } 
+                            onChecked(indicator.id, Influence.Positive);
+                        }}/>
             </li>
         );
     }

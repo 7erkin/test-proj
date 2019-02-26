@@ -19,7 +19,7 @@ class IndicatorList extends React.Component {
         debugger;
 
         return (
-            <ul className={`indicator-list ${indicatorGroup.id !== activeIndicatorGroupId ? 'indicator-list-disactive' : ''}`}>
+            <ul className={`indicator-list ${indicatorGroup.id !== activeIndicatorGroupId ? 'indicator-list-hidden' : ''}`}>
                 {
                     indicatorGroup.indicators.map(indicator => {
                         return (

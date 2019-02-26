@@ -19,11 +19,11 @@ import CompetenceGroupInfo from './CompetenceGroupInfo'
 import CompetenceEditor from './CompetenceEditor/CompetenceEditor'
 
 import {
-    changeCompetence,
+    updateCompetence,
     createCompetence,
     createCompetenceGroup,
     deleteCompetence,
-    deleteCompetenceGroup,
+    deleteCompetenceGroups,
     saveLoadedCompetenceGroups
 } from '../../store/actions/competence'
 
@@ -51,15 +51,23 @@ class Competence extends React.Component {
         this.props.dispatch(saveLoadedCompetenceGroups(mockData))
     }
 
-    onSaveCompetence = () => {}
-    onDeleteCompetence = () => {}
-    onUpdateCompetence = () => {}
-
-    onSetActiveCompetenceGroup = groupId => this.setState({activeCompetenceGroupId: groupId});
-
+    onSaveCompetence = (competence, competenceGroupId) => {
+        this.props.dispatch(createCompetence(competence, competenceGroupId));
+    }
+    onDeleteCompetence = (competenceId, competenceGroupId) => {
+        this.props.dispatch(deleteCompetence(competenceId, competenceGroupId));
+    }
+    onUpdateCompetence = (competence, competenceGroupId) => {
+        this.props.dispatch(updateCompetence(competence, competenceGroupId));
+    }
     onCompetenceGroupAdd = (competenceGroupName, competenceGroupDescription) => {
         this.props.dispatch(createCompetenceGroup(competenceGroupName, competenceGroupDescription));
     };
+    onCompetenceGroupsRemove = (competenceGroupIds) => {
+        this.props.dispatch(deleteCompetenceGroups(competenceGroupIds));
+    }
+
+    onSetActiveCompetenceGroup = groupId => this.setState({activeCompetenceGroupId: groupId});
 
     render() {
         return (
@@ -109,7 +117,6 @@ class Competence extends React.Component {
                                     competenceGroups={this.props.competenceGroups}
                                     onSaveCompetence={this.onSaveCompetence} 
                                     onDeleteCompetence={this.onDeleteCompetence}
-                                    competenceGroupId={this.state.activeCompetenceGroupId}
                                     competenceId={id}
                                     isNew={isNaN(+id)}/>
                             );

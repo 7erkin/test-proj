@@ -1,9 +1,9 @@
 import {
-    DELETE_COMPETENCE_GROUP,
+    DELETE_COMPETENCE_GROUPS,
     CREATE_COMPETENCE_GROUP,
     CREATE_COMPETENCE,
     DELETE_COMPETENCE,
-    CHANGE_COMPETENCE,
+    UPDATE_COMPETENCE,
     SAVE_LOADED_COMPETENCE_GROUPS
 } from '../actions/competence'
 
@@ -11,7 +11,7 @@ import {
     getRandomId
 } from '../../library'
 
-const deleteCompetenceGroupReducer = (state, action) => {}
+const deleteCompetenceGroupsReducer = (state, action) => {}
 
 // bad variant
 const createCompetenceGroupReducer = (state, action) => {
@@ -29,7 +29,7 @@ const createCompetenceReducer = (state, action) => {}
 
 const deleteCompetenceReducer = (state, action) => {}
 
-const changeCompetenceReducer = (state, action) => {}
+const updateCompetenceReducer = (state, action) => {}
 
 const saveLoadedCompetenceGroupsReducer = (state, action) => {
     return action.payload.competenceGroups;
@@ -39,14 +39,14 @@ const rootReducer = (state = [], action) => {
     switch(action.type){
         case CREATE_COMPETENCE_GROUP:
             return createCompetenceGroupReducer(state, action);
-        case DELETE_COMPETENCE_GROUP:
-            return deleteCompetenceGroupReducer(state, action);
+        case DELETE_COMPETENCE_GROUPS:
+            return deleteCompetenceGroupsReducer(state, action);
         case CREATE_COMPETENCE:
             return createCompetenceReducer(state, action);
         case DELETE_COMPETENCE:
             return deleteCompetenceReducer(state, action);
-        case CHANGE_COMPETENCE:
-            return changeCompetenceReducer(state, action);
+        case UPDATE_COMPETENCE:
+            return updateCompetenceReducer(state, action);
         case SAVE_LOADED_COMPETENCE_GROUPS:
             return saveLoadedCompetenceGroupsReducer(state, action);
         default:

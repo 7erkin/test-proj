@@ -1,18 +1,18 @@
-export const DELETE_COMPETENCE_GROUP = 'DELETE_COMPETENCE_GROUPS';
+export const DELETE_COMPETENCE_GROUPS = 'DELETE_COMPETENCE_GROUPS';
 export const CREATE_COMPETENCE_GROUP = 'CREATE_COMPETENCE_GROUP';
 
 export const CREATE_COMPETENCE = 'CREATE_COMPETENCE';
 export const DELETE_COMPETENCE = 'DELETE_COMPETENCE';
 
-export const CHANGE_COMPETENCE = 'CHANGE_COMPETENCE';
+export const UPDATE_COMPETENCE = 'UPDATE_COMPETENCE';
 
 export const SAVE_LOADED_COMPETENCE_GROUPS = 'SAVE_LOADED_COMPETENCE_GROUPS';
 
-export const deleteCompetenceGroup = (competenceGroupId) => {
+export const deleteCompetenceGroups = (competenceGroupIds) => {
     return {
-        type: DELETE_COMPETENCE_GROUP,
+        type: DELETE_COMPETENCE_GROUPS,
         payload: {
-            id: competenceGroupId
+            ids: competenceGroupIds
         }
     };
 }
@@ -47,9 +47,9 @@ export const deleteCompetence = (competenceGroupId, competenceId) => {
     }
 }
 
-export const changeCompetence = (competenceGroupId, competenceId, indicators) => {
+export const updateCompetence = (competenceGroupId, competenceId, indicators) => {
     return {
-        type: CHANGE_COMPETENCE,
+        type: UPDATE_COMPETENCE,
         payload: {
             competenceGroupId,
             competenceId,

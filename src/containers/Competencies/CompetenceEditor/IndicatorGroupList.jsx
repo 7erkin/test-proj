@@ -17,9 +17,7 @@ class IndicatorGroupList extends React.Component {
         const {
             indicatorGroups,
             onChecked,
-            isIndicatorChecked,
             onUnchecked,
-            getIndicatorInfluence,
             competence
         } = this.props;
 

@@ -1,7 +1,7 @@
 export enum Influence {
-    Positive,
-    Negative,
-    Undefined
+    Positive = 'positive',
+    Negative = 'negative',
+    Undefined = 'undefined'
 }
 
 export class Indicator {
@@ -24,7 +24,7 @@ export class Competence {
         this.id = initParams.id;
         this.name = initParams.name;
         this.description = initParams.description;
-        this.indicators = initParams.indicators.slice();
+        this.indicators = initParams.indicators == undefined ? [] : initParams.indicators.slice();
     }
 
     hasIndicator = (indicatorId: number): boolean => {
@@ -32,7 +32,7 @@ export class Competence {
     }
     getIndicatorInfluence = (indicatorId: number): Influence => {
         const index: number = this.indicators.findIndex(indicator => indicator.id === indicatorId);
-        return this.indicators[index].influence;
+        return index === -1 ? Influence.Undefined : this.indicators[index].influence;
     }
 
     addIndicator = (indicatorId: number, influence: Influence) => this.indicators.push(new Indicator(indicatorId, influence));
