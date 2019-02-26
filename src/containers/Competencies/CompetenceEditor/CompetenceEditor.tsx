@@ -33,7 +33,7 @@ interface Props {
     competenceGroups: Array<CompetenceGroup>,
     indicatorGroups: Array<IndicatorGroup>,
     onUpdateCompetence: (competence: Competence, competenceGroupId: number) => void,
-    onSaveCompetence: (competence: Competence, competenceGroupId: number) => void,
+    onCreateCompetence: (competence: Competence, competenceGroupId: number) => void,
     onDeleteCompetence: (competenceId: number, competenceGroupId: number) => void,
     isNew: boolean
 }
@@ -100,7 +100,7 @@ class CompetenceEditor extends React.Component<Props, State> {
             competenceGroups,
             indicatorGroups,
             onUpdateCompetence,
-            onSaveCompetence,
+            onCreateCompetence,
             onDeleteCompetence,
             isNew
         } = this.props as Props;
@@ -108,7 +108,7 @@ class CompetenceEditor extends React.Component<Props, State> {
         return (
             <form method="POST" action="#" onSubmit={(event) => {
                 event.preventDefault();
-                isNew ? onSaveCompetence(this.state.competence, this.state.competenceGroupId) : onUpdateCompetence(this.state.competence, this.state.competenceGroupId);
+                isNew ? onCreateCompetence(this.state.competence, this.state.competenceGroupId) : onUpdateCompetence(this.state.competence, this.state.competenceGroupId);
             }}>
                 <CompetenceName 
                     name={this.state.competence.name} 
@@ -127,7 +127,11 @@ class CompetenceEditor extends React.Component<Props, State> {
                     onUnchecked={this.onUnchecked}/>
                 <button type="button">Cancel</button>
                 <button type="submit">Save</button>
-                <button type="button" onClick={() => onDeleteCompetence(competenceId, getCompetenceGroupIdByCompetenceId(competenceGroups, competenceId))}>Delete</button>
+                <button 
+                    type="button" 
+                    onClick={() => {
+                        if(!isNew) onDeleteCompetence(competenceId, getCompetenceGroupIdByCompetenceId(competenceGroups, competenceId));
+                    }}>Delete</button>
             </form>
         );
     }

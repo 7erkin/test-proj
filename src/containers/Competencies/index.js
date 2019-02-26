@@ -30,11 +30,9 @@ import {
 import AsideCompetenceGroupList from './AsideCompetenceGroupList';
 import RemoveCompetenceGroupForm from './RemoveCompetenceGroupForm';
 import AddCompetenceGroupForm from './AddCompetenceGroupForm'
-import CompetenceGroupDescription from './CompetenceGroupDescription';
 
 const getCompetenceGroupById = (competenceGroups, competenceGroupId) => {
     const index = competenceGroups.findIndex(group => group.id == competenceGroupId);
-    console.log(competenceGroups[index], 'sd');
     return competenceGroups[index];
 }
 
@@ -51,7 +49,7 @@ class Competence extends React.Component {
         this.props.dispatch(saveLoadedCompetenceGroups(mockData))
     }
 
-    onSaveCompetence = (competence, competenceGroupId) => {
+    onCreateCompetence = (competence, competenceGroupId) => {
         this.props.dispatch(createCompetence(competence, competenceGroupId));
     }
     onDeleteCompetence = (competenceId, competenceGroupId) => {
@@ -60,11 +58,14 @@ class Competence extends React.Component {
     onUpdateCompetence = (competence, competenceGroupId) => {
         this.props.dispatch(updateCompetence(competence, competenceGroupId));
     }
-    onCompetenceGroupAdd = (competenceGroupName, competenceGroupDescription) => {
-        this.props.dispatch(createCompetenceGroup(competenceGroupName, competenceGroupDescription));
+    onCreateCompetenceGroup = (competence) => {
+        this.props.dispatch(createCompetenceGroup(competence));
     };
     onCompetenceGroupsRemove = (competenceGroupIds) => {
         this.props.dispatch(deleteCompetenceGroups(competenceGroupIds));
+    }
+    onRemoveGroups = (groupIds) => {
+        this.props.dispatch(deleteCompetenceGroups(groupIds));
     }
 
     onSetActiveCompetenceGroup = groupId => this.setState({activeCompetenceGroupId: groupId});
@@ -101,7 +102,7 @@ class Competence extends React.Component {
                                         }} />
                                         <Route path="/competencies/group-editor/add-group" render={() => {
                                             return (
-                                                <AddCompetenceGroupForm onCompetenceGroupAdd={this.onCompetenceGroupAdd}/>
+                                                <AddCompetenceGroupForm onCreateCompetenceGroup={this.onCreateCompetenceGroup}/>
                                             );
                                         }}/>
                                     </Switch>
@@ -110,13 +111,13 @@ class Competence extends React.Component {
                         }}></Route>
                         <Route path="/competencies/competence-editor/:id" render={props => {
                             const id = props.match.params.id;
-
                             return (
                                 <CompetenceEditor 
                                     indicatorGroups={this.props.indicatorGroups}
                                     competenceGroups={this.props.competenceGroups}
-                                    onSaveCompetence={this.onSaveCompetence} 
+                                    onCreateCompetence={this.onCreateCompetence} 
                                     onDeleteCompetence={this.onDeleteCompetence}
+                                    onUpdateCompetence={this.onUpdateCompetence}
                                     competenceId={id}
                                     isNew={isNaN(+id)}/>
                             );

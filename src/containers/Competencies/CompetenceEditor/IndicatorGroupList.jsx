@@ -21,7 +21,6 @@ class IndicatorGroupList extends React.Component {
             competence
         } = this.props;
 
-        debugger;
         return (
             <ul className="indicator-group-list">
                 {indicatorGroups.map(group => {

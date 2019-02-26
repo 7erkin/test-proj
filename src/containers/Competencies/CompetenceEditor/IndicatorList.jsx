@@ -16,8 +16,6 @@ class IndicatorList extends React.Component {
             competence
         } = this.props;
 
-        debugger;
-
         return (
             <ul className={`indicator-list ${indicatorGroup.id !== activeIndicatorGroupId ? 'indicator-list-hidden' : ''}`}>
                 {

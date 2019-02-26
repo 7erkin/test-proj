@@ -25,7 +25,7 @@ class RemoveCompetenceGroupForm extends React.Component {
         return (
             <form method="POST" action="#" onSubmit={(event) => {
                 event.preventDefault();
-                onRemoveGroups(this.checkedGroupIds);
+                if(this.checkedGroupIds.length !== 0) onRemoveGroups(this.checkedGroupIds);
             }}> 
                 <div style={{display: 'flex', 'justify-content': 'space-between', marginBottom: '20px'}}>
                     <button type="button">

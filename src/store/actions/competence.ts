@@ -1,3 +1,6 @@
+import { Competence, CompetenceGroup } from "../../containers/Competencies/types";
+import { getRandomId } from "../../library";
+
 export const DELETE_COMPETENCE_GROUPS = 'DELETE_COMPETENCE_GROUPS';
 export const CREATE_COMPETENCE_GROUP = 'CREATE_COMPETENCE_GROUP';
 
@@ -8,7 +11,7 @@ export const UPDATE_COMPETENCE = 'UPDATE_COMPETENCE';
 
 export const SAVE_LOADED_COMPETENCE_GROUPS = 'SAVE_LOADED_COMPETENCE_GROUPS';
 
-export const deleteCompetenceGroups = (competenceGroupIds) => {
+export const deleteCompetenceGroups = (competenceGroupIds: Array<number>) => {
     return {
         type: DELETE_COMPETENCE_GROUPS,
         payload: {
@@ -17,48 +20,49 @@ export const deleteCompetenceGroups = (competenceGroupIds) => {
     };
 }
 
-export const createCompetenceGroup = (competenceGroupName, competenceGroupDescription) => {
+export const createCompetenceGroup = (competenceGroup: CompetenceGroup) => {
+    competenceGroup.id = getRandomId();
     return {
         type: CREATE_COMPETENCE_GROUP,
         payload: {
-            name: competenceGroupName,
-            description: competenceGroupDescription
+            competenceGroup
         }
     }
 }
 
 // indicators = new Map indicatorGroupId ---> indicatorsId
-export const createCompetence = (competenceGroupId, competenceName, indicators) => {
+export const createCompetence = (competence: Competence, competenceGroupId: number) => {
+    competence.id = getRandomId(); // mock response from server where we have to get id of competence
     return {
         type: CREATE_COMPETENCE,
         payload: {
-            name: competenceName,
-            indicators
+            competence,
+            competenceGroupId
         }
     }
 }
 
-export const deleteCompetence = (competenceGroupId, competenceId) => {
+export const deleteCompetence = (competenceId: number, competenceGroupId: number) => {
     return {
         type: DELETE_COMPETENCE,
         payload: {
-            id: competenceId
+            competenceId,
+            competenceGroupId
         }
     }
 }
 
-export const updateCompetence = (competenceGroupId, competenceId, indicators) => {
+export const updateCompetence = (competence: Competence, competenceGroupId: number) => {
     return {
         type: UPDATE_COMPETENCE,
         payload: {
-            competenceGroupId,
-            competenceId,
-            indicators
+            competence,
+            competenceGroupId
         }
     }
 }
 
-export const saveLoadedCompetenceGroups = competenceGroups => {
+export const saveLoadedCompetenceGroups = (competenceGroups: Array<CompetenceGroup>) => {
     return {
         type: SAVE_LOADED_COMPETENCE_GROUPS,
         payload: {

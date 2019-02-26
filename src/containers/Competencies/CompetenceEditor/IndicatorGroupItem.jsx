@@ -20,7 +20,6 @@ class IndicatorGroupItem extends React.Component{
             competence
         } = this.props;
     
-        debugger;
         return (
             <li key={indicatorGroup.id} className="card indicator-group-item">
                 <IndicatorGroupName 

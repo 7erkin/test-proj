@@ -27,22 +27,24 @@ export class Competence {
         this.indicators = initParams.indicators == undefined ? [] : initParams.indicators.slice();
     }
 
-    hasIndicator = (indicatorId: number): boolean => {
+    hasIndicator (indicatorId: number): boolean {
         return this.indicators.findIndex(indicator => indicator.id === indicatorId) !== -1;
     }
-    getIndicatorInfluence = (indicatorId: number): Influence => {
+    getIndicatorInfluence(indicatorId: number): Influence {
         const index: number = this.indicators.findIndex(indicator => indicator.id === indicatorId);
         return index === -1 ? Influence.Undefined : this.indicators[index].influence;
     }
 
-    addIndicator = (indicatorId: number, influence: Influence) => this.indicators.push(new Indicator(indicatorId, influence));
+    addIndicator(indicatorId: number, influence: Influence) {
+        this.indicators.push(new Indicator(indicatorId, influence))
+    };
 
-    deleteIndicator = (indicatorId: number) => {
+    deleteIndicator(indicatorId: number) {
         const index: number = this.indicators.findIndex(indicator => indicator.id === indicatorId);
         this.indicators.splice(index, 1);
     }
 
-    updateIndicatorInfluence = (indicatorId: number, influence: Influence) => {
+    updateIndicatorInfluence(indicatorId: number, influence: Influence) {
         const index: number = this.indicators.findIndex(indicator => indicator.id === indicatorId);
         this.indicators[index].influence = influence;
     };
