@@ -5,7 +5,7 @@ import './App.css'
 import MainNavigation from './containers/MainNavigation'
 import Candidates from './containers/Candidates'
 import Polls from './containers/Polls'
-import Models from './containers/Models'
+import Positions from './containers/Positions'
 import Indicators from './containers/Indicators'
 import NotFound from './containers/NotFound'
 import Competencies from './containers/Competencies'    
@@ -25,7 +25,7 @@ class App extends React.Component {
                     <Switch>
                         <Route path="/candidates" component={Candidates} />
                         <Route path="/polls" component={Polls} />
-                        <Route path="/models" component={Models} />
+                        <Route path="/positions" component={Positions} />
                         <Route path="/competencies" component={Competencies} />
                         <Route path="/indicators" component={Indicators} />
                         <Route path="*" component={NotFound} />

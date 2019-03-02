@@ -25,7 +25,7 @@ class AddIndicatorGroupForm extends React.Component{
                 <br />
                 <input className="form-control" type="text" placeholder="Indicator group description" onChange={event => this.onSetGroupDescription(event.target.value)}></input>
                 <br />
-                <button type="button">Cancel</button>
+                <button type="button" onClick={() => {this.props.history.goBack()}}>Cancel</button>
                 <button type="submit">Save</button>
             </form>
         );

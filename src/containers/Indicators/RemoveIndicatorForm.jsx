@@ -21,7 +21,8 @@ class RemoveIndicatorForm extends React.Component {
             indicators,
             onRemoveIndicators
         } = this.props;
-
+        debugger;
+        this.checkedIndicatorIds = [];
         return (
             <form method="POST" action="#" onSubmit={(event) => {
                     event.preventDefault();

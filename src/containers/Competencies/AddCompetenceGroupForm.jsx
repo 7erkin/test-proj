@@ -1,5 +1,5 @@
 import React from 'react'
-import { CompetenceGroup } from './types';
+import { CompetenceGroup } from '../../types/competence-page';
 
 class AddCompetenceGroupForm extends React.Component {
     constructor(props){
@@ -24,6 +24,7 @@ class AddCompetenceGroupForm extends React.Component {
             <form method="POST" action="#" onSubmit={event => {
                 event.preventDefault();
                 const {competenceGroupName, competenceGroupDescription} = this.state;
+                this.props.history.goBack();
                 onCreateCompetenceGroup(new CompetenceGroup({name: competenceGroupName, description: competenceGroupDescription}));
             }}>
                 <input type="text" className="form-control" 
@@ -34,7 +35,7 @@ class AddCompetenceGroupForm extends React.Component {
                     value={this.state.competenceGroupDescription}  
                     onChange={event => this.onDescriptionChange(event.target.value)} 
                     placeholder="Input competence group description" /> 
-                <button type="button">Cancel</button>
+                <button type="button" onClick={() => this.props.history.goBack()}>Cancel</button>
                 <button type="submit">Save</button>
             </form>
         );

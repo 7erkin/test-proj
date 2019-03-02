@@ -21,11 +21,10 @@ class IndicatorEditor extends React.Component {
 
     // why static?! holy shit - we have to define when the props has been changed or it was setState
     static getDerivedStateFromProps = (nextProps, prevState) => {
-        const isIndicatorsRemains = nextProps.indicatorGroup.indicators.every(ind1 => {
-            return prevState.originalIndicators.findIndex(ind2 => ind2.id === ind1.id) !== -1;
-        });
+        debugger;
+        const isIndicatorsRemains = !(nextProps.indicatorGroup.indicators == prevState.originalIndicators);
 
-        if(isIndicatorsRemains)
+        if(!isIndicatorsRemains)
             return null;
             
         return {
@@ -37,7 +36,6 @@ class IndicatorEditor extends React.Component {
 
     onSearch = (value) => {
         const matchedIndicators = findByPattern(this.state.originalIndicators, value);
-        console.log(matchedIndicators);
         this.setState({
             visibleIndicators: matchedIndicators,
             pattern: value
@@ -49,6 +47,7 @@ class IndicatorEditor extends React.Component {
             indicatorGroup,
             onRemoveIndicators
         } = this.props;
+        debugger;
 
         return (
             <div>

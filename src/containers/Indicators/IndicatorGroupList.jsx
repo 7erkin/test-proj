@@ -6,8 +6,6 @@ const IndicatorGroupList = props => {
         onChecked
     } = props;
 
-    debugger;
-
     return (
         <ul className="indicator-group-list edit-list">
             {indicatorGroups.map(group => {

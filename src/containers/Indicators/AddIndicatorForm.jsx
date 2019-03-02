@@ -22,6 +22,7 @@ class AddIndicatorForm extends React.Component{
                 event.preventDefault();
                 if(!this.isValid()) return;
                 this.props.onSubmit(this.indicatorName, this.groupId);
+                this.props.history.push(`/indicators/indicator-editor/${this.groupId}`)
             }}>
                 <input className="form-control" onChange={event => this.onIndicatorNameInput(event.target.value)} type="text" placeholder="Input indicator name"></input>
                 <br />
@@ -34,7 +35,7 @@ class AddIndicatorForm extends React.Component{
                     })}
                 </select>
                 <br />
-                <button type="button">Cancel</button>
+                <button type="button" onClick={() => this.props.history.goBack()}>Cancel</button>
                 <button type="submit">Save</button>
             </form>
         );

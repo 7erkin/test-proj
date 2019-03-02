@@ -15,16 +15,25 @@ class IndicatorGroupEditor extends React.Component {
         };
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        debugger;
+        if(nextProps.indicatorGroups == prevState.indicatorGroups)
+            return null;
+        
+        return {
+            originalGroups: nextProps.indicatorGroups,
+            visibleIndicatorGroups: nextProps.indicatorGroups
+        }
+    }
     onSearch = (value) => this.setState(({
         visibleIndicatorGroups: findByPattern(this.state.originalGroups, value)
     }));
 
     render() {
-        console.log('group editor: ', this.props);
         return (
             <div>
                 <SearchLine onChange={this.onSearch} placeholder="Input indicator group name"/>
-                <RemoveIndicatorGroupForm indicatorGroups={this.state.visibleIndicatorGroups} onRemoveGroups={this.onRemoveGroups}/>
+                <RemoveIndicatorGroupForm indicatorGroups={this.state.visibleIndicatorGroups} onRemoveGroups={this.props.onRemoveGroups}/>
             </div>
         );
     }

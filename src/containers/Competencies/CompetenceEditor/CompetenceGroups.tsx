@@ -1,5 +1,5 @@
 import React from 'react'
-import { CompetenceGroup } from '../types';
+import { CompetenceGroup } from '../../../types/competence-page';
 import { NO_VALUE } from '../../../library';
 
 interface Props {

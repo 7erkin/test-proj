@@ -7,11 +7,11 @@ import {
     Competence,
     CompetenceGroup,
     Influence
-} from '../types'
+} from '../../../types/competence-page'
 
 import {
     IndicatorGroup
-} from '../../Indicators/types'
+} from '../../../types/indicator-page'
 import CompetenceName from './CompetenceName';
 import CompetenceDescription from './CompetenceDescription';
 import CompetenceGroups from './CompetenceGroups';
@@ -35,7 +35,8 @@ interface Props {
     onUpdateCompetence: (competence: Competence, competenceGroupId: number) => void,
     onCreateCompetence: (competence: Competence, competenceGroupId: number) => void,
     onDeleteCompetence: (competenceId: number, competenceGroupId: number) => void,
-    isNew: boolean
+    isNew: boolean,
+    history: any
 }
 
 interface State {
@@ -108,6 +109,7 @@ class CompetenceEditor extends React.Component<Props, State> {
         return (
             <form method="POST" action="#" onSubmit={(event) => {
                 event.preventDefault();
+                this.props.history.push(`/competencies/group-info/${this.state.competenceGroupId}`);
                 isNew ? onCreateCompetence(this.state.competence, this.state.competenceGroupId) : onUpdateCompetence(this.state.competence, this.state.competenceGroupId);
             }}>
                 <CompetenceName 
@@ -125,12 +127,13 @@ class CompetenceEditor extends React.Component<Props, State> {
                     indicatorGroups={indicatorGroups} 
                     onChecked={this.onChecked} 
                     onUnchecked={this.onUnchecked}/>
-                <button type="button">Cancel</button>
+                <button type="button" onClick={() => this.props.history.goBack()}>Cancel</button>
                 <button type="submit">Save</button>
                 <button 
                     type="button" 
                     onClick={() => {
                         if(!isNew) onDeleteCompetence(competenceId, getCompetenceGroupIdByCompetenceId(competenceGroups, competenceId));
+                        this.props.history.goBack();
                     }}>Delete</button>
             </form>
         );

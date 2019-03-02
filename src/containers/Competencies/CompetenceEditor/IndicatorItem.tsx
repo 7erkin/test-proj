@@ -1,6 +1,6 @@
 import React from 'react'
-import { Indicator } from '../../Indicators/types';
-import { Influence, Competence } from '../types';
+import { Indicator } from '../../../types/indicator-page';
+import { Influence, Competence } from '../../../types/competence-page';
 
 interface Props {
     onUnchecked: (indicatorId: number) => void,

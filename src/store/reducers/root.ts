@@ -6,6 +6,6 @@ import indicatorReducer from './indicator'
 import competenceReducer from './competence'
 
 export default combineReducers({
-    indicatorGroups: indicatorReducer,
-    competenceGroups: competenceReducer
+    indicatorStore: indicatorReducer,
+    competenceStore: competenceReducer
 });
