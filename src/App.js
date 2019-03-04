@@ -14,6 +14,7 @@ import {Route, BrowserRouter, Switch} from 'react-router-dom'
 import {Provider} from 'react-redux'
 
 import store from './store/config-store'
+import Companies from './containers/Companies';
 
 class App extends React.Component {
     render() {
@@ -25,6 +26,7 @@ class App extends React.Component {
                     <Switch>
                         <Route path="/candidates" component={Candidates} />
                         <Route path="/polls" component={Polls} />
+                        <Route path="/companies" component={Companies} />
                         <Route path="/positions" component={Positions} />
                         <Route path="/competencies" component={Competencies} />
                         <Route path="/indicators" component={Indicators} />

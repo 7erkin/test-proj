@@ -47,7 +47,6 @@ export const deleteIndicatorGroup = (groupId: number): IDeleteIndicatorGroup => 
  };
 
  export const saveLoadedIndicatorGroups = (loadedData: string): ISaveLoadedIndicatorGroup => {
-    debugger;
     const store = IndicatorStore.fromStringToStore(IndicatorStore.transformAfterResponse(loadedData));
     return {
         type: SAVE_LOADED_INDICATOR_GROUPS,
