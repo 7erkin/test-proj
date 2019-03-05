@@ -35,7 +35,6 @@ class Companies extends React.Component<IProps, IState> {
         this.props.dispatch(deleteSubdivisions(subdivisionsIds, companyId));
     }
     onCreateCompany = (company: Company) => {
-        debugger;
         this.props.dispatch(createCompany(company));
     }
     onUpdateCompany = (company: Company) => {
