@@ -32,7 +32,6 @@ const renderAllCompanies = (companies: Array<Company>) => {
 }
 
 const renderCompany = (company: Company, activeSubdivisionId: number) => {
-    debugger;
     const matchedSubdivisions = activeSubdivisionId === ALL_SUBDIVISIONS_VISIBLE ? company.subdivisions : company.subdivisions.filter(subdivision => subdivision.id === activeSubdivisionId);
     return matchedSubdivisions.map(subdivision => {
         return (
@@ -62,10 +61,9 @@ class CompanyTable extends React.Component<IProps, IState> {
     onSelectSubdivision = (subdivisionId: number) => this.setState({activeSubdivisionId: subdivisionId});
 
     render() {
-        debugger;
         const companies = this.props.copmanyStore.companies;
         if(!companies.length) return <div>No companies yet...</div>;
-
+        
         const activeCompany = this.props.copmanyStore.getCompanyById(this.state.activeCompanyId);
 
         return (
