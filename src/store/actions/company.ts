@@ -25,7 +25,9 @@ export const saveLoadedCompanies = (loadedData: string): ISaveLoadedCompanies =>
 }
 
 export const createCompany = (company: Company): ICreateCompany => {
+    debugger;
     assignProperIdToSubdivisions(company.subdivisions);
+    company.id = 1000 * getRandomId();
     return {
         type: CREATE_COMPANY,
         payload: {

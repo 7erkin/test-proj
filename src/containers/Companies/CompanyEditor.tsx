@@ -51,6 +51,7 @@ class CompanyEditor extends React.Component<IProps, IState> {
         }
     }
 
+
     static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
 
     }
@@ -108,7 +109,7 @@ class CompanyEditor extends React.Component<IProps, IState> {
                         <form onSubmit={(event) => {
                             event.preventDefault();
                             if(this.props.isNew) 
-                                this.props.onCreateCompany(new Company({name: this.state.companyName, description: this.state.companyDescription, subdivisions: [...this.state.checkedNewSubdivisionIds]}));
+                                this.props.onCreateCompany(new Company({name: this.state.companyName, description: this.state.companyDescription, subdivisions: [...this.state.newSubdivisions]}));
                             else {
                                 const company = new Company(this.props.company);
                                 company.name = this.state.companyName;
@@ -123,6 +124,7 @@ class CompanyEditor extends React.Component<IProps, IState> {
                             <Link to="/companies/editor/subdivisionaddlist">Add subdivisions</Link>
                             <button type="button" onClick={(event) => {
                                 event.preventDefault();
+                                if(!confirm('Удалить отмеченные подразделения?')) return;
                                 this.onDeleteNewSubdivisions();
                                 if(!this.state.checkedOldSubdivisionIds.length) return;
                                 this.props.onDeleteSubdivisions(this.state.checkedOldSubdivisionIds, this.props.company.id);

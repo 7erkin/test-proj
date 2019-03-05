@@ -62,9 +62,10 @@ class CompanyTable extends React.Component<IProps, IState> {
     onSelectSubdivision = (subdivisionId: number) => this.setState({activeSubdivisionId: subdivisionId});
 
     render() {
-        debugger;
         const companies = this.props.copmanyStore.companies;
         if(!companies.length) return <div>No companies yet...</div>;
+
+        debugger;
 
         const activeCompany = this.props.copmanyStore.getCompanyById(this.state.activeCompanyId);
 
