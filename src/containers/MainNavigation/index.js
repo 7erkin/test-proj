@@ -8,7 +8,7 @@ export default function MainNavigation() {
     return (
         <nav>
             <ul className="navigation-list">
-                <li className="navigation-item" key={0}><Link to="/candidates">Кандидаты</Link></li>
+                <li className="navigation-item" key={0}><Link to="/candidates">Кандидаты1</Link></li>
                 <li className="navigation-item" key={1}><Link to="/polls">Интервью</Link></li>
                 <li className="navigation-item" key={10}><Link to="/companies">Компании</Link></li>
                 <li className="navigation-item" key={2}><Link to="/models">Должности</Link></li>
