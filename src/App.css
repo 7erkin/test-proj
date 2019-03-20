@@ -1,8 +1,0 @@
-.horizontal-wrapper,
-.vertical-wrapper{
-    display: flex;
-}
-
-.vertical-wrapper{
-    flex-direction: column;
-}
