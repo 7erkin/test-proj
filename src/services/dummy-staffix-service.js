@@ -10,7 +10,8 @@ const getIndicatorGroups = (indicatorGroups) => {
     return indicatorGroups.map(group => {
         return {
             id: group.id,
-            name: group.name
+            name: group.name,
+            description: group.description
         }
     })
 }
@@ -32,14 +33,14 @@ const TIME_OUT = 1500;
 
 class DummyStaffixService {
     constructor() {
-        this._indicators = mockIndicators;
+        this._indicatorGroups = mockIndicators;
         this._companies = mockCompanies;
     }
 
     async getIndicators(indicatorGroupId) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(getIndicatorsByIndicatorGroupId(this._indicators, indicatorGroupId));
+                resolve(getIndicatorsByIndicatorGroupId(this._indicatorGroups, indicatorGroupId));
             }, TIME_OUT)
         });
     }
@@ -50,7 +51,7 @@ class DummyStaffixService {
     async getIndicatorsByPattern(indicatorGroupId, indicatorNamePattern){
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(getIndicatorsByPattern(this._indicators, indicatorGroupId, indicatorNamePattern));
+                resolve(getIndicatorsByPattern(this._indicatorGroups, indicatorGroupId, indicatorNamePattern));
             }, TIME_OUT)
         });
     }
@@ -58,7 +59,7 @@ class DummyStaffixService {
     async getIndicatorGroups() {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(getIndicatorGroups(this._indicators));
+                resolve(getIndicatorGroups(this._indicatorGroups));
             }, TIME_OUT)
         });
     }
@@ -66,7 +67,7 @@ class DummyStaffixService {
     async deleteIndicators(indicatorGroupId, indicatorIds) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                removeIndicators(this._indicators, indicatorGroupId, indicatorIds);
+                removeIndicators(this._indicatorGroups, indicatorGroupId, indicatorIds);
                 resolve('ok');
             }, TIME_OUT);
         });
@@ -75,7 +76,7 @@ class DummyStaffixService {
     async deleteIndicatorGroups(indicatorGroupIds) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                this._indicators = this._indicators.filter(group => !indicatorGroupIds.includes(group.id));
+                this._indicatorGroups = this._indicatorGroups.filter(group => !indicatorGroupIds.includes(group.id));
                 resolve('ok');
             }, TIME_OUT);
         });
@@ -155,13 +156,19 @@ class DummyStaffixService {
     async updateIndicator(indicator) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const indexGroup = this._indicators.findIndex(el => el.id == indicator.groupId);
-                const indexIndicator = this._indicators[indexGroup].indicators.findIndex(el => el.id == indicator.id);
-                this._indicators.splice(indexIndicator, 1);
-                this._indicators.push({
+                // find where was indicator before
+                const indexOldGroup = this._indicatorGroups.findIndex(el1 => el1.indicators.some(el2 => el2.id == indicator.id));
+                const indexIndicator = this._indicatorGroups[indexOldGroup].indicators.findIndex(el => el.id == indicator.id);
+                // delete indicator from detected group
+                this._indicatorGroups[indexOldGroup].indicators.splice(indexIndicator, 1);
+                // find new indicator group
+                const indexNewGroup = this._indicatorGroups.findIndex(el => el.id == indicator.groupId);
+                // add indicator to new group
+                this._indicatorGroups[indexNewGroup].indicators.push({
                     id: indicator.id,
                     name: indicator.name
                 });
+                console.log(this._indicatorGroups);
                 resolve("ok");
             }, TIME_OUT);
         });
@@ -170,8 +177,8 @@ class DummyStaffixService {
     async createIndicator(indicator) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const indexGroup = this._indicators.findIndex(el => el.id == indicator.groupId);
-                this._indicators[indexGroup].indicators.push({
+                const indexGroup = this._indicatorGroups.findIndex(el => el.id == indicator.groupId);
+                this._indicatorGroups[indexGroup].indicators.push({
                     id: Math.floor(Math.random() * 1000),
                     name: indicator.name,
                     description: indicator.description
@@ -184,10 +191,10 @@ class DummyStaffixService {
     async updateIndicatorGroup(indicatorGroup) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const index = this._indicators.findIndex(el => el.id == indicatorGroup.id);
-                const indicators = this._companies[index].indicators;
-                this._indicators.splice(index, 1);
-                this._indicators.push({
+                const index = this._indicatorGroups.findIndex(el => el.id == indicatorGroup.id);
+                const indicators = this._indicatorGroups[index].indicators;
+                this._indicatorGroups.splice(index, 1);
+                this._indicatorGroups.push({
                     id: indicatorGroup.id,
                     name: indicatorGroup.name,
                     description: indicatorGroup.description,
@@ -201,7 +208,7 @@ class DummyStaffixService {
     async createIndicatorGroup(indicatorGroup) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                this._indicators.push({
+                this._indicatorGroups.push({
                     id: Math.floor(Math.random() * 1000),
                     name: indicatorGroup.name,
                     description: indicatorGroup.description,

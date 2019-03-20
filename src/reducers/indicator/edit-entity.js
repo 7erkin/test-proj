@@ -1,13 +1,13 @@
 import {editEntityAction} from '../../actions/indicator'
 
 export const setEditIndicator = (state, action) => {
-    const index = action.indicators.findIndex(el => el.id == action.payload.id);
-    const editIndicator = action.indicators[index];
+    const index = action.payload.indicators.findIndex(el => el.id == action.payload.id);
+    const editIndicator = action.payload.indicators[index];
     return {
         ...state,
         indicator: {
             ...editIndicator,
-            groupId: state.activeIndicatorGroupId
+            groupId: action.payload.groupId
         }
     }
 }
@@ -41,8 +41,8 @@ export const resetEditIndicator = (state, action) => {
 }
 
 export const setEditIndicatorGroup = (state, action) => {
-    const index = action.indicatorGroups.findIndex(el => el.id == action.payload.id);
-    const editIndicatorGroup = action.indicatorGroups[index];
+    const index = action.payload.indicatorGroups.findIndex(el => el.id == action.payload.id);
+    const editIndicatorGroup = action.payload.indicatorGroups[index];
     return {
         ...state,
         indicatorGroup: {

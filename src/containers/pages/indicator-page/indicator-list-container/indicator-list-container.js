@@ -62,7 +62,7 @@ class IndicatorListContainer extends Component {
     }
 
     onEditIndicatorClick = (id) => {
-        this.props.dispatch(editEntityAcionCreator.setEditIndicator(id));
+        this.props.dispatch(editEntityAcionCreator.setEditIndicator(this.props.activeIndicatorGroupId, this.props.indicators, id));
         this.props.dispatch(visibleActionCreator.setEditIndicatorFormVisible(true));
     }
 
@@ -77,6 +77,7 @@ class IndicatorListContainer extends Component {
 
     onSubmit = evt => {
         evt.preventDefault();
+        if(!window.confirm('Delete pointed indicators?')) return;
         this.props.dispatch(loadingActionCreator.setLoadingIndicators(true));
         this.props.staffixService.deleteIndicators(this.props.match.params.id, this.props.pointedIndicatorsForDelete)
             .then(() => this.props.staffixService.getIndicators(this.props.match.params.id))
@@ -161,6 +162,7 @@ const mapStateToProps = (store) => {
         visible: indicatorPage.visible,
         indicatorGroups: indicatorPage.entity.indicatorGroups,
         indicators: indicatorPage.entity.indicators,
+        activeIndicatorGroupId: indicatorPage.entity.activeIndicatorGroupId,
         pointedIndicatorsForDelete: indicatorPage.pointedEntity.indicatorsForDelete,
         loading: indicatorPage.loading,
         error: indicatorPage.loading,

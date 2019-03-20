@@ -5,7 +5,9 @@ import withStaffixService from '../../../../hoc/with-staffix-service';
 
 import {
     editEntityAcionCreator,
-    visibleActionCreator
+    visibleActionCreator,
+    loadingActionCreator,
+    entityActionCreator
 } from '../../../../action-creators/indicator'
 
 class IndicatorEditFormContainer extends Component {
@@ -18,9 +20,16 @@ class IndicatorEditFormContainer extends Component {
     }
 
     onSubmit = () => {
+        if(!window.confirm('Save changes?')) return;
+        this.onBack();
+        this.props.dispatch(loadingActionCreator.setLoadingIndicators(true));
         this.props.staffixService.updateIndicator(this.props.editIndicator)
             .then(() => {
-                this.onBack();
+                return this.props.staffixService.getIndicators(this.props.activeIndicatorGroupId);
+            })
+            .then(indicators => {
+                this.props.dispatch(entityActionCreator.saveIndicators(indicators));
+                this.props.dispatch(loadingActionCreator.setLoadingIndicators(false));
             })
     }
 
@@ -29,7 +38,7 @@ class IndicatorEditFormContainer extends Component {
     }
 
     onGroupSelect = (id) => {
-        this.props.dispatch(editEntityAcionCreator.editIndicatorGroupIdChange(id));
+        this.props.dispatch(editEntityAcionCreator.updateEditIndicatorGroupId(id));
     }
 
     onBack = () => {
@@ -42,11 +51,12 @@ class IndicatorEditFormContainer extends Component {
             indicatorGroups
         } = this.props;
 
+        console.log(editIndicator);
         return (
             <AddForm1Template 
                 onSubmit={this.onSubmit}
                 inputName={{
-                    name: editIndicator.name,
+                    value: editIndicator.name,
                     placeholder: 'Input indicator name',
                     onChange: this.onNameChange
                 }}
@@ -64,6 +74,7 @@ class IndicatorEditFormContainer extends Component {
 const mapStoreToProps = (store) => {
     const {indicatorPage} = store;
     return {
+        activeIndicatorGroupId: indicatorPage.entity.activeIndicatorGroupId,
         indicatorGroups: indicatorPage.entity.indicatorGroups,
         editIndicator: indicatorPage.editEntity.indicator
     };

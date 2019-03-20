@@ -1,9 +1,11 @@
 import {editEntityAction} from '../../actions/indicator'
 
-const setEditIndicator = (id) => {
+const setEditIndicator = (groupId, indicators, id) => {
     return {
         type: editEntityAction.SET_EDIT_INDICATOR,
         payload: {
+            groupId,
+            indicators,
             id
         }
     }
@@ -33,10 +35,11 @@ const resetEditIndicator = () => {
     }
 }
 
-const setEditIndicatorGroup = (id) => {
+const setEditIndicatorGroup = (indicatorGroups, id) => {
     return {
         type: editEntityAction.SET_EDIT_INDICATOR_GROUP,
         payload: {
+            indicatorGroups,
             id
         }
     }

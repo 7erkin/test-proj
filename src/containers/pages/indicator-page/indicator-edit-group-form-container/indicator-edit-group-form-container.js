@@ -6,7 +6,9 @@ import withStaffixService from '../../../../hoc/with-staffix-service';
 
 import {
     editEntityAcionCreator,
-    visibleActionCreator
+    visibleActionCreator,
+    loadingActionCreator,
+    entityActionCreator
 } from '../../../../action-creators/indicator'
 
 class IndicatorEditGroupForm extends Component {
@@ -27,10 +29,17 @@ class IndicatorEditGroupForm extends Component {
         this.props.dispatch(editEntityAcionCreator.updateEditIndicatorGroupDescription(description));
     }
 
-    onSubmit = () => {
-        this.props.staffixService.createIndicatorGroup(this.props.editIndicatorGroup)
+    onSubmit = () => { 
+        if(!window.confirm('Save changes?')) return;
+        this.onBack();
+        this.props.dispatch(loadingActionCreator.setLoadingIndicatorGroups(true));
+        this.props.staffixService.updateIndicatorGroup(this.props.editIndicatorGroup)
             .then(() => {
-                this.onBack();
+                return this.props.staffixService.getIndicatorGroups();
+            })
+            .then(indicatorGroups => {
+                this.props.dispatch(entityActionCreator.saveIndicatorGroups(indicatorGroups));
+                this.props.dispatch(loadingActionCreator.setLoadingIndicatorGroups(false));
             })
     }
 

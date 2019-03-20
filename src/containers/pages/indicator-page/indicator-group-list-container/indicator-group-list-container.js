@@ -11,7 +11,8 @@ import {
     loadingActionCreator,
     entityActionCreator,
     visibleActionCreator,
-    pointedEntityActionCreator
+    pointedEntityActionCreator,
+    editEntityAcionCreator
 } from '../../../../action-creators/indicator'
 
 class IndicatorGroupListContainer extends Component {
@@ -41,6 +42,7 @@ class IndicatorGroupListContainer extends Component {
 
     onEditIndicatorGroupClick = (id) => {
         this.props.dispatch(entityActionCreator.setActiveIndicatorGroupId(id));
+        this.props.dispatch(editEntityAcionCreator.setEditIndicatorGroup(this.props.indicatorGroups, id));
         this.props.dispatch(visibleActionCreator.setEditIndicatorGroupFormVisible(true));
     }
 
