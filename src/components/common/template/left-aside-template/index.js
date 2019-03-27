@@ -1,3 +1,3 @@
-import LeftAsideTemplate from './left-aside'
+import LeftAsideTemplate from './left-aside-template'
 
 export default LeftAsideTemplate;

@@ -14,7 +14,9 @@ class IndicatorAddFormContainer extends Component {
     constructor(props){
         super(props);
     }
-
+    componentDidMount() {
+        this.props.dispatch(newEntityActionCreator.updateNewIndicatorGroupId(this.props.activeIndicatorGroupId));
+    }
     componentWillUnmount() {
         this.props.dispatch(newEntityActionCreator.resetNewIndicator());
         this.props.dispatch(visibleActionCreator.setAddIndicatorFormVisible(false));

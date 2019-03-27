@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import IndicatorGroupList from '../../../../components/pages/indicator/indicator-group-list';
 import Spinner from '../../../../components/spinner';
-import ErrorIndicator from '../../../../components/error-indicator';
 
 import {
     Link
@@ -14,6 +12,7 @@ import {
     entityActionCreator,
     pointedEntityActionCreator
 } from '../../../../action-creators/indicator'
+import AsideList from '../../../../components/common/aside-list';
 
 class IndicatorAsideGroupListContainer extends Component {
     constructor(props){
@@ -45,8 +44,8 @@ class IndicatorAsideGroupListContainer extends Component {
             return <Spinner />
 
         return (
-            <IndicatorGroupList 
-                indicatorGroups={indicatorGroups}
+            <AsideList 
+                listItems={indicatorGroups}
                 renderListItem={(indicatorGroup) => {
                     return (
                         <Link 

@@ -1,3 +1,5 @@
-class SkillupService {
+class StaffixService {
     
 }
+
+export default StaffixService;

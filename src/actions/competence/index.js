@@ -1,23 +1,15 @@
-export const START_LOADING_COMPETENCIES = 'START_LOADING_COMPETENCIES';
-export const START_LOADING_COMPETENCE_GROUPS = 'START_LOADING_COMPETENCE_GROUPS';
+import * as editEntityAction from './edit-entity'
+import * as entityAction from './entity'
+import * as loadingAction from './loading'
+import * as newEntityAction from './new-entity'
+import * as pointedEntityAction from './pointed-entity'
+import * as visibleAction from './visible'
 
-export const FINISH_LOADING_COMPETENCIES = 'FINISH_LOADING_COMPETENCIES';
-export const FINISH_LOADING_COMPETENCE_GROUPS = 'FINISH_LOADING_COMPETENCE_GROUPS';
-
-export const SET_ACTIVE_COMPETENCE_GROUP = 'SET_ACTIVE_COMPETENCE_GROUP';
-
-export const POINT_COMPETENCE_OUT_FOR_DELETE = 'POINT_COMPETENCE_OUT_FOR_DELETE';
-export const POINT_COMPETENCE_GROUP_OUT_FOR_DELETE = 'POINT_COMPETENCE_GROUP_OUT_FOR_DELETE';
-
-export const SAVE_LOADED_COMPETENCE_GROUPS = 'SAVE_LOADED_COMPETENCE_GROUPS';
-export const SAVE_LOADED_COMPETENCIES = 'SAVE_LOADED_COMPETENCIES';
-
-export const ERROR_LOADING_COMPETENCIES = 'ERROR_LOADING_COMPETENCIES';
-export const ERROR_LOADING_COMPETENCE_GROUPS = 'ERROR_LOADING_COMPETENCE_GROUPS';
-
-export const DELETE_POINTED_COMPETENCIES = 'DELETE_POINTED_COMPETENCIES';
-export const DELETE_COMPETENCE_GROUPS = 'DELETE_COMPETENCE_GROUPS';
-
-export const RESET_POINTED_COMPETENCIES = 'RESET_POINTED_COMPETENCIES';
-export const RESET_POINTED_COMPETENCE_GROUPS = 'RESET_POINTED_COMPETENCE_GROUPS';
-
+export {
+    editEntityAction,
+    entityAction,
+    loadingAction,
+    newEntityAction,
+    pointedEntityAction,
+    visibleAction
+}

@@ -4,7 +4,7 @@ import {Provider} from 'react-redux'
 import {BrowserRouter} from 'react-router-dom'
 
 import App from './components/app'
-import ErrorBoundry from './containers/error-boundry'
+// import ErrorBoundry from './containers/error-boundry'
 
 import store from './store';
 import { StaffixServiceProvider } from './context/staffix-service-context';

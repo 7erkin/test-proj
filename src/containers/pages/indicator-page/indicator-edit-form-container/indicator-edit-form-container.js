@@ -17,6 +17,7 @@ class IndicatorEditFormContainer extends Component {
 
     componentWillUnmount() {
         this.props.dispatch(editEntityAcionCreator.resetEditIndicator());
+        this.props.dispatch(visibleActionCreator.setEditIndicatorFormVisible(false));
     }
 
     onSubmit = () => {
