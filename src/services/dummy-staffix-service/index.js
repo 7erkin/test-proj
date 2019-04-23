@@ -1,12 +1,14 @@
 import IndicatorAPI from "./indicator-api";
 import CompetenceAPI from "./competence-api";
 import CompanyAPI from "./company-api";
+import PositionAPI from "./position-api"
 
 class DummyStaffixService {
     constructor() {
         this._indicatorAPI = new IndicatorAPI(); 
         this._competenceAPI = new CompetenceAPI();
         this._companyAPI = new CompanyAPI();
+        this._positionAPI = new PositionAPI();
     }
 
     // ########## indicator API ##########
@@ -99,6 +101,10 @@ class DummyStaffixService {
         return this._competenceAPI.getCompetenceIndicators(competenceGroupId, competenceId);
     }
 
+    async getCompetenciesByIndicators(indicatorIds) {
+        return this._competenceAPI.getCompetenciesByIndicators(indicatorIds);
+    }
+
     // ########## company API ##########
     async getCompanyList() {
         return this._companyAPI.getCompanyList();
@@ -122,6 +128,23 @@ class DummyStaffixService {
 
     async deletePointedSubdivisions(companyId, subdivisionIds) {
         return this._companyAPI.deletePointedSubdivisions(companyId, subdivisionIds);
+    }
+
+    // ########## position API ##########
+    async getSubdivisionsByCompanyId(companyId) {
+        return this._positionAPI.getSubdivisionsByCompanyId(companyId);
+    }
+
+    async getRandomPositions() {
+        return this._positionAPI.getRandomPositions();
+    }
+
+    async getPositionsByCompanyId(companyId) {
+        return this._positionAPI.getPositionsByCompanyId(companyId);
+    }
+
+    async getPositionBySubdivisionId(companyId, subdivisionId) {
+        return this._positionAPI.getPositionBySubdivisionId(companyId, subdivisionId);
     }
 }
 

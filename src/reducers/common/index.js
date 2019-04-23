@@ -1,23 +1,9 @@
-import * as declaredAction from '../../actions/common'
+import { combineReducers } from "redux";
 
-const setApplicationError = (state, action) => {
-    return {
-        ...state,
-        applicationError: true
-    }
-}
+import accordeonIndicatorReducer from './accordeon-indicator'
 
-const initialState = {
-    applicationError: false
-}
-
-const rootReducer = (state = initialState, action) => {
-    switch(action.type){
-        case declaredAction.SET_APP_ERROR:
-            return setApplicationError(state, action);
-        default:
-            return state;
-    }
-}
+const rootReducer = combineReducers({
+    accordeonIndicator: accordeonIndicatorReducer
+});
 
 export default rootReducer;

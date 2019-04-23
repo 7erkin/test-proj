@@ -209,6 +209,18 @@ class CompetenceAPI {
             }, TIME_OUT);
         });
     }
+
+    async getCompetenciesByIndicators(indicatorIds) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const competencies = this._competenceGroups
+                                        .map(el1 => el1.competencies)
+                                        .reduce((prev, cur) => prev.concat(cur), [])
+                                        .filter(el2 => el2.indicators.some(el3 => indicatorIds.includes(el3.id)));
+                resolve(competencies);
+            }, TIME_OUT);
+        })
+    }
 }
 
 export default CompetenceAPI;

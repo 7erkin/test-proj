@@ -15,7 +15,7 @@ const renderCard = (group, onPanelClick, renderItems) => {
             <div className="collapse show" data-parent="#accordion">
                 <div className="card-body">
                     {
-                        renderItems(group.items, group.id)
+                        renderItems(group.id)
                     }
                 </div>
             </div>

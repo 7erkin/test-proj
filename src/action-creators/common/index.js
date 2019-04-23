@@ -1,7 +1,5 @@
-import * as declaredAcion from '../../actions/common'
+import * as AccordeonIndicatorActionCreator from './accordeon-indicator'
 
-export const setApplicationError = () => {
-    return {
-        type: declaredAcion.SET_APP_ERROR
-    }
+export {
+    AccordeonIndicatorActionCreator
 }
