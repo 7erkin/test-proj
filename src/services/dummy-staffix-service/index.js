@@ -1,150 +1,28 @@
-import IndicatorAPI from "./indicator-api";
-import CompetenceAPI from "./competence-api";
-import CompanyAPI from "./company-api";
-import PositionAPI from "./position-api"
+import mockRequests from '../../fixtures/requests'
+import mockCompanies from '../../fixtures/companies'
+
+const TIME_OUT = 100;
 
 class DummyStaffixService {
     constructor() {
-        this._indicatorAPI = new IndicatorAPI(); 
-        this._competenceAPI = new CompetenceAPI();
-        this._companyAPI = new CompanyAPI();
-        this._positionAPI = new PositionAPI();
+        this._requests = mockRequests;
+        this._companies = mockCompanies;
     }
 
-    // ########## indicator API ##########
-    async getIndicators(indicatorGroupId) {
-        return this._indicatorAPI.getIndicators(indicatorGroupId);
-    }
-
-    async isIndicatorExist(indicatorName){
-        return this._indicatorAPI.isIndicatorExist(indicatorName);
-    }
-
-    async getIndicatorsByPattern(indicatorGroupId, indicatorNamePattern){
-        return this._indicatorAPI.getIndicatorsByPattern(indicatorGroupId, indicatorNamePattern);
-    }
-
-    async getIndicatorGroups() {
-        return this._indicatorAPI.getIndicatorGroups();
-    }
-
-    async deleteIndicators(indicatorGroupId, indicatorIds) {
-        return this._indicatorAPI.deleteIndicators(indicatorGroupId, indicatorIds);
-    }
-
-    async deleteIndicatorGroups(indicatorGroupIds) {
-        return this._indicatorAPI.deleteIndicatorGroups(indicatorGroupIds);
-    }
-
-    async updateIndicator(indicator) {
-        return this._indicatorAPI.updateIndicator(indicator);
-    }
-
-    async createIndicator(indicator) {
-        return this._indicatorAPI.createIndicator(indicator);
-    }
-
-    async updateIndicatorGroup(indicatorGroup) {
-        return this._indicatorAPI.updateIndicatorGroup(indicatorGroup);
-    }
-
-    async createIndicatorGroup(indicatorGroup) {
-        return this._indicatorAPI.createIndicatorGroup(indicatorGroup);
-    }
-
-    // ########## competence API ##########
-    async getCompetenceByNamePattern(competenceGroupId, namePattern) {
-        return this._competenceAPI.getCompetenceByNamePattern(competenceGroupId, namePattern);
-    }
-
-    async getCompetenceGroups() {
-        return this._competenceAPI.getCompetenceGroups();
-    }
-
-    async getCompetencies(id) {
-        return this._competenceAPI.getCompetenciesByGroupId(id);
-    }
-
-    async createCompetenceGroup(competenceGroup) {
-        return this._competenceAPI.createCompetenceGroup(competenceGroup);
+    getRequests() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._requests);
+            }, TIME_OUT);
+        });
     }
     
-    async createCompetence(competence) {
-        return this._competenceAPI.createCompetence(competence);
-    }
-
-    async updateCompetenceGroup(competenceGroup) {
-        return this._competenceAPI.updateCompetenceGroup(competenceGroup);
-    }
-
-    async updateCompetence(competence) {
-        return this._competenceAPI.updateCompetence(competence);
-    }
-
-    async deleteCompetenceGroups(ids) {
-        return this._competenceAPI.deleteCompetenceGroups(ids);
-    }
-
-    async deleteCompetencies(competenceGroupId, competenceIds) {
-        return this._competenceAPI.deleteCompetencies(competenceGroupId, competenceIds);
-    }
-
-    async isCompetenceGroupExist(competenceGroupName) {
-        return this._competenceAPI.isCompetenceGroupExist(competenceGroupName);
-    }
-
-    async isCompetenceExist(competenceName) {
-        return this._competenceAPI.isCompetenceExist(competenceName);
-    }
-
-    async getCompetenceIndicators(competenceGroupId, competenceId) {
-        return this._competenceAPI.getCompetenceIndicators(competenceGroupId, competenceId);
-    }
-
-    async getCompetenciesByIndicators(indicatorIds) {
-        return this._competenceAPI.getCompetenciesByIndicators(indicatorIds);
-    }
-
-    // ########## company API ##########
-    async getCompanyList() {
-        return this._companyAPI.getCompanyList();
-    }
-
-    async getAnyCompanies() {
-        return this._companyAPI.getAnyCompanies()();
-    }
-
-    async getCompany(companyId) {
-        return this._companyAPI.getCompany(companyId);
-    }
-
-    async createCompany(company){
-        return this._companyAPI.createCompany(company);
-    }
-
-    async updateCompany(company) {
-        return this._companyAPI.updateCompany(company);
-    }
-
-    async deletePointedSubdivisions(companyId, subdivisionIds) {
-        return this._companyAPI.deletePointedSubdivisions(companyId, subdivisionIds);
-    }
-
-    // ########## position API ##########
-    async getSubdivisionsByCompanyId(companyId) {
-        return this._positionAPI.getSubdivisionsByCompanyId(companyId);
-    }
-
-    async getRandomPositions() {
-        return this._positionAPI.getRandomPositions();
-    }
-
-    async getPositionsByCompanyId(companyId) {
-        return this._positionAPI.getPositionsByCompanyId(companyId);
-    }
-
-    async getPositionBySubdivisionId(companyId, subdivisionId) {
-        return this._positionAPI.getPositionBySubdivisionId(companyId, subdivisionId);
+    getCompanies() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._companies);
+            }, TIME_OUT)
+        })
     }
 }
 

@@ -1,15 +1,9 @@
-import {combineReducers} from  'redux'
+import { combineReducers } from "redux";
 
-import indicatorReducer from './indicator'
-import competenceReducer from './competence'
-import companyReducer from './company'
-import positionReducer from './position'
-import commonReducer from './common'
+import requestsPageReducer from './requests-page'
 
-export default combineReducers({
-    indicatorPage: indicatorReducer,
-    competencePage: competenceReducer,
-    companyPage: companyReducer,
-    positionPage: positionReducer,
-    common: commonReducer
+const rootReducer = combineReducers({
+    requestsPage: requestsPageReducer
 });
+
+export default rootReducer;

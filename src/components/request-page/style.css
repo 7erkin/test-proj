@@ -1,0 +1,34 @@
+.request-details form{
+    background-color: white;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.request-details .form-part{
+    position: relative;
+    margin-top: 20px;
+    height: 50px;
+}
+
+.request-details .form-part:not(:last-child){
+    border-bottom: 1px gray solid;
+}
+
+.request-details .form-part :last-child {
+    left: 40%;
+    width: 40%;
+    position: absolute;
+}
+
+.request-details .form-part :first-child {
+    right: 70%;
+    position: absolute;
+}
+
+.request-details .form-actions {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+

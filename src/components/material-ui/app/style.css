@@ -1,0 +1,9 @@
+.horizontal-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.vertical-wrapper {
+    display: flex;
+    flex-direction: column;
+}
