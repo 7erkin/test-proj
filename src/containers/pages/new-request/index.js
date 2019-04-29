@@ -1,16 +1,3 @@
-import React, { Fragment } from 'react'
-import InputBase from '@material-ui/core/InputBase'
-import InputLabel from '@material-ui/core/InputLabel';
+import RequestPage from './new-request'
 
-const NewRequestPage = () => {
-    return (
-        // <Fragment>
-        //     <InputLabel>K</InputLabel>
-        //     <InputBase/>
-        // </Fragment>
-        <h1>Hi</h1>
-    );
-}
-
-export default NewRequestPage;
-
+export default RequestPage;

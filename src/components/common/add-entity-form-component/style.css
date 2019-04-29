@@ -1,0 +1,36 @@
+.add-entity-form{
+    background-color: white;
+    width: 70%;
+    margin: 0 auto;
+    border-radius: 10px;
+    margin-top: 40px;
+}
+
+.add-entity-form .form-part{
+    position: relative;
+    margin-top: 20px;
+    height: 75px;
+}
+
+.add-entity-form .form-part:not(:last-child){
+    border-bottom: 1px gray solid;
+}
+
+.add-entity-form .form-part :last-child {
+    left: 40%;
+    width: 40%;
+    position: absolute;
+}
+
+.add-entity-form .form-part :first-child {
+    right: 70%;
+    position: absolute;
+}
+
+.add-entity-form .form-actions {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+

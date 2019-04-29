@@ -9,16 +9,19 @@ import {
 } from 'react-router-dom'
 
 import RequestsPage from '../pages/requests'
-import RequestPage from '../pages/request';
+import NewRequestPage from '../pages/new-request';
+import CompaniesPage from '../pages/companies';
+import NewCompanyPage from '../pages/new-company/new-company';
 
 const AppContainer = () => {
   return (
     <AppComponent>
       <Switch>
         <Redirect exact from="/" to="/requests" />
-        <Route exact path="/companies" component={null} />
+        <Route exact path="/companies" render={(props) => <CompaniesPage {...props}/>} />
+        <Route exact path="/companies/new" component={NewCompanyPage} />
         <Route exact path="/requests" render={(props) => <RequestsPage {...props} />} />
-        <Route exact path="/requests/new" component={RequestPage} />
+        <Route exact path="/requests/new" component={NewRequestPage} />
         <Route exact path="/requests/:id" render={(props) => {
           return null;
         }} />
