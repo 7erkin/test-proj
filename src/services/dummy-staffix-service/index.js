@@ -1,13 +1,17 @@
 import mockRequests from '../../fixtures/requests'
 import mockCompanies from '../../fixtures/companies'
 
-const TIME_OUT = 100;
+const TIME_OUT = 500;
 
 class DummyStaffixService {
     constructor() {
         this._requests = mockRequests;
         this._companies = mockCompanies;
     }
+
+    addRequest() {}
+
+    addCompany() {}
 
     getRequests() {
         return new Promise((resolve, reject) => {

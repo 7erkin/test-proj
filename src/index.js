@@ -9,11 +9,15 @@ import {
 } from 'react-router-dom'
 
 import {Provider} from 'react-redux'
+import { StaffixServiceProvider } from "./context/staffix-service-context";
+import DummyStaffixService from "./services/dummy-staffix-service";
 
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <App/>
+            <StaffixServiceProvider value={new DummyStaffixService()}>
+                <App/>
+            </StaffixServiceProvider>
         </BrowserRouter>
     </Provider>
 , document.getElementById("root"));

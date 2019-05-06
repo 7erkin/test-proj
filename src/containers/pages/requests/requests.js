@@ -2,22 +2,52 @@ import React, { Component } from 'react'
 import RequestsPageComponent from '../../../components/pages/requests-page';
 
 import requests from '../../../fixtures/requests'
+import withStaffixService from '../../../hoc/hoc-services/with-staffix-service';
+import { connect } from 'react-redux';
+
+import {
+    updateSearchCompanyBar,
+    prepareLoadingRequests,
+    finishLoadingRequests,
+    saveLoadedRequests
+} from '../../../action-creators/requests-page'
 
 class RequestsPage extends Component {
     constructor(props) {
         super(props);
     }
 
+    componentDidMount() {
+        const {dispatch, staffixService} = this.props;
+
+        dispatch(prepareLoadingRequests());
+        staffixService.getRequests()
+            .then(requests => {
+                dispatch(saveLoadedRequests(requests));
+                dispatch(finishLoadingRequests());
+            })
+    }
+
+    onSearchRequestChange = companyName => {
+        this.props.dispatch(updateSearchCompanyBar(companyName))
+    }
+
     render() {
         const {
-            history
+            history,
+            requests,
+            loadingRequests,
+            searchCompanyName
         } = this.props;
+
+        if(loadingRequests)
+            return <h2>Loading...</h2>
 
         return (
             <RequestsPageComponent 
                 requestSearch={{
-                    value: '',
-                    onChanged: () => {}
+                    value: searchCompanyName,
+                    onChange: this.onSearchRequestChange
                 }}
                 requestsTable={{
                     requests: requests,
@@ -30,4 +60,13 @@ class RequestsPage extends Component {
     }
 }
 
-export default RequestsPage;
+const mapStoreToProps = ({requestsPage}) => {
+    const {loadingRequests, visibleRequests: requests, searchCompanyName} = requestsPage;
+    return {
+        loadingRequests,
+        requests,
+        searchCompanyName
+    }
+}
+
+export default connect(mapStoreToProps)(withStaffixService(RequestsPage));

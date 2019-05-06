@@ -59,14 +59,14 @@ const RequestsPageComponent = ({
 
     const {
         value,
-        onChanged
+        onChange
     } = requestSearch;
 
     return (
         <section className="requests-page">
             <h2>Все заявки</h2>
             <AddRequestButtonComponent onClick={addRequest.onClicked}>Добавить заявку</AddRequestButtonComponent>
-            <Search placeholder='Поиск по компании' />
+            <Search placeholder='Поиск по компании' value={value} onChange={onChange}/>
             {/* <RequestsTableComponent 
                 rowCount={requests.length}
                 rowGetter={({index}) => requests[index]}
