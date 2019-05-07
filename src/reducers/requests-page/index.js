@@ -13,7 +13,6 @@ const initialState = {
 }
 
 const updateSearchCompanyName = (state, {value}) => {
-    debugger;
     const nextVisibleRequests = state.requests
         .slice()
         .filter(el => el.company.toUpperCase().indexOf(value.toUpperCase()) !== -1)

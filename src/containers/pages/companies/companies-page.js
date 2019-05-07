@@ -28,6 +28,10 @@ class CompaniesPage extends React.Component {
             })
     }
 
+    onSearchRequestChange = companyName => {
+        this.props.dispatch(updateSearchCompanyBar(companyName))
+    }
+
     onAddCompanyClicked = () => this.props.history.push('/companies/new')
 
     onRowClicked = () => {}
@@ -35,7 +39,8 @@ class CompaniesPage extends React.Component {
     render() {
         const {
             loadingCompanies,
-            companies
+            companies,
+            searchCompanyName
         } = this.props;
 
         if(loadingCompanies)
@@ -45,16 +50,21 @@ class CompaniesPage extends React.Component {
             <CompaniesPageComponent 
                 companies={companies} 
                 onAddCompanyClicked={this.onAddCompanyClicked} 
-                onRowClicked={this.onRowClicked}/>
+                onRowClicked={this.onRowClicked}
+                companiesSearch={{
+                    value: searchCompanyName,
+                    onChange: this.onSearchRequestChange
+                }}/>
         );
     }
 }
 
 const mapStoreToProps = ({companiesPage}) => {
-    const {companies, loadingCompanies} = companiesPage;
+    const {visibleCompanies: companies, loadingCompanies, searchCompanyName} = companiesPage;
     return {
         companies,
-        loadingCompanies
+        loadingCompanies,
+        searchCompanyName
     }
 }
 

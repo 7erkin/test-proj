@@ -5,6 +5,7 @@ import Search from '../../bootstrap/search';
 
 const CompaniesPageComponent = ({
     companies,
+    companiesSearch,
     onRowClicked,
     onAddCompanyClicked
 }) => {
@@ -12,7 +13,7 @@ const CompaniesPageComponent = ({
         <section className="companies-page">
             <h2>Список компаний</h2>
             <AddCompanyButtonComponent onClick={onAddCompanyClicked}>Добавить компанию</AddCompanyButtonComponent>
-            <Search placeholder='Поиск по компании' />
+            <Search {...companiesSearch} placeholder='Поиск по компании' />
             <CompanyTableComponent 
                 rowCount={companies.length}
                 rowGetter={({index}) => companies[index]}

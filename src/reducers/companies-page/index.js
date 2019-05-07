@@ -7,10 +7,15 @@ const {
     SAVE_LOADED_COMPANIES
 } = action;
 
-const updateSearchCompanyBar = (state, payload) => {
+const updateSearchCompanyName = (state, {value}) => {
+    const nextVisibleCompanies = state.companies
+        .slice()
+        .filter(el => el.name.toUpperCase().indexOf(value.toUpperCase()) !== -1)
+
     return {
         ...state,
-        searchCompanyPattern: payload.value
+        searchCompanyName: value,
+        visibleCompanies: nextVisibleCompanies
     }
 }
 
@@ -31,21 +36,23 @@ const finishLoadingCompanies = (state, payload) => {
 const saveLoadedCompanies = (state, {value}) => {
     return {
         ...state,
-        companies: value
+        companies: value,
+        visibleCompanies: value
     }
 }
 
 const initialState = {
-    searchCompanyPattern: '',
+    searchCompanyName: '',
     loadingCompanies: false,
-    companies: []
+    companies: [],
+    visibleCompanies: []
 }
 
 export default (state = initialState, action) => {
     const {type, payload} = action;
     switch(type) {
         case UPDATE_SEARCH_COMPANY_BAR:
-            return updateSearchCompanyBar(state, payload);
+            return updateSearchCompanyName(state, payload);
         case PREPARE_LOADING_COMPANIES:
             return prepareLoadingCompanies(state, payload);
         case FINISH_LOADING_COMPANIES:
