@@ -54,7 +54,7 @@ const RequestsPageComponent = ({
 }) => {
     const {
         requests,
-        onRowClicked
+        onRowClick
     } = requestsTable;
 
     const {
@@ -71,7 +71,7 @@ const RequestsPageComponent = ({
                 rowCount={requests.length}
                 rowGetter={({index}) => requests[index]}
                 onRowClicked={() => {}}/> */}
-            <CustomTable columns={columns.map(el => el.label)} values={requests} onRowClick={() => alert(13)} />
+            <CustomTable columns={columns.map(el => el.label)} values={requests} onRowClick={onRowClick} />
         </section>
     );
 }

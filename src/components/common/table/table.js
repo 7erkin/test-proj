@@ -20,7 +20,7 @@ export default ({
                 {
                     values.map(el => {
                         return (
-                            <TableRow onClick={onRowClick}>
+                            <TableRow onClick={() => onRowClick(el.id)}>
                                 <TableCell>{el.number}</TableCell>
                                 <TableCell>{el.date}</TableCell>
                                 <TableCell>{el.company}</TableCell>

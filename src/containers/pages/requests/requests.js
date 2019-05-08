@@ -32,6 +32,10 @@ class RequestsPage extends Component {
         this.props.dispatch(updateSearchCompanyBar(companyName))
     }
 
+    onRowClick = requestId => {
+        this.props.history.push(`/requests/${requestId}`)
+    }
+
     render() {
         const {
             history,
@@ -51,7 +55,7 @@ class RequestsPage extends Component {
                 }}
                 requestsTable={{
                     requests: requests,
-                    onRowClicked: () => {}
+                    onRowClick: this.onRowClick
                 }}
                 addRequest={{
                     onClicked: () => {history.push('/requests/new')}

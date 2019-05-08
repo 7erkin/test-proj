@@ -12,6 +12,7 @@ import RequestsPage from '../pages/requests'
 import NewRequestPage from '../pages/new-request';
 import CompaniesPage from '../pages/companies';
 import NewCompanyPage from '../pages/new-company/new-company';
+import ExistRequestPage from '../pages/exist-request'
 
 const AppContainer = () => {
   return (
@@ -23,7 +24,7 @@ const AppContainer = () => {
         <Route exact path="/requests" render={(props) => <RequestsPage {...props} />} />
         <Route exact path="/requests/new" component={NewRequestPage} />
         <Route exact path="/requests/:id" render={(props) => {
-          return null;
+          return <ExistRequestPage {...props}/>;
         }} />
       </Switch>
     </AppComponent>

@@ -1,35 +1,127 @@
 import React, {Component} from 'react'
-import NewRequestPageComponent from '../../../components/pages/new-request';
+import RequestPageComponent from '../../../components/pages/request';
 
-class RequestPage extends Component {
+import {
+    saveLoadedCompanies,
+    saveLoadedPositions,
+    saveLoadedSubdivisions,
+    prepareLoadingCompanies,
+    prepareLoadingSubdivisions,
+    prepareLoadingPositions,
+    finishLoadingCompanies,
+    finishLoadingSubdivisions,
+    finishLoadingPositions,
+    updateCompany,
+    updateSubdivision,
+    updatePosition,
+    updateDescription,
+    updateRequestDate,
+    resetNewRequestForm
+} from '../../../action-creators/new-request-page'
+
+import withStaffixService from '../../../hoc/hoc-services/with-staffix-service'
+import { connect } from 'react-redux';
+
+class NewRequestPage extends Component {
     constructor(props) {
         super(props);
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        const {
+            dispatch,
+            staffixService
+        } = this.props;
 
-    onCompanyChanged = () => {}
+        dispatch(prepareLoadingCompanies());
 
-    onSubdivisionChanged = () => {}
+        staffixService.getCompanies()
+            .then(companies => {
+                dispatch(saveLoadedCompanies(companies));
+                dispatch(finishLoadingCompanies());
+            })
 
-    onPositionChanged = () => {}
+    }
 
-    onSubmit = () => {}
+    onCompanyChange = (companyId) => {
+        const {
+            dispatch,
+            staffixService
+        } = this.props;
+
+        dispatch(updateCompany(companyId));
+        dispatch(prepareLoadingSubdivisions());
+        staffixService.getSubdivisions(companyId)
+            .then(subdivisions => {
+                dispatch(saveLoadedSubdivisions(subdivisions));
+                dispatch(finishLoadingSubdivisions());
+            })
+    }
+
+    onSubdivisionChange = (subdivisionId) => {
+        const {
+            dispatch,
+            staffixService
+        } = this.props;
+
+        dispatch(updateSubdivision(subdivisionId));
+        dispatch(prepareLoadingPositions());
+        staffixService.getPositions(subdivisionId)
+            .then(positions => {
+                dispatch(saveLoadedPositions(positions));
+                dispatch(finishLoadingPositions());
+            })
+    }
+
+    onPositionChange = (positionId) => {
+        const {
+            dispatch
+        } = this.props;
+
+        dispatch(updatePosition(positionId));
+    }
+
+    onSubmit = () => {
+        const {
+            dateCreate,
+            companyId,
+            subdivisionId,
+            positionId,
+            vacancyDescription,
+            staffixService,
+            history,
+            dispatch
+        } = this.props;
+
+        //dispatch(startSendingRequest());
+        staffixService.addRequest({dateCreate, companyId, subdivisionId, positionId, vacancyDescription})
+            .then(() => {
+                //dispatch(finishLoadingRequest());
+                dispatch(resetNewRequestForm());
+                history.push('/requests');
+            })
+    }
 
     render() {
+        const {
+            companies,
+            subdivisions,
+            positions
+        } = this.props;
+
         return (
-            <NewRequestPageComponent 
+            <RequestPageComponent 
                 companySelect={{
-                    onChange: this.onCompanyChanged,
-                    values: [{id: 1, name: 'A-Company'}, {id: 2, name: 'B-Company'}, {id: 3, name: 'C-Company'}]
+                    onChange: this.onCompanyChange,
+                    values: companies
                 }}
                 subdivisionSelect={{
-                    onChange: this.onSubdivisionChanged,
-                    values: [{id: 1, name: 'A-Subdivision'}, {id: 2, name: 'B-Subdivision'}, {id: 3, name: 'C-Subdivision'}]
+                    onChange: this.onSubdivisionChange,
+                    values: subdivisions
                 }}
                 positionSelect={{
-                    onChange: this.onPositionChanged,
-                    values: [{id: 1, name: 'A-Position'}, {id: 2, name: 'B-Position'}, {id: 3, name: 'C-Position'}]
+                    onChange: this.onPositionChange,
+                    values: positions
                 }}
                 onSubmit={this.onSubmit}
                 onCancel={() => {}}/>
@@ -37,4 +129,28 @@ class RequestPage extends Component {
     }
 }
 
-export default RequestPage;
+const mapStoreToProps = ({newRequestPage}) => {
+    const {
+        dateCreate,
+        companyId,
+        subdivisionId,
+        positionId,
+        vacancyDescription,
+        companies,
+        subdivisions,
+        positions
+    } = newRequestPage;
+
+    return {
+        dateCreate,
+        companyId,
+        subdivisionId,
+        positionId,
+        vacancyDescription,
+        companies,
+        subdivisions,
+        positions
+    }
+}
+
+export default connect(mapStoreToProps)(withStaffixService(NewRequestPage));
