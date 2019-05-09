@@ -29,7 +29,7 @@ class DummyStaffixService {
                 company: getEntityNameById(this._companies, request.companyId),
                 subdivision: getEntityNameById(this._subdivisions, request.subdivisionId),
                 position: getEntityNameById(this._positions, request.positionId),
-                date: request.dateCreate || '2019-10-20'
+                dateCreate: request.dateCreate || '2019-10-20'
             })
             resolve();
         })

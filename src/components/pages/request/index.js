@@ -53,6 +53,7 @@ const renderExistRequestDetails = (request) => {
 }
 
 const renderAddNewRequestForm = (
+    requestDate,
     companySelect,
     subdivisionSelect,
     positionSelect,
@@ -61,7 +62,7 @@ const renderAddNewRequestForm = (
 ) => {
     return (
         <form onSubmit={evt => {evt.preventDefault(); onSubmit();}}>
-            <RequestDateInput />
+            <RequestDateInput value={requestDate.value} onChange={requestDate.onChange} />
             <CompanySelect  onChange={companySelect.onChange} value={companySelect.value} >
                 {optionsCreator(companySelect.values)}
             </CompanySelect>
@@ -81,6 +82,7 @@ const renderAddNewRequestForm = (
 
 const RequestPageComponent = ({
     request,
+    requestDate,
     companySelect,
     subdivisionSelect,
     positionSelect,
@@ -102,6 +104,7 @@ const RequestPageComponent = ({
                 request ? 
                 renderExistRequestDetails(request) : 
                 renderAddNewRequestForm(
+                    requestDate,
                     companySelect,
                     subdivisionSelect,
                     positionSelect,

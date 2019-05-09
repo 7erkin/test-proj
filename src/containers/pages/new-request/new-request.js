@@ -81,6 +81,10 @@ class NewRequestPage extends Component {
         dispatch(updatePosition(positionId));
     }
 
+    onDateCreateChange = (date) => {
+        this.props.dispatch(updateRequestDate(date));
+    }
+
     onSubmit = () => {
         const {
             dateCreate,
@@ -104,6 +108,7 @@ class NewRequestPage extends Component {
 
     render() {
         const {
+            dateCreate,
             companies,
             subdivisions,
             positions
@@ -111,6 +116,10 @@ class NewRequestPage extends Component {
 
         return (
             <RequestPageComponent 
+                requestDate={{
+                    onChange: this.onDateCreateChange,
+                    value: dateCreate
+                }}
                 companySelect={{
                     onChange: this.onCompanyChange,
                     values: companies

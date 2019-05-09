@@ -22,7 +22,7 @@ export default ({
                         return (
                             <TableRow onClick={() => onRowClick(el.id)}>
                                 <TableCell>{el.number}</TableCell>
-                                <TableCell>{el.date}</TableCell>
+                                <TableCell>{el.dateCreate}</TableCell>
                                 <TableCell>{el.company}</TableCell>
                                 <TableCell>{el.position}</TableCell>
                                 <TableCell>{el.subdivision}</TableCell>

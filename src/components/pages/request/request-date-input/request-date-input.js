@@ -1,9 +1,9 @@
 import React, {Fragment} from 'react'
 
-const RequestDateInput = (
+const RequestDateInput = ({
     onChange,
     value
-) => {
+}) => {
     return (
         <Fragment>
             <label>Дата заявки</label>
