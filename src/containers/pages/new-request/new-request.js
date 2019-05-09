@@ -97,6 +97,15 @@ class NewRequestPage extends Component {
             dispatch
         } = this.props;
 
+        const isRequestFormed = () => {
+            return dateCreate != '' && companyId != '' && subdivisionId != '' && positionId != '';
+        }
+
+        if(!isRequestFormed()) {
+            alert('Некоторые поля формы не заполнены');
+            return;
+        }
+
         //dispatch(startSendingRequest());
         staffixService.addRequest({dateCreate, companyId, subdivisionId, positionId, vacancyDescription})
             .then(() => {

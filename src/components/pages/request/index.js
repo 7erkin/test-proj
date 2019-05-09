@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropsTypes from 'prop-types'
 import Breadcrumbs from '@material-ui/lab/Breadcrumbs'
 
@@ -6,79 +6,11 @@ import {
     Link
 } from 'react-router-dom'
 
-import RequestDateInput from './request-date-input';
-import CompanySelect from './company-select';
-import SubdivisionSelect from './subdivision-select/select-subdivision';
-import PositionSelect from './select-position/select-position';
-import PositionDescription from './position-description';
-import ProfilePositionInput from './profile-position-input';
-import RequestTabs from './request-tabs'
-
-const optionsCreator = elements => elements.map(el => <option value={el.id}>{el.name}</option>)
+import './style.css'
+import ExistRequest from './exist-request';
+import NewRequest from './new-request';
 
 const defineRequestName = request => !request ? 'Новая заявка' : `Заявка №${request.number}`;
-
-const renderExistRequestDetails = (request) => {
-    const {
-        company,
-        subdivision,
-        position,
-        dateCreate,
-        dateApproval,
-        agreements
-    } = request;
-    return (
-            <div className="request-details"> 
-                <RequestTabs />
-                <label>Дата заявки</label>
-                <input value={dateCreate} type="date" className="form-control" />
-                {agreements ? 
-                    (
-                        <Fragment>
-                            <label>Дата согласования</label>
-                            <input value={dateApproval} type="date" className="form-control" />
-                        </Fragment>
-                    ) : 
-                    null
-                }
-                <label>Компания</label>
-                <input value={company} lassName="form-control" />
-                <label>Подразделение/отдел</label>
-                <input value={subdivision} lassName="form-control" />
-                <label>Должность</label>
-                <input value={position} lassName="form-control" />
-                <PositionDescription />
-            </div>
-    );
-}
-
-const renderAddNewRequestForm = (
-    requestDate,
-    companySelect,
-    subdivisionSelect,
-    positionSelect,
-    onSubmit,
-    onCancel
-) => {
-    return (
-        <form onSubmit={evt => {evt.preventDefault(); onSubmit();}}>
-            <RequestDateInput value={requestDate.value} onChange={requestDate.onChange} />
-            <CompanySelect  onChange={companySelect.onChange} value={companySelect.value} >
-                {optionsCreator(companySelect.values)}
-            </CompanySelect>
-            <SubdivisionSelect onChange={subdivisionSelect.onChange} value={subdivisionSelect.value} >
-                {optionsCreator(subdivisionSelect.values)}
-            </SubdivisionSelect>
-            <PositionSelect onChange={positionSelect.onChange} value={positionSelect.value} >
-                {optionsCreator(positionSelect.values)}
-            </PositionSelect>
-            <PositionDescription />
-            <ProfilePositionInput />
-            <button type="submit">Сохранить</button>
-            <button type="button" onClick={onCancel}>Отмена</button>
-        </form>
-    );
-}
 
 const RequestPageComponent = ({
     request,
@@ -100,18 +32,19 @@ const RequestPageComponent = ({
                 <a href="/requests">Список заявок</a>
                 <a href="#">{name}</a>
             </Breadcrumbs>
+            <div className='request-details'>
             {
                 request ? 
-                renderExistRequestDetails(request) : 
-                renderAddNewRequestForm(
-                    requestDate,
-                    companySelect,
-                    subdivisionSelect,
-                    positionSelect,
-                    onSubmit,
-                    onCancel
-                )
+                <ExistRequest request={request} /> :
+                <NewRequest 
+                    requestDate={requestDate}
+                    companySelect={companySelect}
+                    subdivisionSelect={subdivisionSelect}
+                    positionSelect={positionSelect}
+                    onSubmit={onSubmit}
+                    onCancel={onCancel} /> 
             }
+            </div>
         </section>
     );
 }

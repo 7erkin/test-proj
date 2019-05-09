@@ -1,0 +1,22 @@
+.request .request-details{
+    width: 90%;
+    background-color: white;
+    border-radius: 1%;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.request .request-details label:first-of-type{
+    margin-top: 20px;
+}
+
+.request .line:not(:last-of-type){
+    padding: 5px;
+    border-bottom: 1px solid gray;
+}
+
+.request .date input{
+    width: 200px;
+}
+
