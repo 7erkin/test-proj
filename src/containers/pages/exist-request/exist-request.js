@@ -1,10 +1,24 @@
 import React, { Component } from 'react'
-import RequestPageComponent from '../../../components/pages/request';
 import { connect } from 'react-redux';
 import withStaffixService from '../../../hoc/hoc-services/with-staffix-service';
 import {
     saveLoadedRequest
 } from '../../../action-creators/exist-request-page'
+import ExistRequest from '../../../components/pages/exist-request';
+import {
+    switchTab
+} from '../../../action-creators/exist-request-page'
+import RequestTabs from '../../../components/pages/exist-request/request-tabs';
+import RequestDescription from '../../../components/pages/exist-request/request-description';
+import RequestCandidates from '../../../components/pages/exist-request/request-candidates';
+import ExistRequestCandidates from './exist-request-candidates';
+
+const allTabs = [
+    'Основная информация', 
+    'Профиль компетенции', 
+    'Кандидаты', 
+    'Сценарий интервью'
+];
 
 class ExistRequestPage extends Component {
     constructor(props) {
@@ -28,20 +42,40 @@ class ExistRequestPage extends Component {
         }
     }
 
+    onTabSwitch = (nextTab) => {
+        this.props.dispatch(switchTab(nextTab));
+    }
+
     render() {
-        const {request} = this.props;
+        const {request, tab} = this.props;
 
         if(request == null)
             return <h2>Loading...</h2>
 
-        return <RequestPageComponent request={request}/>
+        let body;
+
+        if(tab == '' || tab == 'Основная информация')
+            body = <RequestDescription request={request}/>
+
+        if(tab == 'Кандидаты')
+            body = <ExistRequestCandidates />
+
+        return (
+            <ExistRequest name={`Заявка №${request.number}`} >
+                <RequestTabs tabs={allTabs} onTabSwitch={this.onTabSwitch} />
+                {
+                    body
+                }
+            </ExistRequest>
+        );
     }
 }
 
 const mapStoreToProps = ({requestsPage, existRequestPage}) => {
     return {
         requests: requestsPage.requests,
-        request: existRequestPage.request
+        request: existRequestPage.request,
+        tab: existRequestPage.tab
     }
 }
 

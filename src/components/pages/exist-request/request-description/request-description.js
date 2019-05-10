@@ -1,12 +1,10 @@
 import React, {Fragment} from 'react'
 
-import PositionDescription from '../position-description'
+import './style.css';
 
-import './style.css'
-import RequestTabs from '../request-tabs';
 import { Link } from 'react-router-dom';
 
-const ExistRequest = ({
+const RequestDescription = ({
     request
 }) => {
     const {
@@ -20,7 +18,6 @@ const ExistRequest = ({
     } = request;
     return (
             <Fragment> 
-                <RequestTabs />
                 <div className="line date">
                     <label>Дата заявки</label>
                     <p>{dateCreate}</p>
@@ -58,4 +55,4 @@ const ExistRequest = ({
     );
 }
 
-export default ExistRequest;
+export default RequestDescription;

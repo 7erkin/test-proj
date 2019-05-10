@@ -2,12 +2,12 @@ import React from 'react'
 
 import './style.css'
 
-import RequestDateInput from '../request-date-input'
-import CompanySelect from '../company-select'
-import SubdivisionSelect from '../subdivision-select'
-import PositionSelect from '../select-position'
-import PositionDescription from '../position-description'
-import ProfilePositionInput from '../profile-position-input'
+import RequestDateInput from './request-date-input'
+import CompanySelect from './company-select'
+import SubdivisionSelect from './subdivision-select'
+import PositionSelect from './select-position'
+import PositionDescription from './position-description'
+import ProfilePositionInput from './profile-position-input'
 
 const optionsCreator = elements => elements.map(el => <option value={el.id}>{el.name}</option>)
 
@@ -16,6 +16,7 @@ const NewRequestComponent = ({
     companySelect,
     subdivisionSelect,
     positionSelect,
+    profilePosition,
     onSubmit,
     onCancel
 }) => { 
@@ -43,7 +44,7 @@ const NewRequestComponent = ({
                 <PositionDescription />
             </div>
             <div className="line">
-                <ProfilePositionInput />
+                <ProfilePositionInput onChange={profilePosition.onChange} />
             </div>
             <button type="submit">Сохранить</button>
             <button type="button" onClick={onCancel}>Отмена</button>

@@ -10,20 +10,14 @@ const styles = {}
 const CustomButton = withStyles(styles)(Button);
 
 
-const tabs = [
-    'Основная информация', 
-    'Профиль компетенции', 
-    'Кандидаты', 
-    'Сценарий интервью'
-];
-
 const RequestTabs = ({
-
+    tabs,
+    onTabSwitch
 }) => {
     return (
         <ul className="request-tabs">
             {
-                tabs.map((el, index) => <li key={index}><CustomButton>{el}</CustomButton></li>)
+                tabs.map((el, index) => <li key={index} onClick={() => onTabSwitch(el)}><CustomButton>{el}</CustomButton></li>)
             }
         </ul>
     );

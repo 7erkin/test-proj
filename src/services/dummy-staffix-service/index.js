@@ -2,6 +2,7 @@ import mockRequests from '../../fixtures/requests'
 import mockCompanies from '../../fixtures/companies'
 import mockSubdivisions from '../../fixtures/subdivisions'
 import mockPositions from '../../fixtures/positions'
+import mockCandidates from '../../fixtures/candidates'
 
 const TIME_OUT = 500;
 
@@ -16,6 +17,7 @@ class DummyStaffixService {
         this._companies = mockCompanies;
         this._subdivisions = mockSubdivisions;
         this._positions = mockPositions;
+        this._candidates = mockCandidates;
     }
 
     addRequest(request) {
@@ -74,6 +76,14 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._positions.filter(el => el.subdivisionId == subdivisionId));
+            }, TIME_OUT)
+        })
+    }
+
+    getCandidates(requestId) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._candidates.filter(el => el.requestId == requestId));
             }, TIME_OUT)
         })
     }

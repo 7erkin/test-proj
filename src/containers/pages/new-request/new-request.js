@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import RequestPageComponent from '../../../components/pages/request';
 
 import {
     saveLoadedCompanies,
@@ -21,6 +20,8 @@ import {
 
 import withStaffixService from '../../../hoc/hoc-services/with-staffix-service'
 import { connect } from 'react-redux';
+import RequestHeader from '../../../components/common-custom/request-header/request-header';
+import NewRequest from '../../../components/pages/new-request';
 
 class NewRequestPage extends Component {
     constructor(props) {
@@ -85,6 +86,18 @@ class NewRequestPage extends Component {
         this.props.dispatch(updateRequestDate(date));
     }
 
+    onProfilePositionFileChoosen = (file) => {
+        const fileReader = new FileReader();
+
+        fileReader.onerror = () => {};
+
+        fileReader.onload = () => {
+            console.log(fileReader.result);
+        };
+
+        fileReader.readAsText(file);
+    }
+
     onSubmit = () => {
         const {
             dateCreate,
@@ -124,25 +137,30 @@ class NewRequestPage extends Component {
         } = this.props;
 
         return (
-            <RequestPageComponent 
-                requestDate={{
-                    onChange: this.onDateCreateChange,
-                    value: dateCreate
-                }}
-                companySelect={{
-                    onChange: this.onCompanyChange,
-                    values: companies
-                }}
-                subdivisionSelect={{
-                    onChange: this.onSubdivisionChange,
-                    values: subdivisions
-                }}
-                positionSelect={{
-                    onChange: this.onPositionChange,
-                    values: positions
-                }}
-                onSubmit={this.onSubmit}
-                onCancel={() => {}}/>
+            <RequestHeader name='Новая заявка'>
+                <NewRequest 
+                    requestDate={{
+                        onChange: this.onDateCreateChange,
+                        value: dateCreate
+                    }}
+                    profilePosition={{
+                        onChange: this.onProfilePositionFileChoosen
+                    }}
+                    companySelect={{
+                        onChange: this.onCompanyChange,
+                        values: companies
+                    }}
+                    subdivisionSelect={{
+                        onChange: this.onSubdivisionChange,
+                        values: subdivisions
+                    }}
+                    positionSelect={{
+                        onChange: this.onPositionChange,
+                        values: positions
+                    }}
+                    onSubmit={this.onSubmit}
+                    onCancel={() => {}}/> 
+            </RequestHeader>
         );
     }
 }
