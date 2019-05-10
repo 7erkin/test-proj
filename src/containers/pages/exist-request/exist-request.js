@@ -42,6 +42,10 @@ class ExistRequestPage extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.dispatch(switchTab('Основная информация'));
+    }
+
     onTabSwitch = (nextTab) => {
         this.props.dispatch(switchTab(nextTab));
     }
