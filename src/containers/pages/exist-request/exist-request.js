@@ -10,7 +10,6 @@ import {
 } from '../../../action-creators/exist-request-page'
 import RequestTabs from '../../../components/pages/exist-request/request-tabs';
 import RequestDescription from '../../../components/pages/exist-request/request-description';
-import RequestCandidates from '../../../components/pages/exist-request/request-candidates';
 import ExistRequestCandidates from './exist-request-candidates';
 
 const allTabs = [
