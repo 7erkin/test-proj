@@ -28,7 +28,11 @@ class CompaniesPage extends React.Component {
             })
     }
 
-    onSearchRequestChange = companyName => {
+    componentWillUnmount = () => {
+        this.onSearchCopmanyChange('');
+    }
+
+    onSearchCopmanyChange = companyName => {
         this.props.dispatch(updateSearchCompanyBar(companyName))
     }
 
@@ -53,7 +57,7 @@ class CompaniesPage extends React.Component {
                 onRowClicked={this.onRowClicked}
                 companiesSearch={{
                     value: searchCompanyName,
-                    onChange: this.onSearchRequestChange
+                    onChange: this.onSearchCopmanyChange
                 }}/>
         );
     }

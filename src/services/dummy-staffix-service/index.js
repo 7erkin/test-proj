@@ -37,7 +37,16 @@ class DummyStaffixService {
         })
     }
 
-    addCompany() {}
+    addCompany(company) {
+        return new Promise((resolve, reject) => {
+            this._companies.push({
+                id: Math.floor(Math.random() * 1000),
+                ...company,
+                requests: 0
+            })
+            resolve();
+        })
+    }
 
     getRequests() {
         return new Promise((resolve, reject) => {

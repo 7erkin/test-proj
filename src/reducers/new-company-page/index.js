@@ -1,12 +1,19 @@
-import * as action from '../../actions/new-company-page'
-
-const {
+import {
     UPDATE_COMPANY_ADDRESS,
     UPDATE_COMPANY_NAME,
     UPDATE_SUBDIVISION_NAME,
     ADD_ONE_MORE_SUBDIVISION,
-    REMOVE_SUBDIVISION
-} = action;
+    SENDING_FORM,
+    RESET
+} from '../../actions/new-company-page'
+
+const initialState = {
+    subdivisions: [],
+    companyName: '',
+    companyAddress: '',
+    subdivisionName: '',
+    sendingForm: false
+}
 
 const updateCompanyAddress = (state, payload) => {
     return {
@@ -50,7 +57,7 @@ const addOneMoreSubdivision = (state, payload) => {
     const nextSubdivisions = state.subdivisions.slice();
     nextSubdivisions.push({
         id: getRandomNumber(), 
-        name: payloa.value
+        name: state.subdivisionName
     })
     return {
         ...state,
@@ -59,11 +66,17 @@ const addOneMoreSubdivision = (state, payload) => {
     }
 }
 
-const initialState = {
-    subdivisions: [],
-    companyName: '',
-    companyAddress: '',
-    subdivisionName: ''
+const prepareSendingForm = (state, payload) => {
+    return {
+        ...state,
+        sendingForm: true
+    }
+}
+
+const reset = () => {
+    return {
+        ...initialState
+    }
 }
 
 export default (state = initialState, action) => {
@@ -77,8 +90,10 @@ export default (state = initialState, action) => {
             return updateSubdivisionName(state, payload);
         case ADD_ONE_MORE_SUBDIVISION:
             return addOneMoreSubdivision(state, payload);
-        case REMOVE_SUBDIVISION:
-            return removeSubdivision(state, payload);
+        case SENDING_FORM:
+            return prepareSendingForm(state, payload);
+        case RESET:
+            return reset();
         default:
             return state;
     }

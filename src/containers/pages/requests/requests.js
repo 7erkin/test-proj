@@ -28,6 +28,10 @@ class RequestsPage extends Component {
             })
     }
 
+    componentWillUnmount = () => {
+        this.onSearchRequestChange('');
+    }
+
     onSearchRequestChange = companyName => {
         this.props.dispatch(updateSearchCompanyBar(companyName))
     }

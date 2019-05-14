@@ -5,7 +5,6 @@ import List from '@material-ui/icons/List'
 import Book from '@material-ui/icons/Book'
 import React from 'react'
 
-import {Link} from 'react-router-dom'
 const localHoc = items => WrappedComponent => {
     return (props) => {
         return <WrappedComponent menuElements={items} {...props} />
@@ -24,7 +23,7 @@ const items = [
         icon: <People />
     },
     {
-        to: '/libraries',
+        to: '/library',
         name: 'Библиотека',
         icon: <Book />
     },

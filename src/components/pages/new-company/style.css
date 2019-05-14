@@ -1,0 +1,21 @@
+.new-company .new-company-details{
+    width: 90%;
+    background-color: white;
+    border-radius: 1%;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.new-company .new-company-details label:first-of-type{
+    margin-top: 20px;
+}
+
+.new-company .line:not(:last-of-type){
+    padding: 5px;
+    border-bottom: 1px solid gray;
+}
+
+.new-company .date input{
+    width: 200px;
+}

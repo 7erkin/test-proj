@@ -4,12 +4,14 @@ import requestsPageReducer from './requests-page'
 import companiesPageReducer from './companies-page'
 import existRequestPageReducer from './exist-request-page'
 import newRequestPageReducer from './new-request-page'
+import newCompanyPageReducer from './new-company-page'
 
 const rootReducer = combineReducers({
     requestsPage: requestsPageReducer,
     companiesPage: companiesPageReducer,
     existRequestPage: existRequestPageReducer,
-    newRequestPage: newRequestPageReducer
+    newRequestPage: newRequestPageReducer,
+    newCompanyPage: newCompanyPageReducer
 });
 
 export default rootReducer;
