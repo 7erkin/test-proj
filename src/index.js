@@ -11,13 +11,16 @@ import {
 import {Provider} from 'react-redux'
 import { StaffixServiceProvider } from "./context/staffix-service-context";
 import DummyStaffixService from "./services/dummy-staffix-service";
+import StoreLoader from "./containers/utils/store-loader";
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <StaffixServiceProvider value={new DummyStaffixService()}>
-                <App/>
-            </StaffixServiceProvider>
-        </BrowserRouter>
+        <StoreLoader>
+            <BrowserRouter>
+                <StaffixServiceProvider value={new DummyStaffixService()}>
+                    <App/>
+                </StaffixServiceProvider>
+            </BrowserRouter>
+        </StoreLoader>
     </Provider>
 , document.getElementById("root"));

@@ -1,4 +1,4 @@
-export default [
+const mockCompanies = [
     {
         id: 1,
         name: 'YANDEX [TEST]',
@@ -45,3 +45,5 @@ export default [
         requests: 101
     }
 ]
+
+export default mockCompanies;

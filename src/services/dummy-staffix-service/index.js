@@ -4,6 +4,11 @@ import mockSubdivisions from '../../fixtures/subdivisions'
 import mockPositions from '../../fixtures/positions'
 import mockCandidates from '../../fixtures/candidates'
 
+import {
+    ifReduxStoreInLocalStorage,
+    getReduxStoreFromLocalStorage
+} from '../../libs/redux-store-loader'
+
 const TIME_OUT = 500;
 
 const getEntityNameById = (entities, id) => {
@@ -13,8 +18,15 @@ const getEntityNameById = (entities, id) => {
 
 class DummyStaffixService {
     constructor() {
-        this._requests = mockRequests;
-        this._companies = mockCompanies;
+        if(ifReduxStoreInLocalStorage()){
+            const {companies, requests} = getReduxStoreFromLocalStorage();
+            this._companies = companies;
+            this._requests = requests;
+        } else {
+            this._requests = mockRequests;
+            this._companies = mockCompanies;
+        }
+
         this._subdivisions = mockSubdivisions;
         this._positions = mockPositions;
         this._candidates = mockCandidates;

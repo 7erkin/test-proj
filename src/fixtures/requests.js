@@ -1,4 +1,4 @@
-export default [
+const mockRequests = [
     {
         id: 0,
         number: 513,
@@ -143,3 +143,5 @@ export default [
         agreements: 'ok'
     }
 ];
+
+export default mockRequests;
