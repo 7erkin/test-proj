@@ -1,0 +1,11 @@
+.library-content{
+    display: flex;
+}
+
+.library-content :first-child{
+    flex-grow: 1;
+}
+
+.library-content :last-child{
+    flex-grow: 5;
+}

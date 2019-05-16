@@ -3,6 +3,10 @@ import mockCompanies from '../../fixtures/companies'
 import mockSubdivisions from '../../fixtures/subdivisions'
 import mockPositions from '../../fixtures/positions'
 import mockCandidates from '../../fixtures/candidates'
+import mockGroupsIndicator from '../../fixtures/groups-indicator'
+import mockGroupsCompetence from '../../fixtures/groups-competence'
+import mockIndicators from '../../fixtures/indicators'
+import mockCompetencies from '../../fixtures/competencies'
 
 import {
     ifReduxStoreInLocalStorage,
@@ -30,6 +34,12 @@ class DummyStaffixService {
         this._subdivisions = mockSubdivisions;
         this._positions = mockPositions;
         this._candidates = mockCandidates;
+
+        this._groupsIndicator = mockGroupsIndicator;
+        this._groupsCompetence = mockGroupsCompetence;
+        this._groupsQuestion = [];
+        this._indicators = mockIndicators;
+        this._competencies = mockCompetencies;
     }
 
     addRequest(request) {
@@ -105,6 +115,30 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._candidates.filter(el => el.requestId == requestId));
+            }, TIME_OUT)
+        })
+    }
+
+    getCompetenceGroups() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._groupsCompetence);
+            }, TIME_OUT)
+        })
+    }
+
+    getIndicatorGroups() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._groupsIndicator);
+            }, TIME_OUT)
+        })
+    }
+
+    getQuestionGroups() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._groupsQuestion);
             }, TIME_OUT)
         })
     }

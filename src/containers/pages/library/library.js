@@ -1,47 +1,67 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import withStaffixService from '../../../hoc/hoc-services/with-staffix-service';
-import RequestTabs from '../../../components/pages/exist-request/request-tabs';
+import PropTypes from 'prop-types'
+import Indicators from './indicators';
 
-const tabs = [
-    'Компетенции',
-    'Индикаторы',
-    'Вопросы'
-]
+import {entityGroup} from './utils'
+import LibraryView from '../../../components/pages/library/library-view';
+import LibraryTabs from './library-tabs';
+import LibraryContentView from '../../../components/pages/library/library-content-view';
+import Competencies from './competencies';
+import AsideList from './aside-list';
+
+import {
+    switchTab
+} from '../../../action-creators/library-page'
 
 class Library extends Component {
     constructor(props) {
         super(props);
     }
 
-    onTabSwitch = () => {}
+    componentWillUnmount() {
+        this.props.dispatch(switchTab(''));
+    }
 
     render() {
-        // const {
-        //     currentTab
-        // } = this.props;
+        const {activeTab} = this.props;
 
-        let body;
+        let body = null;
 
-        // if(currentTab == 'Индикаторы')
-        //     body = <Indicators />
+        if(activeTab.toUpperCase() === entityGroup.COMPETENCE.toUpperCase() || activeTab.length === 0)
+            body = <Competencies />
         
-        // if(currentTab == 'Компетенции')
-        //     body = <Competencies />
+        if(activeTab.toUpperCase() === entityGroup.INDICATOR.toUpperCase())
+            body = <Indicators />
+        
+        if(activeTab.toUpperCase() === entityGroup.QUESTION.toUpperCase())
+            body = <h2>Not ready yet</h2>
+
+        if(body === null) return null;
             
         return (
-            <section className="library">
-                <h2>Библиотека</h2>
-                <div>
-                    <RequestTabs tabs={tabs} onTabSwitch={this.onTabSwitch} />
-                </div>
-            </section>
+            <LibraryView>
+                <LibraryTabs />
+                <LibraryContentView>
+                    <AsideList />
+                    {
+                        body
+                    }
+                </LibraryContentView>
+            </LibraryView>
         );
     }
 }
 
-const mapStoreToProps = ({libraryPage}) => {
-    return {}
+Library.propTypes = {
+    activeTab: PropTypes.string.isRequired
+}
+
+const mapStoreToProps = ({libraryPage: {activeTab}}) => {
+    return {
+        activeTab
+    }
 }
 
 export default connect(mapStoreToProps)(withStaffixService(Library));

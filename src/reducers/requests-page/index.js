@@ -5,10 +5,6 @@ import {
     SAVE_LOADED_REQUESTS
 } from '../../actions/requests-page'
 
-import {
-    SAVE_STORE_FROM_LOCAL_STORE
-} from '../../actions/utils'
-
 const initialState = {
     searchCompanyName: '',
     loadingRequests: false,
