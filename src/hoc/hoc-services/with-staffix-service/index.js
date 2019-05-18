@@ -1,7 +1,7 @@
 import React from 'react'
 import {StaffixServiceConsumer} from '../../../context/staffix-service-context'
 
-export default WrappedComponent => {
+export default WrappedContainer => {
     return class extends React.Component {
         constructor(props){
             super(props);
@@ -9,7 +9,7 @@ export default WrappedComponent => {
         render() {
             return (
                 <StaffixServiceConsumer>
-                    {value => <WrappedComponent {...this.props} staffixService={value}/>}
+                    {value => <WrappedContainer {...this.props} staffixService={value}/>}
                 </StaffixServiceConsumer>
             );
         }

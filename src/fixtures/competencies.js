@@ -1,7 +1,7 @@
 export default [
     {
         id: 1,
-        name: 'Competence 1',
+        name: 'Competence 1 [TEST]',
         groupId: 1,
         indicators: [
             {
@@ -20,7 +20,7 @@ export default [
     },
     {
         id: 1,
-        name: 'Competence 2',
+        name: 'Competence 2 [TEST]',
         groupId: 2,
         indicators: [
             {
@@ -39,7 +39,7 @@ export default [
     },
     {
         id: 1,
-        name: 'Competence 3',
+        name: 'Competence 3 [TEST]',
         groupId: 3,
         indicators: [
             {
@@ -58,7 +58,7 @@ export default [
     },
     {
         id: 1,
-        name: 'Competence 4',
+        name: 'Competence 4 [TEST]',
         groupId: 4,
         indicators: [
             {

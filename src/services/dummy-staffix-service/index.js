@@ -59,7 +59,7 @@ class DummyStaffixService {
         })
     }
 
-    addCompany(company) {
+    addCompany = (company) => {
         return new Promise((resolve, reject) => {
             this._companies.push({
                 id: Math.floor(Math.random() * 1000),
@@ -70,7 +70,7 @@ class DummyStaffixService {
         })
     }
 
-    getRequests() {
+    getRequests = () => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._requests);
@@ -78,7 +78,7 @@ class DummyStaffixService {
         });
     }
     
-    getRequestById(id) {
+    getRequestById = (id) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 const index = this._requests.findIndex(el => el.id == id);
@@ -87,7 +87,7 @@ class DummyStaffixService {
         });
     }
 
-    getCompanies() {
+    getCompanies = () => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._companies);
@@ -95,7 +95,7 @@ class DummyStaffixService {
         })
     }
 
-    getSubdivisions(companyId) {
+    getSubdivisions = (companyId) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._subdivisions.filter(el => el.companyId == companyId));
@@ -103,7 +103,7 @@ class DummyStaffixService {
         })
     }
 
-    getPositions(subdivisionId) {
+    getPositions = (subdivisionId) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._positions.filter(el => el.subdivisionId == subdivisionId));
@@ -111,7 +111,7 @@ class DummyStaffixService {
         })
     }
 
-    getCandidates(requestId) {
+    getCandidates = (requestId) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._candidates.filter(el => el.requestId == requestId));
@@ -119,7 +119,7 @@ class DummyStaffixService {
         })
     }
 
-    getCompetenceGroups() {
+    getGroupsCompetenies = () => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._groupsCompetence);
@@ -127,7 +127,7 @@ class DummyStaffixService {
         })
     }
 
-    getIndicatorGroups() {
+    getGroupsIndicators = () => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._groupsIndicator);
@@ -135,10 +135,26 @@ class DummyStaffixService {
         })
     }
 
-    getQuestionGroups() {
+    getGroupsQuestions = () => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._groupsQuestion);
+            }, TIME_OUT)
+        })
+    }
+
+    getIndicators = (groupIndicatorId) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._indicators.filter(el => groupIndicatorId === el.groupId));
+            }, TIME_OUT)
+        })
+    }
+
+    getCompetencies = (groupCopmetenceId) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._competencies.filter(el => groupCopmetenceId === el.groupId));
             }, TIME_OUT)
         })
     }

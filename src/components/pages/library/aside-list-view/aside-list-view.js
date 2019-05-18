@@ -1,8 +1,8 @@
 import React from 'react'
-import PropTypes, { number } from 'prop-types'
+import PropTypes from 'prop-types'
 
 import {
-    List, ListItem, ListItemText, Button
+    List, ListItem, ListItemText
 } from '@material-ui/core'
 
 import './style.css'
@@ -11,10 +11,6 @@ const AsideListView = ({
     items: {
         values,
         onClick: onItemClick
-    },
-    editButton: {
-        name: editButtonName,
-        onClick: onEditClick
     }
 }) => {
 
@@ -31,7 +27,6 @@ const AsideListView = ({
                 })
             }
             </List>
-            <Button type="button" onClick={onEditClick}>{editButtonName}</Button>
         </div>
     );
 }
@@ -43,10 +38,6 @@ AsideListView.propTypes = {
             name: PropTypes.string.isRequired
         }).isRequired,
         onClick: PropTypes.func
-    }).isRequired,
-    editButton: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        onClick: PropTypes.func.isRequired
     }).isRequired
 }
 

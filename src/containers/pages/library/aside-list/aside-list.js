@@ -7,71 +7,49 @@ import {entityGroup as namesGroupsEntities} from '../utils'
 import {
     saveLoadedGroupsEntities,
     prepareLoadingGroupsEntities,
-    finishLoadingGroupsEntities
+    finishLoadingGroupsEntities,
+    updateIdActiveGroupEntity
 } from '../../../../action-creators/library-page'
 import withStaffixService from '../../../../hoc/hoc-services/with-staffix-service';
 import AsideListView from '../../../../components/pages/library/aside-list-view';
+import withAsideListData from '../../../../hoc/with-aside-list-data';
 
 class AsideList extends Component{
     constructor(props){
         super(props);
     }
 
-    downloadAndSaveGroupsEntities = (activeTab) => {
+    _loadDataAndSave = () => {
         const {
             dispatch,
-            staffixService
-        } = this.props;
-        
-        return new Promise((resolve, reject) => {
-            let promise;
-            debugger;
-            if(activeTab.toUpperCase() === namesGroupsEntities.COMPETENCE.toUpperCase() || activeTab === '')
-                promise = staffixService.getCompetenceGroups();
-            if(activeTab.toUpperCase() === namesGroupsEntities.INDICATOR.toUpperCase())
-                promise = staffixService.getIndicatorGroups();
-            if(activeTab.toUpperCase() === namesGroupsEntities.QUESTION.toUpperCase())
-                promise = staffixService.getQuestionGroups();
-
-            if(promise === undefined)
-                reject();
-            
-            promise.then((groupsEntities) => {
-                debugger;
-                dispatch(saveLoadedGroupsEntities(groupsEntities));
-                resolve();
-            })
-        })
-    }
-
-    componentDidMount() {
-        const {
-            activeTab,
-            dispatch
+            getData
         } = this.props;
 
         dispatch(prepareLoadingGroupsEntities());
-        this.downloadAndSaveGroupsEntities(activeTab)
-            .then(() => {
+        getData()
+            .then((data) => {
+                dispatch(saveLoadedGroupsEntities(data))
                 dispatch(finishLoadingGroupsEntities());
             })
+    }
+
+    componentDidMount() {
+        this._loadDataAndSave();
+    }
+
+    onGroupEntityClick = id => {
+        this.props.dispatch(updateIdActiveGroupEntity(id));
     }
 
     componentDidUpdate() {
         const {
             isGroupsEntitiesNeedToUpdate,
-            activeTab,
-            dispatch
         } = this.props;
 
         if(!isGroupsEntitiesNeedToUpdate)
             return;
 
-        dispatch(prepareLoadingGroupsEntities());
-        this.downloadAndSaveGroupsEntities(activeTab)
-            .then(() => {
-                dispatch(finishLoadingGroupsEntities());
-            })
+        this._loadDataAndSave();
     }
 
     render() {
@@ -87,11 +65,7 @@ class AsideList extends Component{
             <AsideListView 
                 items={{
                     values: groupsEntities,
-                    onClick: () => {}
-                }}
-                editButton={{
-                    name: 'Редактировать',
-                    onClick: () => {}
+                    onClick: this.onGroupEntityClick
                 }}/>
         );
     }
@@ -123,4 +97,4 @@ const mapStoreToProps = ({
     };
 }
 
-export default connect(mapStoreToProps)(withStaffixService(AsideList));
+export default connect(mapStoreToProps)(withStaffixService(withAsideListData(AsideList)));
