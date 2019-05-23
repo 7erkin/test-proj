@@ -1,92 +1,37 @@
 import {
-    PREPARE_LOADING_GROUPS_ENTITIES,
-    FINISH_LOADING_GROUPS_ENTITIES,
-    SAVE_LOADED_GROUPS_ENTITIES,
-    SWITCH_TAB,
-    UPDATE_ID_ACTIVE_GROUP_ENTITY,
-    PREPARE_LOADING_ENTITIES,
-    SAVE_LOADED_ENTITIES,
-    FINISH_LOADING_ENTITIES,
-    UPDATE_NAME_SEARCH_ENTITY
+    FULFIL_INITIAL_LOADING,
+    RESET_INITIAL_LOADING,
+    START_APPLYING_CHANGES,
+    FINISH_APPLYING_CHANGES
 } from '../../actions/library-page'
 
-const prepareLoadingEntities = () => {
+const startApplyingChanges = () => {
     return {
-        type: PREPARE_LOADING_ENTITIES
+        type: START_APPLYING_CHANGES
     }
 }
 
-const saveLoadedEntities = (entities) => {
+const finishApplyingChanges = () => {
     return {
-        type: SAVE_LOADED_ENTITIES,
-        payload: {
-            value: entities
-        }
+        type: FINISH_APPLYING_CHANGES
     }
 }
 
-const finishLoadingEntities = () => {
+const fulfilInitialLoading = () => {
     return {
-        type: FINISH_LOADING_ENTITIES
+        type: FULFIL_INITIAL_LOADING
     }
 }
 
-const updateNameSearchEntity = (nextName) => {
+const resetInitialLoading = () => {
     return {
-        type: UPDATE_NAME_SEARCH_ENTITY,
-        payload: {
-            value: nextName
-        }
-    }
-}
-
-const switchTab = (nextTab) => {
-    return {
-        type: SWITCH_TAB,
-        payload: {
-            value: nextTab
-        }
-    }
-}
-
-const prepareLoadingGroupsEntities = () => {
-    return {
-        type: PREPARE_LOADING_GROUPS_ENTITIES
-    }
-}
-
-const finishLoadingGroupsEntities = () => {
-    return {
-        type: FINISH_LOADING_GROUPS_ENTITIES
-    }
-}
-
-const saveLoadedGroupsEntities = (groupsEntities) => {
-    return {
-        type: SAVE_LOADED_GROUPS_ENTITIES,
-        payload: {
-            value: groupsEntities
-        }
-    }
-}
-
-const updateIdActiveGroupEntity = (id) => {
-    return {
-        type: UPDATE_ID_ACTIVE_GROUP_ENTITY,
-        payload: {
-            value: id
-        }
+        type: RESET_INITIAL_LOADING
     }
 }
 
 export {
-    prepareLoadingGroupsEntities,
-    finishLoadingGroupsEntities,
-    saveLoadedGroupsEntities,
-    updateIdActiveGroupEntity,
-    switchTab,
-    prepareLoadingEntities,
-    finishLoadingEntities,
-    saveLoadedEntities,
-    updateNameSearchEntity
+    fulfilInitialLoading,
+    resetInitialLoading,
+    startApplyingChanges,
+    finishApplyingChanges
 }

@@ -1,126 +1,249 @@
 import {
-    PREPARE_LOADING_GROUPS_ENTITIES,
-    FINISH_LOADING_GROUPS_ENTITIES,
-    SAVE_LOADED_GROUPS_ENTITIES,
-    SWITCH_TAB,
-    UPDATE_ID_ACTIVE_GROUP_ENTITY,
-    SAVE_LOADED_ENTITIES,
-    FINISH_LOADING_ENTITIES,
-    UPDATE_NAME_SEARCH_ENTITY,
-    PREPARE_LOADING_ENTITIES
+    UPDATE_NEW_INDICATOR_NAME,
+    UPDATE_NEW_INDICATOR_GROUP_ID,
+    UPDATE_NEW_INDICATORS_GROUP_NAME,
+    UPDATE_NEW_INDICATORS_GROUP_DESCRIPTION,
+
+    UPDATE_DELETED_INDICATORS,
+    UPDATE_DELETED_INDICATORS_GROUPS,
+
+    RESET_DELETED_INDICATORS,
+    RESET_DELETED_INDICATORS_GROUPS,
+
+    UPDATE_EDIT_INDICATOR_NAME,
+    UPDATE_EDIT_INDICATOR_GROUP_ID,
+    UPDATE_EDIT_INDICATORS_GROUP_NAME,
+    UPDATE_EDIT_INDICATORS_GROUP_DESCRIPTION,
+
+    SAVE_LOADED_INDICATORS,
+    SAVE_LOADED_INDICATORS_GROUPS,
+
+    START_LOADING_INDICATORS,
+    FINISH_LOADING_INDICATORS
+} from '../../actions/library-page/indicators'
+
+import {
+    FULFIL_INITIAL_LOADING,
+    RESET_INITIAL_LOADING,
+    START_APPLYING_CHANGES,
+    FINISH_APPLYING_CHANGES
 } from '../../actions/library-page'
 
 const initialState = {
-    activeTab: '',
-    groupsEntities: [],
-    idActiveGroupEntity: NaN,
-    loadingGroupsEntities: false, 
-    isGroupsEntitiesNeedToUpdate: false,
-    isEntitiesNeedToUpdate: false,
-    entities: [],
-    loadingEntities: false,
-    nameSearchEntity: '',
-    visibleEntities: []
-}
+    indicators: [],
+    indicatorsGroups: [],
+    deletedIndicators: [],
+    deletedIndicatorsGroups: [],
+    newIndicator: {
+        name: '',
+        groupId: ''
+    },
+    editIndicator: {
+        id: '',
+        name: '',
+        groupId: ''
+    },
+    newIndicatorsGroup: {
+        name: '',
+        description: ''
+    },
+    editIndicatorsGroup: {
+        id: '',
+        name: '',
+        description: ''
+    },
 
-const prepareLoadingGroupsEntities = (state) => {
+    loadingIndicators: false,
+    applyingChanges: false,
+    loadingInitial: false
+}
+const resetDeletedIndicatorsGroups = (state) => {
     return {
         ...state,
-        loadingGroupsEntities: true
+        deletedIndicatorsGroups: []
+    }
+}
+const resetDeletedIndicators = (state) => {
+    return {
+        ...state,
+        deletedIndicators: []
+    }
+}
+const startLoadingIndicators = (state, value) => {
+    return {
+        ...state,
+        loadingIndicators: true
+    }
+}
+const finishLoadingIndicators = (state, value) => {
+    return {
+        ...state,
+        loadingIndicators: false
+    }
+}
+const saveLoadedIndicators = (state, value) => {
+    return {
+        ...state,
+        indicators: value
+    }
+}
+const saveLoadedIndicatorsGroups = (state, value) => {
+    return {
+        ...state,
+        indicatorsGroups: value
+    }
+}
+const updateEditIndicatorsGroupName = (state, value) => {
+    return {
+        ...state,
+        editIndicatorsGroup: {
+            ...state.editIndicatorsGroup,
+            name: value
+        }
+    }
+}
+const updateEditIndicatorsGroupDescription = (state, value) => {
+    return {
+        ...state,
+        editIndicatorsGroup: {
+            ...state.editIndicatorsGroup,
+            description: value
+        }
+    }
+}
+const updateNewIndicatorsGroupName = (state, value) => {
+    return {
+        ...state,
+        newIndicatorsGroup: {
+            ...state.newIndicatorsGroup,
+            name: value
+        }
+    }
+}
+const updateNewIndicatorsGroupDescription = (state, value) => {
+    return {
+        ...state,
+        newIndicatorsGroup: {
+            ...state.newIndicatorsGroup,
+            description: value
+        }
+    }
+}
+const updateDeletedIndicators = (state, value) => {
+    return {
+        ...state,
+        deletedIndicators: []
+    }
+}
+const updateDeletedIndicatorsGroups = (state, value) => {
+    return {
+        ...state
+    }
+}
+const updateEditIndicatorGroupId = (state, value) => {
+    return {
+        ...state,
+        editIndicator: {
+            ...state.editIndicator,
+            groupId: value
+        }
+    }
+}
+const updateEditIndicatorName = (state, value) => {
+    return {
+        ...state,
+        editIndicator: {
+            ...state.editIndicator,
+            name: value
+        }
+    }
+}
+const updateNewIndicatorName = (state, value) => {
+    return {
+        ...state,
+        newIndicator: {
+            ...state.newIndicator,
+            name: value
+        }
+    }
+}
+const updateNewIndicatorGroupId = (state, value) => {
+    return {
+        ...state,
+        newIndicator: {
+            ...state.newIndicator,
+            groupId: value
+        }
+    }
+}
+const fulfilInitialLoading = (state) => {
+    return {
+        ...state,
+        loadingInitial: true
+    }
+}
+const resetInitialLoading = (state) => {
+    return {
+        ...state,
+        loadingInitial: false
+    }
+}
+const startApplyingChanges = (state) => {
+    return {
+        ...state,
+        applyingChanges: true
+    }
+}
+const finishApplyingChanges = (state) => {
+    return {
+        ...state,
+        applyingChanges: false
     }
 }
 
-const finishLoadingGroupsEntities = (state) => {
-    return {
-        ...state,
-        loadingGroupsEntities: false
-    }
-}
 
-const saveLoadedEntitiesGroups = (state, {value}) => {
-    return {
-        ...state,
-        groupsEntities: value,
-        isGroupsEntitiesNeedToUpdate: false
-    }
-}
-
-const switchTab = (state, {value}) => {
-    const {idActiveGroupEntity, nameSearchEntity} = initialState;
-
-    return {
-        ...state,
-        activeTab: value,
-        isGroupsEntitiesNeedToUpdate: true,
-        idActiveGroupEntity,
-        nameSearchEntity 
-    }
-}
-
-const updateIdActiveGroupEntity = (state, {value}) => {
-    const {idActiveGroupEntity, nameSearchEntity} = initialState;
-
-    return {
-        ...state,
-        idActiveGroupEntity: value,
-        isEntitiesNeedToUpdate: true,
-        nameSearchEntity
-    }
-}
-
-const prepareLoadingEntities = (state) => {
-    return {
-        ...state,
-        loadingEntities: true
-    }
-}
-
-const finishLoadingEntities = (state) => {
-    return {
-        ...state,
-        loadingEntities: false
-    }
-}
-
-const saveLoadedEntities = (state, {value}) => {
-    return {
-        ...state,
-        entities: value,
-        visibleEntities: value,
-        isEntitiesNeedToUpdate: false
-    }
-}
-
-const updateNameSearchEntity = (state, {value}) => {
-    const visibleEntities = state.entities.filter(el => el.name.toUpperCase().indexOf(value.toUpperCase()) != -1);
-
-    return {
-        ...state,
-        nameSearchEntity: value,
-        visibleEntities: visibleEntities
-    }
-}
-
-const rootReducer = (state = initialState, {type, payload}) => {
+const rootReducer = (state = initialState, {type, value}) => {
     switch(type){
-        case UPDATE_ID_ACTIVE_GROUP_ENTITY:
-            return updateIdActiveGroupEntity(state, payload);
-        case PREPARE_LOADING_GROUPS_ENTITIES:
-            return prepareLoadingGroupsEntities(state);
-        case FINISH_LOADING_GROUPS_ENTITIES:
-            return finishLoadingGroupsEntities(state);
-        case SAVE_LOADED_GROUPS_ENTITIES:
-            return saveLoadedEntitiesGroups(state, payload);
-        case SWITCH_TAB:
-            return switchTab(state, payload);
-        case PREPARE_LOADING_ENTITIES:
-            return prepareLoadingEntities(state);
-        case FINISH_LOADING_ENTITIES:
-            return finishLoadingEntities(state);
-        case SAVE_LOADED_ENTITIES:
-            return saveLoadedEntities(state, payload);
-        case UPDATE_NAME_SEARCH_ENTITY:
-            return updateNameSearchEntity(state, payload);
+        case START_APPLYING_CHANGES:
+            return startApplyingChanges(state);
+        case FINISH_APPLYING_CHANGES:
+            return finishApplyingChanges(state);
+        case FULFIL_INITIAL_LOADING:
+            return fulfilInitialLoading(state);
+        case RESET_INITIAL_LOADING:
+            return resetInitialLoading(state);
+        case UPDATE_NEW_INDICATOR_NAME:
+            return updateNewIndicatorName(state, value);
+        case UPDATE_NEW_INDICATOR_GROUP_ID:
+            return updateNewIndicatorGroupId(state, value);
+        case UPDATE_NEW_INDICATORS_GROUP_NAME:
+            return updateNewIndicatorsGroupName(state, value);
+        case UPDATE_NEW_INDICATORS_GROUP_DESCRIPTION:
+            return updateNewIndicatorsGroupDescription(state, value);
+        case UPDATE_DELETED_INDICATORS:
+            return updateDeletedIndicators(state, value);
+        case UPDATE_DELETED_INDICATORS_GROUPS:
+            return updateDeletedIndicatorsGroups(state, value);
+        case UPDATE_EDIT_INDICATORS_GROUP_DESCRIPTION:
+            return updateEditIndicatorsGroupDescription(state, value);
+        case UPDATE_EDIT_INDICATORS_GROUP_NAME:
+            return updateEditIndicatorsGroupName(state, value);
+        case UPDATE_EDIT_INDICATOR_GROUP_ID:
+            return updateEditIndicatorGroupId(state, value);
+        case UPDATE_EDIT_INDICATOR_NAME:
+            return updateEditIndicatorName(state, value);
+        case SAVE_LOADED_INDICATORS:
+            return saveLoadedIndicators(state, value);
+        case SAVE_LOADED_INDICATORS_GROUPS:
+            return saveLoadedIndicatorsGroups(state, value);
+        case START_LOADING_INDICATORS:
+            return startLoadingIndicators(state);
+        case FINISH_LOADING_INDICATORS:
+            return finishLoadingIndicators(state);
+        case RESET_DELETED_INDICATORS:
+            return resetDeletedIndicators(state);
+        case RESET_DELETED_INDICATORS_GROUPS:
+            return resetDeletedIndicatorsGroups(state);
         default:
             return state;
     }

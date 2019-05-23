@@ -11,11 +11,16 @@ const AsideListView = ({
     items: {
         values,
         onClick: onItemClick
+    },
+    editButton: {
+        name: buttonName,
+        onClick: onEditButtonClick
     }
 }) => {
 
     return (
         <div className="aside-list">
+            <button type="button" onClick={onEditButtonClick}>{buttonName}</button>
             <List>
             {
                 values.map(({id, name}) => {

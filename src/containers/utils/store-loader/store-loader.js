@@ -15,7 +15,7 @@ class StoreLoader extends Component {
         // deleteReduxStoreFromLocalStorage();
         window.onbeforeunload = () => {
             const {store} = this.props;
-            saveReduxStoreInLocalStorage(store);
+            // saveReduxStoreInLocalStorage(store);
         }
     }
 

@@ -22,7 +22,7 @@ const getEntityNameById = (entities, id) => {
 
 class DummyStaffixService {
     constructor() {
-        if(ifReduxStoreInLocalStorage()){
+        if(false){
             const {companies, requests} = getReduxStoreFromLocalStorage();
             this._companies = companies;
             this._requests = requests;
@@ -144,9 +144,10 @@ class DummyStaffixService {
     }
 
     getIndicators = (groupIndicatorId) => {
+        console.log(groupIndicatorId)
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(this._indicators.filter(el => groupIndicatorId === el.groupId));
+                resolve(this._indicators.filter(el => Number(groupIndicatorId) === el.groupId));
             }, TIME_OUT)
         })
     }
@@ -158,6 +159,19 @@ class DummyStaffixService {
             }, TIME_OUT)
         })
     }
+
+    // ============= CRUD =============
+    addCompetence = (competence) => {}
+
+    addIndicator = (indicator) => {}
+
+    updateCompetence = (competence) => {}
+
+    updateIndicator = (indicator) => {}
+
+    deleteCompetence = (competenceId) => {}
+
+    deleteIndicator = (indicatorId) => {}
 }
 
 export default DummyStaffixService;

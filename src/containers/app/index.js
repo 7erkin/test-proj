@@ -13,7 +13,7 @@ import NewRequestPage from '../pages/new-request';
 import CompaniesPage from '../pages/companies';
 import NewCompanyPage from '../pages/new-company/new-company';
 import ExistRequestPage from '../pages/exist-request'
-import LibraryPage from '../pages/library'
+import LibraryPage from '../pages/library-m'
 
 const AppContainer = () => {
   return (
@@ -27,7 +27,7 @@ const AppContainer = () => {
         <Route exact path="/requests/:id" render={(props) => {
           return <ExistRequestPage {...props}/>;
         }} />
-        <Route exact path="/library" component={LibraryPage} />
+        <Route path="/library/" component={LibraryPage} />
       </Switch>
     </AppComponent>
   );

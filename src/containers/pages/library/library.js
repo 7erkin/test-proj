@@ -6,13 +6,23 @@ import LibraryContentView from '../../../components/pages/library/library-conten
 import AsideList from './aside-list';
 import CenterList from './center-list';
 
+import {
+    Switch,
+    Route,
+    Redirect
+} from 'react-router-dom'
+
 const Library = () => {
     return (
         <LibraryView>
             <LibraryTabs />
             <LibraryContentView>
-                <AsideList />
-                <CenterList />
+                <Switch>
+                    <Redirect from="/library" to="/library/competencies" />
+                    <Route path="/library/competencies" render={props => <Competencies {...props} />} />
+                    <Route path="/library/indicators" render={props => <Indicators {...props} />}/>
+                    <Route path="/library/questions" render={props => null}/>
+                </Switch>
             </LibraryContentView>
         </LibraryView>
     );

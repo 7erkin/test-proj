@@ -2,17 +2,13 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 
-import {entityGroup as namesGroupsEntities} from '../utils'
-
 import {
     saveLoadedGroupsEntities,
     prepareLoadingGroupsEntities,
     finishLoadingGroupsEntities,
     updateIdActiveGroupEntity
 } from '../../../../action-creators/library-page'
-import withStaffixService from '../../../../hoc/hoc-services/with-staffix-service';
 import AsideListView from '../../../../components/pages/library/aside-list-view';
-import withAsideListData from '../../../../hoc/with-aside-list-data';
 
 class AsideList extends Component{
     constructor(props){
@@ -97,4 +93,4 @@ const mapStoreToProps = ({
     };
 }
 
-export default connect(mapStoreToProps)(withStaffixService(withAsideListData(AsideList)));
+export default connect(mapStoreToProps)(AsideList);

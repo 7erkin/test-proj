@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 
 import {entityGroup} from '../utils'
 
-import {
-    switchTab
-} from '../../../../action-creators/library-page'
 import LibraryTabsView from '../../../../components/pages/library/library-tabs-view';
 
 class LibraryTabs extends Component{
@@ -15,7 +12,7 @@ class LibraryTabs extends Component{
     }
 
     onTabClick = tabName => {
-        this.props.dispatch(switchTab(tabName));
+        this.props.history.push('');
     }
 
     render() {
