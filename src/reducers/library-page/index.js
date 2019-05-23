@@ -19,7 +19,12 @@ import {
     SAVE_LOADED_INDICATORS_GROUPS,
 
     START_LOADING_INDICATORS,
-    FINISH_LOADING_INDICATORS
+    FINISH_LOADING_INDICATORS,
+
+    NEW_INDICATORS_GROUP_SAVED,
+    NEW_INDICATOR_SAVED,
+    EDIT_INDICATORS_GROUP_SAVED,
+    EDIT_INDICATOR_SAVED
 } from '../../actions/library-page/indicators'
 
 import {
@@ -56,6 +61,38 @@ const initialState = {
     loadingIndicators: false,
     applyingChanges: false,
     loadingInitial: false
+}
+const newIndicatorSaved = (state) => {
+    return {
+        ...state,
+        newIndicator: {
+            ...initialState.newIndicator
+        }
+    }
+}
+const newIndicatorsGroupSaved = (state) => {
+    return {
+        ...state,
+        newIndicatorsGroup: {
+            ...initialState.newIndicatorsGroup
+        }
+    }
+}
+const editIndicatorSaved = (state) => {
+    return {
+        ...state,
+        editIndicator: {
+            ...initialState.editIndicator
+        }
+    }
+}
+const editIndicatorsGroupSaved = (state) => {
+    return {
+        ...state,
+        editIndicatorsGroup: {
+            ...initialState.editIndicatorsGroup
+        }
+    }
 }
 const resetDeletedIndicatorsGroups = (state) => {
     return {
@@ -244,6 +281,14 @@ const rootReducer = (state = initialState, {type, value}) => {
             return resetDeletedIndicators(state);
         case RESET_DELETED_INDICATORS_GROUPS:
             return resetDeletedIndicatorsGroups(state);
+        case NEW_INDICATORS_GROUP_SAVED:
+            return newIndicatorsGroupSaved(state);
+        case NEW_INDICATOR_SAVED:
+            return newIndicatorSaved(state);
+        case EDIT_INDICATORS_GROUP_SAVED:
+            return editIndicatorsGroupSaved(state);
+        case EDIT_INDICATOR_SAVED:
+            return editIndicatorSaved(state);
         default:
             return state;
     }

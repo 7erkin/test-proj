@@ -1,43 +1,85 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
+import {connect} from 'react-redux'
+import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
+import { updateNewIndicatorName, updateNewIndicatorGroupId } from '../../../../../action-creators/library-page/indicators';
+import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 
 class FormAddIndicator extends Component {
     constructor(props) {
         super(props);
     }
 
-    _isNameValid = name => {}
+    _isValid = name => {
+        return true;
+    }
 
-    onNameChange = name => {}
+    onNameChange = name => {
+        this.props.dispatch(updateNewIndicatorName(name));
+    }
 
-    onIdGroupChange = id => {}
+    onIdGroupIndicatorsChange = id => {
+        this.props.dispatch(updateNewIndicatorGroupId(id));
+    }
+
+    onSubmit = () => {
+        const {
+            staffixService,
+            dispatch,
+            newIndicator,
+            history
+        } = this.props;
+
+        dispatch(startApplyingChanges());
+        staffixService.addIndicator(newIndicator)
+            .then(() => {
+                dispatch(finishApplyingChanges());
+                //some actions with history - depends on how we got on this component
+                history.goBack();
+            })
+    }
+
+    onCancel = () => {
+        //some actions with history - depends on how we got on this component
+        this.props.history.goBack();
+    }
 
     render() {
         const {
-            name,
-            idGroup
+            indicatorsGroups,
+            newIndicator: {
+                name, groupId
+            }
         } = this.props;
 
         return (
-            <FormAddIndicatorView 
-                name={name}
-                idGroup={idGroup}
-                onNameChange={this.onNameChange}
-                onIdGroupChange={this.onIdGroupChange}/>
+            <form onSubmit={this.onSubmit}>
+                <input type="text" value={name} onChange={(evt) => this.onNameChange(evt.target.value)} />
+                <select value={groupId} onChange={(evt) => this.onIdGroupIndicatorsChange(evt.target.value)}>
+                {
+                    indicatorsGroups.map(({id, name}) => <option value={id}>{name}</option>)
+                }
+                </select>
+                <button type="submit">Save</button>
+                <button type="button" onClick={this.onCancel}>Cancel</button>
+            </form>
         );
     }
 }
 
 const mapStoreToProps = ({
     libraryPage: {
-        createdObject
+        indicatorsGroups,
+        newIndicator,
+        applyingChanges
     }
 }) => {
-
+    
     return {
-        ...createdObject
+        indicatorsGroups: indicatorsGroups.map(({id, name}) => {return {id, name}}),
+        newIndicator,
+        applyingChanges
     };
 }
 
-export default connect(mapStoreToProps)(withStaffixService(FormAddIndicator));
+export default connect(mapStoreToProps)(withStaffixService(withEffectApplyingChanges(FormAddIndicator)));

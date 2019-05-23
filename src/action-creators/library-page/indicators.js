@@ -19,15 +19,42 @@ import {
     SAVE_LOADED_INDICATORS_GROUPS,
 
     START_LOADING_INDICATORS,
-    FINISH_LOADING_INDICATORS
+    FINISH_LOADING_INDICATORS,
+
+    NEW_INDICATORS_GROUP_SAVED,
+    NEW_INDICATOR_SAVED,
+    EDIT_INDICATORS_GROUP_SAVED,
+    EDIT_INDICATOR_SAVED
 } from '../../actions/library-page/indicators'
 
+// savings
+export const newIndicatorsGroupSaved = () => {
+    return {
+        type: NEW_INDICATORS_GROUP_SAVED
+    }
+}
+export const newIndicatorSaved = () => {
+    return {
+        type: NEW_INDICATOR_SAVED
+    }
+}
+export const editIndicatorsGroupSaved = () => {
+    return {
+        type: EDIT_INDICATORS_GROUP_SAVED
+    }
+}
+export const editIndicatorSaved = () => {
+    return {
+        type: EDIT_INDICATOR_SAVED
+    }
+}
+
+//loading
 export const startLoadingIndicators = () => {
     return {
         type: START_LOADING_INDICATORS
     }
 }
-
 export const finishLoadingIndicators = () => {
     return {
         type: FINISH_LOADING_INDICATORS

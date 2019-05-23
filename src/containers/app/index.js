@@ -13,7 +13,7 @@ import NewRequestPage from '../pages/new-request';
 import CompaniesPage from '../pages/companies';
 import NewCompanyPage from '../pages/new-company/new-company';
 import ExistRequestPage from '../pages/exist-request'
-import LibraryPage from '../pages/library-m'
+import LibraryPage from '../pages/library'
 
 const AppContainer = () => {
   return (

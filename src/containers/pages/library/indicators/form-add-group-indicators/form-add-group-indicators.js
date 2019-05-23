@@ -1,43 +1,52 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux';
+import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
+import { connect } from 'react-redux';
+import { updateNewIndicatorsGroupName, updateNewIndicatorsGroupsDescription } from '../../../../../action-creators/library-page/indicators';
 
 class FormAddGroupIndicators extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
-    _isNameValid = name => {}
+    _isValid = name => {
+        return true;
+    }
 
-    onNameChange = name => {}
+    onNameChange = name => {
+        this.props.dispatch(updateNewIndicatorsGroupName(name))
+    }
 
-    onDescriptionChange = description => {}
+    onDescriptionChange = description => {
+        this.props.dispatch(updateNewIndicatorsGroupsDescription(description))
+    }
+
+    onSubmit = () => {}
+
+    onCancel = () => {}
 
     render() {
-        const {
-            name,
-            description
-        } = this.props;
+        const { name, description } = this.props.newIndicatorsGroup;
 
         return (
-            <FormAddGroupIndicatorsView 
-                name={name}
-                description={description}
-                onNameChange={this.onNameChange}
-                onDescriptionChange={this.onDescriptionChange}/>
+            <form onSubmit={this.onSubmit}>
+                <input type="text" value={name} onChange={this.onNameChange} />
+                <textarea value={description} onChange={this.onDescriptionChange} />
+                <button type="submit">Save</button>
+                <button type="cancel" onClick={this.onCancel}>Cancel</button>
+            </form>
         );
     }
 }
 
 const mapStoreToProps = ({
     libraryPage: {
-        createdObject
+        newIndicatorsGroup
     }
 }) => {
-
     return {
-        ...createdObject
+        newIndicatorsGroup
     };
 }
 
-export default connect(mapStoreToProps)(withStaffixService(FormAddGroupIndicators));
+export default connect(mapStoreToProps)(withStaffixService(withEffectApplyingChanges(FormAddGroupIndicators)));
