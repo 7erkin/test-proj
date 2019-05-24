@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import { connect } from 'react-redux';
-import { updateNewIndicatorsGroupName, updateNewIndicatorsGroupsDescription } from '../../../../../action-creators/library-page/indicators';
+import { updateNewIndicatorsGroupName, updateNewIndicatorsGroupsDescription, newIndicatorsGroupSaved } from '../../../../../action-creators/library-page/indicators';
+import { finishApplyingChanges, startApplyingChanges } from '../../../../../action-creators/library-page';
 
 class FormAddGroupIndicators extends Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class FormAddGroupIndicators extends Component {
     }
 
     onNameChange = name => {
+        console.log(name)
         this.props.dispatch(updateNewIndicatorsGroupName(name))
     }
 
@@ -21,19 +23,33 @@ class FormAddGroupIndicators extends Component {
         this.props.dispatch(updateNewIndicatorsGroupsDescription(description))
     }
 
-    onSubmit = () => {}
+    onSubmit = () => {
+        const { dispatch, staffixService, newIndicatorsGroup } = this.props;
 
-    onCancel = () => {}
+        dispatch(startApplyingChanges());
+        staffixService.createIndicatorsGroup(newIndicatorsGroup)
+            .then(() => {
+                dispatch(finishApplyingChanges());
+                dispatch(newIndicatorsGroupSaved());
+            })
+    }
+
+    onCancel = () => {
+        this.props.history.goBack();
+    }
 
     render() {
         const { name, description } = this.props.newIndicatorsGroup;
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <input type="text" value={name} onChange={this.onNameChange} />
-                <textarea value={description} onChange={this.onDescriptionChange} />
+            <form onSubmit={evt => {
+                evt.preventDefault();
+                this.onSubmit();
+            }}>
+                <input type="text" value={name} onChange={evt => this.onNameChange(evt.target.value)} />
+                <textarea value={description} onChange={evt => this.onDescriptionChange(evt.target.value)} />
                 <button type="submit">Save</button>
-                <button type="cancel" onClick={this.onCancel}>Cancel</button>
+                <button type="button" onClick={this.onCancel}>Cancel</button>
             </form>
         );
     }
@@ -41,11 +57,13 @@ class FormAddGroupIndicators extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        newIndicatorsGroup
+        newIndicatorsGroup,
+        applyingChanges
     }
 }) => {
     return {
-        newIndicatorsGroup
+        newIndicatorsGroup,
+        applyingChanges
     };
 }
 

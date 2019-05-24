@@ -172,6 +172,42 @@ class DummyStaffixService {
     deleteCompetence = (competenceId) => {}
 
     deleteIndicator = (indicatorId) => {}
+
+    createIndicatorsGroup = (indicatorsGroup) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                this._groupsIndicator.push({
+                    id: Math.floor(Math.random() * 100),
+                    ...indicatorsGroup
+                })
+                resolve();
+            }, TIME_OUT)
+        })
+    }
+
+    updateIndicatorsGroup = (indicatorsGroup) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const index = this._groupsIndicator.findIndex(({id}) => id == indicatorsGroup.id);
+                this._groupsIndicator[index] = {...indicatorsGroup};
+                resolve();
+            }, TIME_OUT)
+        })
+    }
+
+    deleteIndicatorsGroups = (ids) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                
+                ids.forEach(id => {
+                    const index = this._groupsIndicator.findIndex(el => el.id == id);
+                    this._groupsIndicator.splice(index, 1);
+                })
+
+                resolve();
+            }, TIME_OUT)
+        })
+    }
 }
 
 export default DummyStaffixService;

@@ -60,6 +60,24 @@ class Indicators extends Component {
             })
     }
 
+    componentDidUpdate() {
+        const {
+            dispatch,
+            staffixService,
+            loadingInitial
+        } = this.props;
+
+        if(loadingInitial)
+            return;
+    
+            staffixService.getGroupsIndicators()
+                .then(groups => {
+                    dispatch(saveLoadedIndicatorsGroups(groups));
+                    this._initialIndicatorGroupId = this._defineIdGroupRendering(groups);
+                    dispatch(fulfilInitialLoading());
+                })
+    }
+
     render() {
         const {
             loadingInitial

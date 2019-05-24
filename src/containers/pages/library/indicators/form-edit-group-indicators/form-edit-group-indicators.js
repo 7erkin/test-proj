@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import { connect } from 'react-redux';
-import { updateEditIndicatorsGroupName, updateEditIndicatorsGroupDescription } from '../../../../../action-creators/library-page/indicators';
+import { updateEditIndicatorsGroupName, updateEditIndicatorsGroupDescription, editIndicatorsGroupSaved } from '../../../../../action-creators/library-page/indicators';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 
 class FormEditGroupIndicators extends Component {
@@ -22,34 +22,56 @@ class FormEditGroupIndicators extends Component {
         this.props.dispatch(updateEditIndicatorsGroupDescription(description));
     }
 
+    componentDidMount() {
+        const {match: {params: {idGroup}}, dispatch, indicatorsGroups} = this.props;
+
+        const index = indicatorsGroups.findIndex(({id}) => id == idGroup);
+
+        const {name, description} = indicatorsGroups[index];
+
+        dispatch(updateEditIndicatorsGroupName(name));
+        dispatch(updateEditIndicatorsGroupDescription(description));
+    } 
+
     onSubmit = () => {
         const {
             staffixService,
             dispatch,
             editIndicatorsGroup,
-            history
+            history,
+            match: {
+                params: {
+                    idGroup
+                }
+            }
         } = this.props;
 
         dispatch(startApplyingChanges());
-        staffixService.updateIndicatorsGroup(editIndicatorsGroup)
+        staffixService.updateIndicatorsGroup({id: idGroup, ...editIndicatorsGroup})
             .then(() => {
                 dispatch(finishApplyingChanges());
+                dispatch(editIndicatorsGroupSaved());
                 //some actions with history - depends on how we got on this component
                 history.goBack();
             }) 
     }
 
-    onCancel = () => {}
+    onCancel = () => {
+        this.props.history.goBack();
+    }
 
     render() {
         const { name, description } = this.props.editIndicatorsGroup;
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <input type="text" value={name} onChange={this.onNameChange} />
-                <textarea value={description} onChange={this.onDescriptionChange} />
+            <form onSubmit={evt => {
+                evt.preventDefault();
+                this.onSubmit();
+            }}>
+                <input type="text" value={name} onChange={evt => this.onNameChange(evt.target.value)} />
+                <textarea value={description} onChange={evt => this.onDescriptionChange(evt.target.value)} />
                 <button type="submit">Save</button>
-                <button type="button" onClick={this.onDescriptionChange}>Cancel</button>
+                <button type="button" onClick={this.onCancel}>Cancel</button>
             </form>
         );
     }
@@ -57,11 +79,16 @@ class FormEditGroupIndicators extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        editIndicatorsGroup
+        editIndicatorsGroup,
+        indicatorsGroups,
+        applyingChanges
     }
 }) => {
+    
     return {
-        editIndicatorsGroup
+        editIndicatorsGroup,
+        indicatorsGroups,
+        applyingChanges
     };
 }
 

@@ -24,7 +24,8 @@ import {
     NEW_INDICATORS_GROUP_SAVED,
     NEW_INDICATOR_SAVED,
     EDIT_INDICATORS_GROUP_SAVED,
-    EDIT_INDICATOR_SAVED
+    EDIT_INDICATOR_SAVED,
+    INDICATORS_GROUPS_DELETED
 } from '../../actions/library-page/indicators'
 
 import {
@@ -44,7 +45,6 @@ const initialState = {
         groupId: ''
     },
     editIndicator: {
-        id: '',
         name: '',
         groupId: ''
     },
@@ -53,7 +53,6 @@ const initialState = {
         description: ''
     },
     editIndicatorsGroup: {
-        id: '',
         name: '',
         description: ''
     },
@@ -67,7 +66,8 @@ const newIndicatorSaved = (state) => {
         ...state,
         newIndicator: {
             ...initialState.newIndicator
-        }
+        },
+        loadingInitial: false
     }
 }
 const newIndicatorsGroupSaved = (state) => {
@@ -75,7 +75,8 @@ const newIndicatorsGroupSaved = (state) => {
         ...state,
         newIndicatorsGroup: {
             ...initialState.newIndicatorsGroup
-        }
+        },
+        loadingInitial: false
     }
 }
 const editIndicatorSaved = (state) => {
@@ -83,7 +84,8 @@ const editIndicatorSaved = (state) => {
         ...state,
         editIndicator: {
             ...initialState.editIndicator
-        }
+        },
+        loadingInitial: false
     }
 }
 const editIndicatorsGroupSaved = (state) => {
@@ -91,7 +93,8 @@ const editIndicatorsGroupSaved = (state) => {
         ...state,
         editIndicatorsGroup: {
             ...initialState.editIndicatorsGroup
-        }
+        },
+        loadingInitial: false
     }
 }
 const resetDeletedIndicatorsGroups = (state) => {
@@ -173,8 +176,14 @@ const updateDeletedIndicators = (state, value) => {
     }
 }
 const updateDeletedIndicatorsGroups = (state, value) => {
+    const deletedIndicatorsGroups = [...state.deletedIndicatorsGroups];
+    const index = deletedIndicatorsGroups.findIndex(id => id == value);
+
+    index === -1 ? deletedIndicatorsGroups.push(value) : deletedIndicatorsGroups.splice(index, 1);
+
     return {
-        ...state
+        ...state,
+        deletedIndicatorsGroups
     }
 }
 const updateEditIndicatorGroupId = (state, value) => {
@@ -237,7 +246,13 @@ const finishApplyingChanges = (state) => {
         applyingChanges: false
     }
 }
-
+const indicatorsGroupsDeleted = (state) => {
+    return {
+        ...state,
+        deletedIndicatorsGroups: [],
+        loadingInitial: false
+    }
+}
 
 const rootReducer = (state = initialState, {type, value}) => {
     switch(type){
@@ -289,6 +304,8 @@ const rootReducer = (state = initialState, {type, value}) => {
             return editIndicatorsGroupSaved(state);
         case EDIT_INDICATOR_SAVED:
             return editIndicatorSaved(state);
+        case INDICATORS_GROUPS_DELETED:
+            return indicatorsGroupsDeleted(state);
         default:
             return state;
     }

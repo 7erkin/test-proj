@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import {
     Link
 } from 'react-router-dom'
+import { updateDeletedIndicatorsGroups, indicatorsGroupsDeleted } from '../../../../../action-creators/library-page/indicators';
+import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 
 class ListGroupsIndicators extends Component {
     constructor(props) {
@@ -16,21 +18,33 @@ class ListGroupsIndicators extends Component {
         return true;
     }
 
-    onSubmit = () => {}
+    onSubmit = () => {
+        const {dispatch, staffixService, deletedIndicatorsGroups} = this.props;
 
-    onIndicatorsGroupCheck = id => {}
+        dispatch(startApplyingChanges());
+        staffixService.deleteIndicatorsGroups(deletedIndicatorsGroups)
+            .then(() => {
+                dispatch(finishApplyingChanges());
+                dispatch(indicatorsGroupsDeleted());
+            })
+    }
+
+    onIndicatorsGroupCheck = id => {
+        this.props.dispatch(updateDeletedIndicatorsGroups(id))
+    }
 
     onAddIndicatorsGroupClick = () => {
         this.props.history.push('/library/indicators-groups/add');
     }
 
-    onDeleteIndicatorsGroupsClick = () => {}
-
     render() {
         const { indicatorsGroups, deletedIndicatorsGroups } = this.props;
 
         return (
-            <form onSubmit={this.onSubmit}>
+            <form onSubmit={evt => {
+                evt.preventDefault();
+                this.onSubmit();
+            }}>
                 <input type="text" />
                 <button type="button" onClick={this.onAddIndicatorsGroupClick}>Add</button>
                 <button type="submit">Delete</button>
@@ -40,7 +54,7 @@ class ListGroupsIndicators extends Component {
                         return (
                             <li key={id}>
                                 <Link to={`/library/indicators-groups/edit/${id}`}>{name}</Link>
-                                <input type="checkbox" onChange={() => this.onIndicatorsGroupCheck(id)}/>
+                                <input type="checkbox" checked={deletedIndicatorsGroups.findIndex(el => el == id) !== -1} onChange={() => this.onIndicatorsGroupCheck(id)}/>
                             </li>
                         );
                     })
@@ -54,12 +68,14 @@ class ListGroupsIndicators extends Component {
 const mapStoreToProps = ({
     libraryPage: {
         indicatorsGroups,
-        deletedIndicatorsGroups
+        deletedIndicatorsGroups,
+        applyingChanges
     }
 }) => {
     return {
         indicatorsGroups: indicatorsGroups.map(({ id, name }) => {return { id, name }}),
-        deletedIndicatorsGroups
+        deletedIndicatorsGroups,
+        applyingChanges
     };
 }
 

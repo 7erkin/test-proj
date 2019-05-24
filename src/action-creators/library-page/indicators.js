@@ -24,10 +24,17 @@ import {
     NEW_INDICATORS_GROUP_SAVED,
     NEW_INDICATOR_SAVED,
     EDIT_INDICATORS_GROUP_SAVED,
-    EDIT_INDICATOR_SAVED
+    EDIT_INDICATOR_SAVED,
+
+    INDICATORS_GROUPS_DELETED
 } from '../../actions/library-page/indicators'
 
 // savings
+export const indicatorsGroupsDeleted = () => {
+    return {
+        type: INDICATORS_GROUPS_DELETED
+    }
+}
 export const newIndicatorsGroupSaved = () => {
     return {
         type: NEW_INDICATORS_GROUP_SAVED
