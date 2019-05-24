@@ -42,11 +42,11 @@ const initialState = {
     deletedIndicatorsGroups: [],
     newIndicator: {
         name: '',
-        groupId: ''
+        idGroup: ''
     },
     editIndicator: {
         name: '',
-        groupId: ''
+        idGroup: ''
     },
     newIndicatorsGroup: {
         name: '',
@@ -170,9 +170,14 @@ const updateNewIndicatorsGroupDescription = (state, value) => {
     }
 }
 const updateDeletedIndicators = (state, value) => {
+    const deletedIndicators = [...state.deletedIndicators];
+    const index = deletedIndicators.findIndex(id => id == value);
+
+    index === -1 ? deletedIndicators.push(value) : deletedIndicators.splice(index, 1);
+
     return {
         ...state,
-        deletedIndicators: []
+        deletedIndicators
     }
 }
 const updateDeletedIndicatorsGroups = (state, value) => {
@@ -186,12 +191,12 @@ const updateDeletedIndicatorsGroups = (state, value) => {
         deletedIndicatorsGroups
     }
 }
-const updateEditIndicatorGroupId = (state, value) => {
+const updateEditIndicatoridGroup = (state, value) => {
     return {
         ...state,
         editIndicator: {
             ...state.editIndicator,
-            groupId: value
+            idGroup: value
         }
     }
 }
@@ -213,12 +218,12 @@ const updateNewIndicatorName = (state, value) => {
         }
     }
 }
-const updateNewIndicatorGroupId = (state, value) => {
+const updateNewIndicatoridGroup = (state, value) => {
     return {
         ...state,
         newIndicator: {
             ...state.newIndicator,
-            groupId: value
+            idGroup: value
         }
     }
 }
@@ -267,7 +272,7 @@ const rootReducer = (state = initialState, {type, value}) => {
         case UPDATE_NEW_INDICATOR_NAME:
             return updateNewIndicatorName(state, value);
         case UPDATE_NEW_INDICATOR_GROUP_ID:
-            return updateNewIndicatorGroupId(state, value);
+            return updateNewIndicatoridGroup(state, value);
         case UPDATE_NEW_INDICATORS_GROUP_NAME:
             return updateNewIndicatorsGroupName(state, value);
         case UPDATE_NEW_INDICATORS_GROUP_DESCRIPTION:
@@ -281,7 +286,7 @@ const rootReducer = (state = initialState, {type, value}) => {
         case UPDATE_EDIT_INDICATORS_GROUP_NAME:
             return updateEditIndicatorsGroupName(state, value);
         case UPDATE_EDIT_INDICATOR_GROUP_ID:
-            return updateEditIndicatorGroupId(state, value);
+            return updateEditIndicatoridGroup(state, value);
         case UPDATE_EDIT_INDICATOR_NAME:
             return updateEditIndicatorName(state, value);
         case SAVE_LOADED_INDICATORS:

@@ -89,7 +89,8 @@ export const updateEditIndicatorName = name => {
         value: name
     }
 }
-export const updateEditIndicatorGroupId = id => {
+
+export const updateEditIndicatorIdGroup = id => {
     return {
         type: UPDATE_EDIT_INDICATOR_GROUP_ID,
         value: id
@@ -122,7 +123,7 @@ export const updateNewIndicatorsGroupsDescription = description => {
         value: description
     }
 }
-export const updateNewIndicatorGroupId = id => {
+export const updateNewIndicatorIdGroup = id => {
     return {
         type: UPDATE_NEW_INDICATOR_GROUP_ID,
         value: id

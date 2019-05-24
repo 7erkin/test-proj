@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import { connect } from 'react-redux';
-import { updateEditIndicatorName, updateEditIndicatorGroupId } from '../../../../../action-creators/library-page/indicators';
+import { updateEditIndicatorName, updateEditIndicatorIdGroup } from '../../../../../action-creators/library-page/indicators';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 
 class FormEditIndicator extends Component {
@@ -14,12 +14,24 @@ class FormEditIndicator extends Component {
         return true;
     }
 
+    // TODO case when one get the component by reference - indicators won't be loaded
+    componentDidMount() {
+        const {dispatch, indicators, match: {params: {idIndicator}}} = this.props;
+
+        const index = indicators.findIndex(el => el.id == idIndicator);
+
+        const {name, idGroup} =  indicators[index];
+
+        dispatch(updateEditIndicatorName(name));
+        dispatch(updateEditIndicatorIdGroup(idGroup));
+    }
+
     onNameChange = name => {
         this.props.dispatch(updateEditIndicatorName(name));
     }
 
     onIdGroupIndicatorsChange = id => {
-        this.props.dispatch(updateEditIndicatorGroupId(id))
+        this.props.dispatch(updateEditIndicatorIdGroup(id))
     }
 
     onSubmit = () => {
@@ -27,11 +39,12 @@ class FormEditIndicator extends Component {
             staffixService,
             dispatch,
             editIndicator,
-            history
+            history,
+            match: {params: {idIndicator}}
         } = this.props;
 
         dispatch(startApplyingChanges());
-        staffixService.updateIndicator(editIndicator)
+        staffixService.updateIndicator({id: idIndicator, ...editIndicator})
             .then(() => {
                 dispatch(finishApplyingChanges());
                 //some actions with history - depends on how we got on this component
@@ -39,15 +52,21 @@ class FormEditIndicator extends Component {
             })
     }
 
-    onCancel = () => {}
+    onCancel = () => {
+        this.props.history.goBack();
+    }
 
     render() {
         const { editIndicator: { name, idGroup}, indicatorsGroups} = this.props;
 
         return (
-            <form onSubmit={this.onSubmit}>
+            <form onSubmit={evt => {
+                evt.preventDefault();
+                this.onSubmit();
+            }}>
                 <input type="text" value={name} onChange={(evt) => this.onNameChange(evt.target.value)} />
                 <select value={idGroup} onChange={(evt) => this.onIdGroupIndicatorsChange(evt.target.value)}>
+                <option value={''}>Choose</option>
                 {
                     indicatorsGroups.map(({id, name}) => <option value={id}>{name}</option>)
                 }
@@ -62,12 +81,16 @@ class FormEditIndicator extends Component {
 const mapStoreToProps = ({
     libraryPage: {
         editIndicator,
-        indicatorsGroups
+        indicatorsGroups,
+        indicators,
+        applyingChanges
     }
 }) => {
     return {
         editIndicator,
-        indicatorsGroups: indicatorsGroups.map(({id, name}) => {return {id, name}})
+        indicators,
+        applyingChanges,
+        indicatorsGroups
     };
 }
 

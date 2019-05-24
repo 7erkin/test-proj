@@ -1,14 +1,13 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux';
 
-import {entityGroup} from '../utils'
 
 import LibraryTabsView from '../../../../components/pages/library/library-tabs-view';
 
 class LibraryTabs extends Component{
     constructor(props){
         super(props);
-        this._tabs = [...Object.values(entityGroup)];
+        this._tabs = ["Компетенции", "Индикаторы", "Вопросы"];
     }
 
     onTabClick = tabName => {

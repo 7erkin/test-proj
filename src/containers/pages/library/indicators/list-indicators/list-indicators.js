@@ -19,6 +19,11 @@ class ListIndicators extends Component {
         return true;
     }
 
+    _defineDescriptionGroup = (idGroup, groups) => {
+        const index = groups.findIndex(el => el.id == idGroup);
+        return groups[index].description;
+    }
+
     componentDidMount() {
         const { match, dispatch, staffixService } = this.props;
         const id = match.params.idGroup;
@@ -74,20 +79,31 @@ class ListIndicators extends Component {
     //onSearchIndicatorChange = name => this.props.dispatch(updateNameSearchIndicator(name));
 
     render() {
-        const { indicators, loadingIndicators, match: {params: {idGroup}}, deletedIndicators } = this.props;
+        const { indicators, loadingIndicators, indicatorsGroups, match: {params: {idGroup}}, deletedIndicators } = this.props;
 
         if(loadingIndicators)
             return <h2>Loading...</h2>
 
+        const description = this._defineDescriptionGroup(idGroup, indicatorsGroups);
+
         return (
             <form onSubmit={this.onDeleteIndicators}>
-                <p>{'description'}</p>
+                <p>{description}</p>
                 <input type="text" />
                 <button type="button" onClick={this.onAddIndicatorClick}>Add</button>
                 <button type="submit">Delete</button>
                 <ul>
                     {
-                        indicators.map(({id, name}) => <li key={id}><Link to={`/library/indicators-groups/${idGroup}/edit-indicator/${id}`}>{name}</Link></li>)
+                        indicators.map(({id, name}) => {
+                            return (
+                                <li key={id}>
+                                    <Link to={`/library/indicators-groups/${idGroup}/edit-indicator/${id}`}>
+                                        {name}
+                                    </Link>
+                                    <input type="checkbox" checked={deletedIndicators.indexOf(id) !== -1} onChange={() => this.onCheckIndicator(id)} />
+                                </li>
+                            );
+                        })
                     }
                 </ul>
             </form>
@@ -100,7 +116,8 @@ const mapStoreToProps = ({
         indicators,
         deletedIndicators,
         loadingIndicators,
-        applyingChanges
+        applyingChanges,
+        indicatorsGroups
     }
 }) => {
 
@@ -108,7 +125,8 @@ const mapStoreToProps = ({
         deletedIndicators,
         indicators,
         loadingIndicators,
-        applyingChanges
+        applyingChanges,
+        indicatorsGroups
     };
 }
 

@@ -147,7 +147,7 @@ class DummyStaffixService {
         console.log(groupIndicatorId)
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(this._indicators.filter(el => Number(groupIndicatorId) === el.groupId));
+                resolve(this._indicators.filter(el => Number(groupIndicatorId) === el.idGroup));
             }, TIME_OUT)
         })
     }
@@ -155,7 +155,7 @@ class DummyStaffixService {
     getCompetencies = (groupCopmetenceId) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(this._competencies.filter(el => groupCopmetenceId === el.groupId));
+                resolve(this._competencies.filter(el => groupCopmetenceId === el.idGroup));
             }, TIME_OUT)
         })
     }
@@ -163,15 +163,47 @@ class DummyStaffixService {
     // ============= CRUD =============
     addCompetence = (competence) => {}
 
-    addIndicator = (indicator) => {}
+    createIndicator = (indicator) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                this._indicators.push({
+                    id: Math.floor(Math.random() * 100),
+                    name: indicator.name,
+                    idGroup: Number(indicator.idGroup)
+                });
+                resolve();
+            }, TIME_OUT);
+        })
+    }
 
     updateCompetence = (competence) => {}
 
-    updateIndicator = (indicator) => {}
+    updateIndicator = (indicator) => {
+        return new Promise((resolve, reject) => {
+            console.log(indicator)
+            setTimeout(() => {
+                const index = this._indicators.findIndex(({id}) => id == indicator.id);
+                this._indicators[index] = {id: indicator.id, name: indicator.name, idGroup: Number(indicator.idGroup)};
+                resolve();
+            }, TIME_OUT)
+        })
+    }
 
     deleteCompetence = (competenceId) => {}
 
-    deleteIndicator = (indicatorId) => {}
+    deleteIndicators = (ids) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                
+                ids.forEach(id => {
+                    const index = this._indicators.findIndex(el => el.id == id);
+                    this._indicators.splice(index, 1);
+                })
+
+                resolve();
+            }, TIME_OUT)
+        })
+    }
 
     createIndicatorsGroup = (indicatorsGroup) => {
         return new Promise((resolve, reject) => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import {connect} from 'react-redux'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
-import { updateNewIndicatorName, updateNewIndicatorGroupId } from '../../../../../action-creators/library-page/indicators';
+import { updateNewIndicatorName, updateNewIndicatorIdGroup } from '../../../../../action-creators/library-page/indicators';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 
 class FormAddIndicator extends Component {
@@ -19,7 +19,7 @@ class FormAddIndicator extends Component {
     }
 
     onIdGroupIndicatorsChange = id => {
-        this.props.dispatch(updateNewIndicatorGroupId(id));
+        this.props.dispatch(updateNewIndicatorIdGroup(id));
     }
 
     onSubmit = () => {
@@ -31,7 +31,7 @@ class FormAddIndicator extends Component {
         } = this.props;
 
         dispatch(startApplyingChanges());
-        staffixService.addIndicator(newIndicator)
+        staffixService.createIndicator(newIndicator)
             .then(() => {
                 dispatch(finishApplyingChanges());
                 //some actions with history - depends on how we got on this component
@@ -48,14 +48,14 @@ class FormAddIndicator extends Component {
         const {
             indicatorsGroups,
             newIndicator: {
-                name, groupId
+                name, idGroup
             }
         } = this.props;
 
         return (
             <form onSubmit={this.onSubmit}>
                 <input type="text" value={name} onChange={(evt) => this.onNameChange(evt.target.value)} />
-                <select value={groupId} onChange={(evt) => this.onIdGroupIndicatorsChange(evt.target.value)}>
+                <select value={idGroup} onChange={(evt) => this.onIdGroupIndicatorsChange(evt.target.value)}>
                 {
                     indicatorsGroups.map(({id, name}) => <option value={id}>{name}</option>)
                 }
