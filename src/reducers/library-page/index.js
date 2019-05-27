@@ -1,3 +1,5 @@
+import initialState from './initial-state'
+
 import {
     UPDATE_NEW_INDICATOR_NAME,
     UPDATE_NEW_INDICATOR_GROUP_ID,
@@ -35,198 +37,40 @@ import {
     FINISH_APPLYING_CHANGES
 } from '../../actions/library-page'
 
-const initialState = {
-    indicators: [],
-    indicatorsGroups: [],
-    deletedIndicators: [],
-    deletedIndicatorsGroups: [],
-    newIndicator: {
-        name: '',
-        idGroup: ''
-    },
-    editIndicator: {
-        name: '',
-        idGroup: ''
-    },
-    newIndicatorsGroup: {
-        name: '',
-        description: ''
-    },
-    editIndicatorsGroup: {
-        name: '',
-        description: ''
-    },
+import * as indicatorReducer from './indicators'
+import * as competenceReducer from './competencies'
 
-    loadingIndicators: false,
-    applyingChanges: false,
-    loadingInitial: false
-}
-const newIndicatorSaved = (state) => {
-    return {
-        ...state,
-        newIndicator: {
-            ...initialState.newIndicator
-        },
-        loadingInitial: false
-    }
-}
-const newIndicatorsGroupSaved = (state) => {
-    return {
-        ...state,
-        newIndicatorsGroup: {
-            ...initialState.newIndicatorsGroup
-        },
-        loadingInitial: false
-    }
-}
-const editIndicatorSaved = (state) => {
-    return {
-        ...state,
-        editIndicator: {
-            ...initialState.editIndicator
-        },
-        loadingInitial: false
-    }
-}
-const editIndicatorsGroupSaved = (state) => {
-    return {
-        ...state,
-        editIndicatorsGroup: {
-            ...initialState.editIndicatorsGroup
-        },
-        loadingInitial: false
-    }
-}
-const resetDeletedIndicatorsGroups = (state) => {
-    return {
-        ...state,
-        deletedIndicatorsGroups: []
-    }
-}
-const resetDeletedIndicators = (state) => {
-    return {
-        ...state,
-        deletedIndicators: []
-    }
-}
-const startLoadingIndicators = (state, value) => {
-    return {
-        ...state,
-        loadingIndicators: true
-    }
-}
-const finishLoadingIndicators = (state, value) => {
-    return {
-        ...state,
-        loadingIndicators: false
-    }
-}
-const saveLoadedIndicators = (state, value) => {
-    return {
-        ...state,
-        indicators: value
-    }
-}
-const saveLoadedIndicatorsGroups = (state, value) => {
-    return {
-        ...state,
-        indicatorsGroups: value
-    }
-}
-const updateEditIndicatorsGroupName = (state, value) => {
-    return {
-        ...state,
-        editIndicatorsGroup: {
-            ...state.editIndicatorsGroup,
-            name: value
-        }
-    }
-}
-const updateEditIndicatorsGroupDescription = (state, value) => {
-    return {
-        ...state,
-        editIndicatorsGroup: {
-            ...state.editIndicatorsGroup,
-            description: value
-        }
-    }
-}
-const updateNewIndicatorsGroupName = (state, value) => {
-    return {
-        ...state,
-        newIndicatorsGroup: {
-            ...state.newIndicatorsGroup,
-            name: value
-        }
-    }
-}
-const updateNewIndicatorsGroupDescription = (state, value) => {
-    return {
-        ...state,
-        newIndicatorsGroup: {
-            ...state.newIndicatorsGroup,
-            description: value
-        }
-    }
-}
-const updateDeletedIndicators = (state, value) => {
-    const deletedIndicators = [...state.deletedIndicators];
-    const index = deletedIndicators.findIndex(id => id == value);
+import {
+    UPDATE_NEW_COMPETENCE_NAME,
+    UPDATE_NEW_COMPETENCE_GROUP_ID,
+    UPDATE_NEW_COMPETENCIES_GROUP_NAME,
+    UPDATE_NEW_COMPETENCIES_GROUP_DESCRIPTION,
 
-    index === -1 ? deletedIndicators.push(value) : deletedIndicators.splice(index, 1);
+    UPDATE_DELETED_COMPETENCIES,
+    UPDATE_DELETED_COMPETENCIES_GROUPS,
 
-    return {
-        ...state,
-        deletedIndicators
-    }
-}
-const updateDeletedIndicatorsGroups = (state, value) => {
-    const deletedIndicatorsGroups = [...state.deletedIndicatorsGroups];
-    const index = deletedIndicatorsGroups.findIndex(id => id == value);
+    RESET_DELETED_COMPETENCIES,
+    RESET_DELETED_COMPETENCIES_GROUPS,
 
-    index === -1 ? deletedIndicatorsGroups.push(value) : deletedIndicatorsGroups.splice(index, 1);
+    UPDATE_EDIT_COMPETENCE_NAME,
+    UPDATE_EDIT_COMPETENCE_GROUP_ID,
+    UPDATE_EDIT_COMPETENCIES_GROUP_NAME,
+    UPDATE_EDIT_COMPETENCIES_GROUP_DESCRIPTION,
 
-    return {
-        ...state,
-        deletedIndicatorsGroups
-    }
-}
-const updateEditIndicatoridGroup = (state, value) => {
-    return {
-        ...state,
-        editIndicator: {
-            ...state.editIndicator,
-            idGroup: value
-        }
-    }
-}
-const updateEditIndicatorName = (state, value) => {
-    return {
-        ...state,
-        editIndicator: {
-            ...state.editIndicator,
-            name: value
-        }
-    }
-}
-const updateNewIndicatorName = (state, value) => {
-    return {
-        ...state,
-        newIndicator: {
-            ...state.newIndicator,
-            name: value
-        }
-    }
-}
-const updateNewIndicatoridGroup = (state, value) => {
-    return {
-        ...state,
-        newIndicator: {
-            ...state.newIndicator,
-            idGroup: value
-        }
-    }
-}
+    SAVE_LOADED_COMPETENCIES,
+    SAVE_LOADED_COMPETENCIES_GROUPS,
+
+    START_LOADING_COMPETENCIES,
+    FINISH_LOADING_COMPETENCIES,
+
+    NEW_COMPETENCIES_GROUP_SAVED,
+    NEW_COMPETENCE_SAVED,
+    EDIT_COMPETENCIES_GROUP_SAVED,
+    EDIT_COMPETENCE_SAVED,
+
+    COMPETENCIES_GROUPS_DELETED
+} from '../../actions/library-page/competencies'
+
 const fulfilInitialLoading = (state) => {
     return {
         ...state,
@@ -251,13 +95,6 @@ const finishApplyingChanges = (state) => {
         applyingChanges: false
     }
 }
-const indicatorsGroupsDeleted = (state) => {
-    return {
-        ...state,
-        deletedIndicatorsGroups: [],
-        loadingInitial: false
-    }
-}
 
 const rootReducer = (state = initialState, {type, value}) => {
     switch(type){
@@ -269,48 +106,93 @@ const rootReducer = (state = initialState, {type, value}) => {
             return fulfilInitialLoading(state);
         case RESET_INITIAL_LOADING:
             return resetInitialLoading(state);
+
         case UPDATE_NEW_INDICATOR_NAME:
-            return updateNewIndicatorName(state, value);
+            return indicatorReducer.updateNewIndicatorName(state, value);
         case UPDATE_NEW_INDICATOR_GROUP_ID:
-            return updateNewIndicatoridGroup(state, value);
+            return indicatorReducer.updateNewIndicatoridGroup(state, value);
         case UPDATE_NEW_INDICATORS_GROUP_NAME:
-            return updateNewIndicatorsGroupName(state, value);
+            return indicatorReducer.updateNewIndicatorsGroupName(state, value);
         case UPDATE_NEW_INDICATORS_GROUP_DESCRIPTION:
-            return updateNewIndicatorsGroupDescription(state, value);
+            return indicatorReducer.updateNewIndicatorsGroupDescription(state, value);
         case UPDATE_DELETED_INDICATORS:
-            return updateDeletedIndicators(state, value);
+            return indicatorReducer.updateDeletedIndicators(state, value);
         case UPDATE_DELETED_INDICATORS_GROUPS:
-            return updateDeletedIndicatorsGroups(state, value);
+            return indicatorReducer.updateDeletedIndicatorsGroups(state, value);
         case UPDATE_EDIT_INDICATORS_GROUP_DESCRIPTION:
-            return updateEditIndicatorsGroupDescription(state, value);
+            return indicatorReducer.updateEditIndicatorsGroupDescription(state, value);
         case UPDATE_EDIT_INDICATORS_GROUP_NAME:
-            return updateEditIndicatorsGroupName(state, value);
+            return indicatorReducer.updateEditIndicatorsGroupName(state, value);
         case UPDATE_EDIT_INDICATOR_GROUP_ID:
-            return updateEditIndicatoridGroup(state, value);
+            return indicatorReducer.updateEditIndicatoridGroup(state, value);
         case UPDATE_EDIT_INDICATOR_NAME:
-            return updateEditIndicatorName(state, value);
+            return indicatorReducer.updateEditIndicatorName(state, value);
         case SAVE_LOADED_INDICATORS:
-            return saveLoadedIndicators(state, value);
+            return indicatorReducer.saveLoadedIndicators(state, value);
         case SAVE_LOADED_INDICATORS_GROUPS:
-            return saveLoadedIndicatorsGroups(state, value);
+            return indicatorReducer.saveLoadedIndicatorsGroups(state, value);
         case START_LOADING_INDICATORS:
-            return startLoadingIndicators(state);
+            return indicatorReducer.startLoadingIndicators(state);
         case FINISH_LOADING_INDICATORS:
-            return finishLoadingIndicators(state);
+            return indicatorReducer.finishLoadingIndicators(state);
         case RESET_DELETED_INDICATORS:
-            return resetDeletedIndicators(state);
+            return indicatorReducer.resetDeletedIndicators(state);
         case RESET_DELETED_INDICATORS_GROUPS:
-            return resetDeletedIndicatorsGroups(state);
+            return indicatorReducer.resetDeletedIndicatorsGroups(state);
         case NEW_INDICATORS_GROUP_SAVED:
-            return newIndicatorsGroupSaved(state);
+            return indicatorReducer.newIndicatorsGroupSaved(state);
         case NEW_INDICATOR_SAVED:
-            return newIndicatorSaved(state);
+            return indicatorReducer.newIndicatorSaved(state);
         case EDIT_INDICATORS_GROUP_SAVED:
-            return editIndicatorsGroupSaved(state);
+            return indicatorReducer.editIndicatorsGroupSaved(state);
         case EDIT_INDICATOR_SAVED:
-            return editIndicatorSaved(state);
+            return indicatorReducer.editIndicatorSaved(state);
         case INDICATORS_GROUPS_DELETED:
-            return indicatorsGroupsDeleted(state);
+            return indicatorReducer.indicatorsGroupsDeleted(state);
+        
+        case UPDATE_NEW_COMPETENCE_NAME:
+            return competenceReducer.updateNewCompetenceName(state, value);
+        case UPDATE_NEW_COMPETENCE_GROUP_ID:
+            return competenceReducer.updateNewCompetenceIdGroup(state, value);
+        case UPDATE_NEW_COMPETENCIES_GROUP_NAME:
+            return competenceReducer.updateNewCompetenciesGroupName(state, value);
+        case UPDATE_NEW_COMPETENCIES_GROUP_DESCRIPTION:
+            return competenceReducer.updateNewCompetenciesGroupDescription(state, value);
+        case UPDATE_DELETED_COMPETENCIES:
+            return competenceReducer.updateDeletedCompetencies(state, value);
+        case UPDATE_DELETED_COMPETENCIES_GROUPS:
+            return competenceReducer.updateDeletedCompetenciesGroups(state, value);
+        case UPDATE_EDIT_COMPETENCIES_GROUP_DESCRIPTION:
+            return competenceReducer.updateEditCompetenciesGroupDescription(state, value);
+        case UPDATE_EDIT_COMPETENCIES_GROUP_NAME:
+            return competenceReducer.updateEditCompetenciesGroupName(state, value);
+        case UPDATE_EDIT_COMPETENCE_GROUP_ID:
+            return competenceReducer.updateEditCompetenceIdGroup(state, value);
+        case UPDATE_EDIT_COMPETENCE_NAME:
+            return competenceReducer.updateEditCompetenceName(state, value);
+        case SAVE_LOADED_COMPETENCIES:
+            return competenceReducer.saveLoadedCompetencies(state, value);
+        case SAVE_LOADED_COMPETENCIES_GROUPS:
+            return competenceReducer.saveLoadedCompetenciesGroups(state, value);
+        case START_LOADING_COMPETENCIES:
+            return competenceReducer.startLoadingCompetencies(state);
+        case FINISH_LOADING_COMPETENCIES:
+            return competenceReducer.finishLoadingCompetencies(state);
+        case RESET_DELETED_COMPETENCIES:
+            return competenceReducer.resetDeletedCompetencies(state);
+        case RESET_DELETED_COMPETENCIES_GROUPS:
+            return competenceReducer.resetDeletedCompetenciesGroups(state);
+        case NEW_COMPETENCIES_GROUP_SAVED:
+            return competenceReducer.newCompetenciesGroupSaved(state);
+        case NEW_COMPETENCE_SAVED:
+            return competenceReducer.newCompetenceSaved(state);
+        case EDIT_COMPETENCIES_GROUP_SAVED:
+            return competenceReducer.editCompetenciesGroupSaved(state);
+        case EDIT_COMPETENCE_SAVED:
+            return competenceReducer.editCompetenceSaved(state);
+        case COMPETENCIES_GROUPS_DELETED:
+            return competenceReducer.competenciesGroupsDeleted(state);
+
         default:
             return state;
     }
