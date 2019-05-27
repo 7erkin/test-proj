@@ -10,19 +10,66 @@ class AddCompetenceForm extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        const {
+            dispatch,
+            staffixService
+        } = this.props;
+    }
+
+    onSubmit = () => {}
+
+    onCancel = () => {}
+
+    onIndicatorCheck = id => {}
+
+    onCompetenceNameUpdate = name => {}
+
+    onCompetenceDescriptionUpdate = description => {}
+
     render() {
+        const {
+            newCompetence: {
+                name,
+                description
+            },
+            indicators,
+            indicatorsGroups,
+            loadingIndicators
+        } = this.props;
+
         return (
-            <form onSubmit={() => {}}>
-                <input type="text" value={1} onChange={() => {}} />
-                <textarea value={1} onChange={() => {}} />
-                <Accordeon />
+            <form onSubmit={evt => {
+                evt.preventDefault();
+                this.onSubmit();
+            }}>
+                <input type="text" value={name} onChange={(evt) => this.onCompetenceNameUpdate(evt.target.value)} />
+                <textarea value={description} onChange={(evt) => this.onCompetenceDescriptionUpdate(evt.target.value)} />
+                <Accordeon indicatorsGroups={indicatorsGroups} renderList={() => {}}/>
+                <button type="submit">Save</button>
+                <button type="button">Cancel</button>
             </form>
         );
     }
 }
 
-const mapStoreToProps = () => {
-    return {}
+const mapStoreToProps = ({
+    libraryPage: {
+        newCompetence,
+        indicatorsGroups,
+        loadingIndicators,
+        loadingIndicatorsGroups,
+        applyingChanges,
+        indicators
+    }
+}) => {
+    return {
+        newCompetence,
+        indicatorsGroups,
+        loadingIndicators,
+        applyingChanges,
+        indicators
+    }
 }
 
 export default connect(mapStoreToProps)(withStaffixService(withEffectApplyingChanges(AddCompetenceForm)));
