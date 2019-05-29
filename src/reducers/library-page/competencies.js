@@ -139,6 +139,58 @@ export const updateEditCompetenceIdGroup = (state, value) => {
         }
     }
 }
+export const updateEditCompetenceDescription = (state, value) => {
+    return {
+        ...state,
+        editCompetence: {
+            ...state.editCompetence,
+            description: value
+        }
+    }
+}
+export const updateEditCompetenceIndicatorInfluence = (state, value) => {
+    const { id, influence } = value;
+    const indicators = state.editCompetence.indicators.slice();
+    const index = indicators.findIndex(el => el.id == id);
+    indicators[index].influence = influence;
+
+    return {
+        ...state,
+        editCompetence: {
+            ...state.editCompetence,
+            indicators
+        }
+    }
+}
+export const updateEditCompetencePointedIndicators = (state, value) => {
+    const { id } = value; 
+    const indicators = state.editCompetence.indicators.slice();
+    const index = indicators.findIndex(el => el.id == id);
+
+    if(index === -1)
+        indicators.push({
+            ...value,
+            influence: 'positive'
+        })
+    else 
+        indicators.splice(index, 1);
+
+    return {
+        ...state,
+        editCompetence: {
+            ...state.editCompetence,
+            indicators
+        }
+    }
+}
+export const uploadEditedCompetence = (state, value) => {
+    return {
+        ...state,
+        editCompetence: {
+            ...value
+        }
+    }
+}
 export const updateEditCompetenceName = (state, value) => {
     return {
         ...state,
@@ -171,5 +223,68 @@ export const competenciesGroupsDeleted = (state) => {
         ...state,
         deletedCompetenciesGroups: [],
         loadingInitial: false
+    }
+}
+
+export const updateNewCompetencePointedIndicators = (state, value) => {
+    const { id } = value; 
+    const indicators = state.newCompetence.indicators.slice();
+    const index = indicators.findIndex(el => el.id == id);
+
+    if(index === -1)
+        indicators.push({
+            ...value,
+            influence: 'positive'
+        })
+    else 
+        indicators.splice(index, 1);
+
+    return {
+        ...state,
+        newCompetence: {
+            ...state.newCompetence,
+            indicators
+        }
+    }
+}
+
+export const updateNewCompetencePointedIndicatorInfluence = (state, value) => {
+    const { id, influence } = value;
+    const indicators = state.newCompetence.indicators.slice();
+    const index = indicators.findIndex(el => el.id == id);
+    indicators[index].influence = influence;
+
+    return {
+        ...state,
+        newCompetence: {
+            ...state.newCompetence,
+            indicators
+        }
+    }
+}
+
+export const updateNewCompetenceDescription = (state, value) => {
+    return {
+        ...state,
+        newCompetence: {
+            ...state.newCompetence,
+            description: value
+        }
+    }
+}
+export const resetNewCompetenceForm = state => {
+    return {
+        ...state,
+        newCompetence: {
+            ...initialState.newCompetence
+        }
+    }
+}
+export const resetEditCompetenceForm = state => {
+    return {
+        ...state,
+        editCompetence: {
+            ...initialState.editCompetence
+        }
     }
 }

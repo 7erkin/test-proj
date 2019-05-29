@@ -24,13 +24,14 @@ class AddCompetenciesGroupForm extends Component {
     }
 
     onSubmit = () => {
-        const { dispatch, staffixService, newCompetenciesGroup } = this.props;
+        const { dispatch, staffixService, newCompetenciesGroup, history } = this.props;
 
         dispatch(startApplyingChanges());
         staffixService.createCompetenciesGroup(newCompetenciesGroup)
             .then(() => {
                 dispatch(finishApplyingChanges());
                 dispatch(newCompetenciesGroupSaved());
+                history.push('/library/competencies-groups')
             })
     }
 

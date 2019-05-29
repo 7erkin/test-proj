@@ -136,7 +136,7 @@ class DummyStaffixService {
     }
 
     getIndicators = (groupIndicatorId) => {
-        console.log(groupIndicatorId)
+        console.log(this._indicators.filter(el => Number(groupIndicatorId) === el.idGroup))
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._indicators.filter(el => Number(groupIndicatorId) === el.idGroup));
@@ -150,9 +150,9 @@ class DummyStaffixService {
             setTimeout(() => {
                 this._competencies.push({
                     id: Math.floor(Math.random() * 100),
-                    name: competence.name,
-                    idGroup: Number(competence.idGroup)
+                    ...competence
                 });
+                console.log(this._competencies)
                 resolve();
             }, TIME_OUT);
         })
@@ -163,9 +163,7 @@ class DummyStaffixService {
             setTimeout(() => {
                 const index = this._competencies.findIndex(({id}) => id == competence.id);
                 this._competencies[index] = {
-                    id: competence.id, 
-                    name: competence.name, 
-                    idGroup: Number(competence.idGroup)
+                    ...competence
                 };
                 resolve();
             }, TIME_OUT)
@@ -187,7 +185,7 @@ class DummyStaffixService {
     getCompetencies = (copmetenceGroupId) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(this._competencies.filter(el => Number(copmetenceGroupId) === el.idGroup));
+                resolve(this._competencies.filter(el => Number(copmetenceGroupId) === Number(el.idGroup)));
             }, TIME_OUT)
         })
     }

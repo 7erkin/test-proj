@@ -26,7 +26,10 @@ import {
     EDIT_INDICATORS_GROUP_SAVED,
     EDIT_INDICATOR_SAVED,
 
-    INDICATORS_GROUPS_DELETED
+    INDICATORS_GROUPS_DELETED,
+
+    START_LOADING_INDICATORS_GROUPS,
+    FINISH_LOADING_INDICATORS_GROUPS
 } from '../../actions/library-page/indicators'
 
 // savings
@@ -160,5 +163,17 @@ export const resetDeletedIndicators = () => {
 export const resetDeletedIndicatorsGroups = () => {
     return {
         type: RESET_DELETED_INDICATORS_GROUPS
+    }
+}
+
+export const startLoadingIndicatorsGroups = () => {
+    return {
+        type: START_LOADING_INDICATORS_GROUPS
+    }
+}
+
+export const finishLoadingIndicatorsGroups = () => {
+    return {
+        type: FINISH_LOADING_INDICATORS_GROUPS
     }
 }

@@ -44,10 +44,18 @@ const ExpansionPanelDetails = withStyles(theme => ({
 
 }))(MuiExpansionPanelDetails);
 
+const renderIf = (render, id) => {
+  const items = render(id);
+  
+  return items === null ? items : <ExpansionPanelDetails>{items}</ExpansionPanelDetails>;
+}
+
 function CustomizedExpansionPanels({
-    indicatorsGroups
+    indicatorsGroups,
+    onIndicatorsGroupClick,
+    renderItems
 }) {
-  const [expanded, setExpanded] = React.useState('panel1');
+  const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -58,17 +66,17 @@ function CustomizedExpansionPanels({
       {
           indicatorsGroups.map((el, index) => {
               return (
-                <ExpansionPanel square expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
+                <ExpansionPanel square expanded={true} onChange={(evt) => {
+                  evt.preventDefault();
+                  onIndicatorsGroupClick(el.id);
+                  //handleChange(`panel${index}`)}
+                }}>
                     <ExpansionPanelSummary aria-controls={`panel${index}d-content`} id={`panel${index}d-header`}>
-                    <Typography>{el.name}</Typography>
+                      <Typography>{el.name}</Typography>
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                    <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                        sit amet blandit leo lobortis eget. Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.
-                    </Typography>
-                    </ExpansionPanelDetails>
+                    {
+                      renderIf(renderItems, el.id)
+                    }
                 </ExpansionPanel>
               );
           })

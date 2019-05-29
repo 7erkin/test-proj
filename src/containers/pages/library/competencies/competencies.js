@@ -86,6 +86,9 @@ class Competencies extends Component {
         if(!loadingInitial)
             return <h2>Loading...</h2>
 
+        if(isNaN(this._initialCompetenciesGroupId))
+            return <h2>Loading...</h2>
+
         return (
             <Switch>
                 <Redirect exact={true} from="/library/competencies-groups" to={`/library/competencies-groups/${this._initialCompetenciesGroupId}`} />

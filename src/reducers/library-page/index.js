@@ -27,7 +27,10 @@ import {
     NEW_INDICATOR_SAVED,
     EDIT_INDICATORS_GROUP_SAVED,
     EDIT_INDICATOR_SAVED,
-    INDICATORS_GROUPS_DELETED
+    INDICATORS_GROUPS_DELETED,
+
+    START_LOADING_INDICATORS_GROUPS,
+    FINISH_LOADING_INDICATORS_GROUPS
 } from '../../actions/library-page/indicators'
 
 import {
@@ -52,8 +55,6 @@ import {
     RESET_DELETED_COMPETENCIES,
     RESET_DELETED_COMPETENCIES_GROUPS,
 
-    UPDATE_EDIT_COMPETENCE_NAME,
-    UPDATE_EDIT_COMPETENCE_GROUP_ID,
     UPDATE_EDIT_COMPETENCIES_GROUP_NAME,
     UPDATE_EDIT_COMPETENCIES_GROUP_DESCRIPTION,
 
@@ -68,7 +69,20 @@ import {
     EDIT_COMPETENCIES_GROUP_SAVED,
     EDIT_COMPETENCE_SAVED,
 
-    COMPETENCIES_GROUPS_DELETED
+    COMPETENCIES_GROUPS_DELETED,
+    UPDATE_NEW_COMPETENCE_POINTED_INDICATORS,
+    UPDATE_NEW_COMPETENCE_INDICATOR_INFLUENCE,
+    UPDATE_NEW_COMPETENCE_DESCRIPTION,
+
+    UPLOAD_EDITED_COMPETENCE,
+    UPDATE_EDIT_COMPETENCE_DESCRIPTION,
+    UPDATE_EDIT_COMPETENCE_POINTED_INDICATORS,
+    UPDATE_EDIT_COMPETENCE_NAME,
+    UPDATE_EDIT_COMPETENCE_GROUP_ID,
+    UPDATE_EDIT_COMPETENCE_INDICATOR_INFLUENCE,
+    RESET_EDIT_COMPETENCE_FORM,
+    RESET_NEW_COMPETENCE_FORM
+
 } from '../../actions/library-page/competencies'
 
 const fulfilInitialLoading = (state) => {
@@ -149,7 +163,26 @@ const rootReducer = (state = initialState, {type, value}) => {
             return indicatorReducer.editIndicatorSaved(state);
         case INDICATORS_GROUPS_DELETED:
             return indicatorReducer.indicatorsGroupsDeleted(state);
+
+        case START_LOADING_INDICATORS_GROUPS:
+            return indicatorReducer.startLoadingIndicatorsGroups(state);
+        case FINISH_LOADING_INDICATORS_GROUPS:
+            return indicatorReducer.finishLoadingIndicatorsGroups(state);
+        case UPDATE_NEW_COMPETENCE_POINTED_INDICATORS:
+            return competenceReducer.updateNewCompetencePointedIndicators(state, value);
+        case UPDATE_NEW_COMPETENCE_INDICATOR_INFLUENCE:
+            return competenceReducer.updateNewCompetencePointedIndicatorInfluence(state, value);
+        case UPDATE_NEW_COMPETENCE_DESCRIPTION:
+            return competenceReducer.updateNewCompetenceDescription(state, value);
         
+        case UPDATE_EDIT_COMPETENCE_INDICATOR_INFLUENCE:
+            return competenceReducer.updateEditCompetenceIndicatorInfluence(state, value);
+        case UPDATE_EDIT_COMPETENCE_POINTED_INDICATORS:
+            return competenceReducer.updateEditCompetencePointedIndicators(state, value);
+        case UPDATE_EDIT_COMPETENCE_DESCRIPTION:
+            return competenceReducer.updateEditCompetenceDescription(state, value);
+        case UPLOAD_EDITED_COMPETENCE:
+            return competenceReducer.uploadEditedCompetence(state, value);
         case UPDATE_NEW_COMPETENCE_NAME:
             return competenceReducer.updateNewCompetenceName(state, value);
         case UPDATE_NEW_COMPETENCE_GROUP_ID:
@@ -192,6 +225,11 @@ const rootReducer = (state = initialState, {type, value}) => {
             return competenceReducer.editCompetenceSaved(state);
         case COMPETENCIES_GROUPS_DELETED:
             return competenceReducer.competenciesGroupsDeleted(state);
+
+        case RESET_NEW_COMPETENCE_FORM:
+            return competenceReducer.resetNewCompetenceForm(state);
+        case RESET_EDIT_COMPETENCE_FORM:
+            return competenceReducer.resetEditCompetenceForm(state);
 
         default:
             return state;

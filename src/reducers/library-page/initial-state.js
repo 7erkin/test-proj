@@ -28,10 +28,28 @@ export default {
     competenciesGroups: [],
     deletedCompetencies: [],
     deletedCompetenciesGroups: [],
-    newCompetence: {},
-    editCompetence: {},
-    newCompetenciesGroup: {},
-    editCompetenciesGroup: {},
+    newCompetence: {
+        name: '',
+        description: '',
+        idGroup: '',
+        indicators: []
+    },
+    editCompetence: {
+        name: '',
+        description: '',
+        idGroup: '',
+        indicators: []
+    },
+    newCompetenciesGroup: {
+        name: '',
+        description: ''
+    },
+    editCompetenciesGroup: {
+        name: '',
+        description: ''
+    },
 
-    loadingCompetencies: false
+    loadingCompetencies: false,
+
+    loadingIndicatorsGroups: false
 }

@@ -1,29 +1,44 @@
 import React, {Component} from 'react'
-import { connect } from 'react-redux';
-
 
 import LibraryTabsView from '../../../../components/pages/library/library-tabs-view';
 
-class LibraryTabs extends Component{
+class LibraryTabs extends Component {
     constructor(props){
         super(props);
-        this._tabs = ["Компетенции", "Индикаторы", "Вопросы"];
     }
 
-    onTabClick = tabName => {
-        this.props.history.push('');
+    onClick = tabName => {
+        if(tabName.toUpperCase() == 'ИНДИКАТОРЫ')
+            this.props.history.push('/library/indicators-groups')
+
+        if(tabName.toUpperCase() == 'КОМПЕТЕНЦИИ')
+            this.props.history.push('/library/competencies-groups')
+        
+        if(tabName.toUpperCase() == '')
+            this.props.history.push('/library/indicators-groups')
     }
 
     render() {
-        const {activeTab} = this.props;
-        return <LibraryTabsView activeTab={activeTab} tabs={this._tabs} onClick={this.onTabClick}/>;
+
+        return (
+            <LibraryTabsView 
+                tabs={[
+                    {
+                        name: 'Компетенции',
+                        url: '/library/competencies-groups'
+                    },
+                    {
+                        name: 'Индикаторы',
+                        url: '/library/indicators-groups'
+                    },
+                    {
+                        name: 'Вопросы',
+                        url: ''
+                    }
+                ]}
+                onClick={this.onClick} />
+        );
     }
-}
+} 
 
-const mapStoreToProps = ({libraryPage: {activeTab}}) => {
-    return {
-        activeTab
-    };
-}
-
-export default connect(mapStoreToProps)(LibraryTabs);
+export default LibraryTabs;

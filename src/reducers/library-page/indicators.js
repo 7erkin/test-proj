@@ -173,3 +173,15 @@ export const indicatorsGroupsDeleted = (state) => {
         loadingInitial: false
     }
 }
+export const startLoadingIndicatorsGroups = (state) => {
+    return {
+        ...state,
+        loadingIndicatorsGroups: true
+    }
+}
+export const finishLoadingIndicatorsGroups = (state) => {
+    return {
+        ...state,
+        loadingIndicatorsGroups: false
+    }
+}

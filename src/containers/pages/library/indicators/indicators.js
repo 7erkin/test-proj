@@ -70,12 +70,12 @@ class Indicators extends Component {
         if(loadingInitial)
             return;
     
-            staffixService.getGroupsIndicators()
-                .then(groups => {
-                    dispatch(saveLoadedIndicatorsGroups(groups));
-                    this._initialIndicatorGroupId = this._defineIdGroupRendering(groups);
-                    dispatch(fulfilInitialLoading());
-                })
+        staffixService.getGroupsIndicators()
+            .then(groups => {
+                dispatch(saveLoadedIndicatorsGroups(groups));
+                this._initialIndicatorGroupId = this._defineIdGroupRendering(groups);
+                dispatch(fulfilInitialLoading());
+            })
     }
 
     render() {
@@ -84,6 +84,9 @@ class Indicators extends Component {
         } = this.props;
 
         if(!loadingInitial)
+            return <h2>Loading...</h2>
+
+        if(isNaN(this._initialIndicatorGroupId))
             return <h2>Loading...</h2>
 
         return (

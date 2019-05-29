@@ -10,8 +10,6 @@ import {
     RESET_DELETED_COMPETENCIES,
     RESET_DELETED_COMPETENCIES_GROUPS,
 
-    UPDATE_EDIT_COMPETENCE_NAME,
-    UPDATE_EDIT_COMPETENCE_GROUP_ID,
     UPDATE_EDIT_COMPETENCIES_GROUP_NAME,
     UPDATE_EDIT_COMPETENCIES_GROUP_DESCRIPTION,
 
@@ -26,8 +24,55 @@ import {
     EDIT_COMPETENCIES_GROUP_SAVED,
     EDIT_COMPETENCE_SAVED,
 
-    COMPETENCIES_GROUPS_DELETED
+    COMPETENCIES_GROUPS_DELETED,
+    UPDATE_NEW_COMPETENCE_POINTED_INDICATORS,
+    UPDATE_NEW_COMPETENCE_INDICATOR_INFLUENCE,
+    UPDATE_NEW_COMPETENCE_DESCRIPTION,
+
+    UPDATE_EDIT_COMPETENCE_DESCRIPTION,
+    UPDATE_EDIT_COMPETENCE_POINTED_INDICATORS,
+    UPDATE_EDIT_COMPETENCE_NAME,
+    UPDATE_EDIT_COMPETENCE_GROUP_ID,
+    UPDATE_EDIT_COMPETENCE_INDICATOR_INFLUENCE,
+    UPLOAD_EDITED_COMPETENCE,
+    RESET_EDIT_COMPETENCE_FORM,
+    RESET_NEW_COMPETENCE_FORM
 } from '../../actions/library-page/competencies'
+export const resetEditCompetenceForm = () => {
+    return {
+        type: RESET_EDIT_COMPETENCE_FORM
+    }
+}
+export const resetNewCompetenceForm = () => {
+    return {
+        type: RESET_NEW_COMPETENCE_FORM
+    }
+}
+export const uploadEditedCompetence = competence => {
+    return {
+        type: UPLOAD_EDITED_COMPETENCE,
+        value: competence
+    }
+}
+export const updateNewCompetenceDescription = description => {
+    return {
+        type: UPDATE_NEW_COMPETENCE_DESCRIPTION,
+        value: description
+    }
+}
+
+export const updateNewCompetencePointedIndicators = (indicator) => {
+    return {
+        type: UPDATE_NEW_COMPETENCE_POINTED_INDICATORS,
+        value: indicator
+    }
+}
+export const updateNewCompetenceIndicatorInfluence = (indicator) => {
+    return {
+        type: UPDATE_NEW_COMPETENCE_INDICATOR_INFLUENCE,
+        value: indicator
+    }
+}
 
 // savings
 export const competenciesGroupsDeleted = () => {
@@ -83,6 +128,24 @@ export const saveLoadedCompetenciesGroups = competenciesGroups => {
 }
 
 // edit
+export const updateEditCompetenceDescription = description => {
+    return {
+        type: UPDATE_EDIT_COMPETENCE_DESCRIPTION,
+        value: description
+    }
+}
+export const updateEditCompetencePointedIndicators = indicator => {
+    return {
+        type: UPDATE_EDIT_COMPETENCE_POINTED_INDICATORS,
+        value: indicator
+    }
+}
+export const updateEditCompetenceIndicatorInfluence = (indicator) => {
+    return {
+        type: UPDATE_EDIT_COMPETENCE_INDICATOR_INFLUENCE,
+        value: indicator
+    }
+}
 export const updateEditCompetenceName = name => {
     return {
         type: UPDATE_EDIT_COMPETENCE_NAME,
@@ -90,7 +153,7 @@ export const updateEditCompetenceName = name => {
     }
 }
 
-export const updateEditCompetenceIdGroup = id => {
+export const updateEditCompetenceGroupId = id => {
     return {
         type: UPDATE_EDIT_COMPETENCE_GROUP_ID,
         value: id
@@ -123,7 +186,7 @@ export const updateNewCompetenciesGroupsDescription = description => {
         value: description
     }
 }
-export const updateNewCompetenceIdGroup = id => {
+export const updateNewCompetenceGroupId = id => {
     return {
         type: UPDATE_NEW_COMPETENCE_GROUP_ID,
         value: id

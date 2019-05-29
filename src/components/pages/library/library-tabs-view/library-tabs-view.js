@@ -1,10 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
-import NoSsr from '@material-ui/core/NoSsr';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
@@ -21,42 +19,49 @@ TabContainer.propTypes = {
 };
 
 function LinkTab(props) {
-  return <Tab component="a" onClick={event => event.preventDefault()} {...props} />;
+  return (
+    <Tab
+      component="a"
+      onClick={event => {
+        event.preventDefault();
+      }}
+      {...props}
+    />
+  );
 }
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-});
+// const useStyles = makeStyles(theme => ({
+//   root: {
+//     flexGrow: 1,
+//     //backgroundColor: theme.palette.background.paper,
+//   },
+// }));
 
-const LibraryTabsView = ({
-    classes,
-    activeTab,
-    tabs,
-    onClick
-}) => {
-    return (
-      <NoSsr>
-        <div className={classes.root}>
-          <AppBar position="static">
-            <Tabs variant="fullWidth" value={activeTab}>
-              {
-                  tabs.map(el => <Tab value={'el'} label={el} onClick={(evt) => {evt.preventDefault(); onClick(evt.target.innerText)}} />)
-              }
-            </Tabs>
-          </AppBar>
-        </div>
-      </NoSsr>
-    );
+function LibraryTabsView({
+  tabs, onClick
+}) {
+  const classes = {root: {flexGrow: 1}};
+  const [value, setValue] = React.useState(0);
+
+  function handleChange(event, newValue) {
+    setValue(newValue);
+  }
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Tabs variant="fullWidth" value={value} onChange={(evt, ...args) => {evt.preventDefault(); handleChange(evt, ...args); onClick(evt.target.innerText)}}>
+        {
+          tabs.map(el => {
+            return (
+              <LinkTab label={el.name} href={el.url} />
+            );
+          })
+        }
+        </Tabs>
+      </AppBar>
+    </div>
+  );
 }
 
-LibraryTabsView.propTypes = {
-  classes: PropTypes.object.isRequired,
-  activeTab: PropTypes.string.isRequired,
-  tabs: PropTypes.array.isRequired,
-  onClick: PropTypes.func.isRequired
-};
-
-export default withStyles(styles)(LibraryTabsView);
+export default LibraryTabsView;
