@@ -14,8 +14,8 @@ class LibraryTabs extends Component {
         if(tabName.toUpperCase() == 'КОМПЕТЕНЦИИ')
             this.props.history.push('/library/competencies-groups')
         
-        if(tabName.toUpperCase() == '')
-            this.props.history.push('/library/indicators-groups')
+        if(tabName.toUpperCase() == 'ВОПРОСЫ')
+            this.props.history.push('/library/questions-groups')
     }
 
     render() {
@@ -33,7 +33,7 @@ class LibraryTabs extends Component {
                     },
                     {
                         name: 'Вопросы',
-                        url: ''
+                        url: '/library/questions-groups'
                     }
                 ]}
                 onClick={this.onClick} />

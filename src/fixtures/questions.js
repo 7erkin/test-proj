@@ -33,6 +33,6 @@ export default [
         id: 6,
         body: 'Точно можно?',
         idCompetence: 2,
-        idQuestionsGroup: 6
+        idQuestionsGroup: 1
     }
 ]

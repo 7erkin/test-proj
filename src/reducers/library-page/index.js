@@ -42,6 +42,7 @@ import {
 
 import * as indicatorReducer from './indicators'
 import * as competenceReducer from './competencies'
+import * as questionReducer from './questions'
 
 import {
     UPDATE_NEW_COMPETENCE_NAME,
@@ -85,6 +86,28 @@ import {
 
 } from '../../actions/library-page/competencies'
 
+import {
+    UPDATE_NEW_QUESTION_BODY,
+    UPDATE_NEW_QUESTION_GROUP_ID,
+    UPDATE_NEW_QUESTIONS_GROUP_NAME,
+    UPDATE_NEW_QUESTIONS_GROUP_DESCRIPTION,
+    UPDATE_EDIT_QUESTIONS_GROUP_NAME,
+    UPDATE_EDIT_QUESTIONS_GROUP_DESCRIPTION,
+    SAVE_LOADED_QUESTIONS_GROUPS,
+    SAVE_LOADED_QUESTIONS_GROUP_CONTENT,
+    START_LOADING_QUESTIONS_GROUP_CONTENT,
+    FINISH_LOADING_QUESTIONS_GROUP_CONTENT,
+    SAVE_LOADED_QUESTIONS,
+    START_LOADING_QUESTIONS,
+    FINISH_LOADING_QUESTIONS,
+    UPDATE_DELETED_QUESTIONS,
+    QUESTIONS_DELETED,
+    UPDATE_DELETED_QUESTIONS_GROUPS,
+    QUESTIONS_GROUPS_DELETED,
+    EDIT_QUESTIONS_GROUP_SAVED,
+    NEW_QUESTIONS_GROUP_SAVED
+} from '../../actions/library-page/questions'
+
 const fulfilInitialLoading = (state) => {
     return {
         ...state,
@@ -120,6 +143,45 @@ const rootReducer = (state = initialState, {type, value}) => {
             return fulfilInitialLoading(state);
         case RESET_INITIAL_LOADING:
             return resetInitialLoading(state);
+
+        case UPDATE_NEW_QUESTION_BODY:
+            return questionReducer.updateNewQuestionBody(state, value);
+        case UPDATE_NEW_QUESTION_GROUP_ID:
+            return questionReducer.updateNewQuestionGroupId(state, value);
+        case UPDATE_NEW_QUESTIONS_GROUP_NAME:
+            return questionReducer.updateNewQuestionsGroupName(state, value);
+        case UPDATE_NEW_QUESTIONS_GROUP_DESCRIPTION:
+            return questionReducer.updateNewQuestionsGroupDescription(state, value);
+        case UPDATE_EDIT_QUESTIONS_GROUP_NAME:
+            return questionReducer.updateEditQuestionsGroupName(state, value);
+        case UPDATE_EDIT_QUESTIONS_GROUP_DESCRIPTION:
+            return questionReducer.updateEditQuestionsGroupDescription(state, value);
+        case SAVE_LOADED_QUESTIONS_GROUPS:
+            return questionReducer.saveLoadedQuestionsGroups(state, value);
+        case SAVE_LOADED_QUESTIONS_GROUP_CONTENT:
+            return questionReducer.saveLoadedQuestionsGroupContent(state, value);
+        case START_LOADING_QUESTIONS_GROUP_CONTENT:
+            return questionReducer.startLoadingQuestionsGroupContent(state);
+        case FINISH_LOADING_QUESTIONS_GROUP_CONTENT:
+            return questionReducer.finishLoadingQuestionsGroupContent(state);
+        case SAVE_LOADED_QUESTIONS:
+            return questionReducer.saveLoadedQuestions(state, value);
+        case START_LOADING_QUESTIONS:
+            return questionReducer.startLoadingQuestions(state);
+        case FINISH_LOADING_QUESTIONS:
+            return questionReducer.finishLoadingQuestions(state);
+        case UPDATE_DELETED_QUESTIONS:
+            return questionReducer.updateDeletedQuestions(state, value);
+        case QUESTIONS_DELETED:
+            return questionReducer.questionsDeleted(state);
+        case UPDATE_DELETED_QUESTIONS_GROUPS:
+            return questionReducer.updateDeletedQuestionsGroups(state, value);
+        case QUESTIONS_GROUPS_DELETED:
+            return questionReducer.questionsGroupsDeleted(state);
+        case EDIT_QUESTIONS_GROUP_SAVED:
+            return questionReducer.editQuestionsGroupSaved(state);
+        case NEW_QUESTIONS_GROUP_SAVED:
+            return questionReducer.newQuestionsGroupSaved(state);
 
         case UPDATE_NEW_INDICATOR_NAME:
             return indicatorReducer.updateNewIndicatorName(state, value);

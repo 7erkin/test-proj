@@ -51,5 +51,26 @@ export default {
 
     loadingCompetencies: false,
 
-    loadingIndicatorsGroups: false
+    loadingIndicatorsGroups: false,
+
+    questionsGroups: [],
+    loadingQuestionsGroupContent: false,
+    questionsGroupContent: [],
+    newQuestion: {
+        body: '',
+        idCompetence: ''
+    },
+    deletedQuestions: [],
+    deletedQuestionsGroups: [],
+    newQuestionsGroup: {
+        name: '',
+        description: ''
+    },
+    editQuestionsGroup: {
+        name: '',
+        description: ''
+    },
+    questions: [],
+    pointedQuestions: [],
+    loadingQuestions: false
 }

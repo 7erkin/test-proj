@@ -12,6 +12,7 @@ import {
 
 import Indicators from './indicators';
 import Competencies from './competencies'
+import Questions from './questions'
 
 const Library = ({history}) => {
     return (
@@ -22,7 +23,7 @@ const Library = ({history}) => {
                     <Redirect exact={true} from="/library" to="/library/competencies-groups" />
                     <Route path="/library/competencies-groups" render={(props) => <Competencies {...props}/> }/>
                     <Route path="/library/indicators-groups" render={(props) => <Indicators {...props}/> }/>
-                    {/* <Route path="/library/questions-groups" render={props => <Questions {...props}/> }/> */}
+                    <Route path="/library/questions-groups" render={props => <Questions {...props}/> }/>
                 </Switch>
             </LibraryContentView>
         </LibraryView>

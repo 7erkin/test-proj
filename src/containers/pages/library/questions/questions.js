@@ -1,12 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
 import withStaffixService from '../../../../hoc/hoc-services/with-staffix-service';
-import withEffectApplyingChanges from '../../../../hoc/with-effect-applying-changes';
 
-class questions extends Component {
+import {
+    Switch,
+    Route,
+    Redirect
+} from 'react-router-dom'
+import { resetInitialLoading, fulfilInitialLoading } from '../../../../action-creators/library-page';
+import { saveLoadedQuestionsGroups } from '../../../../action-creators/library-page/questions';
+import AsideList from './aside-list';
+import QuestionsGroupContent from './questions-group-content';
+import EditQuestionsGroupForm from './edit-questions-group-form';
+import QuestionList from './question-list';
+import AddQuestionForm from './add-question-form'
+import QuestionsGroupList from './questions-group-list';
+import AddQuestionsGroupForm from './add-questions-group-form';
+
+class Questions extends Component {
     constructor(props){
         super(props);
-        this._initialIndicatorGroupId = NaN;
+        this._initialQuestionsGroupId = NaN;
     }
 
     // incorrect for empty groups
@@ -39,10 +53,10 @@ class questions extends Component {
             staffixService
         } = this.props;
 
-        staffixService.getGroupsquestions()
+        staffixService.getQuestionsGroups()
             .then(groups => {
-                dispatch(saveLoadedquestionsGroups(groups));
-                this._initialIndicatorGroupId = this._defineIdGroupRendering(groups);
+                dispatch(saveLoadedQuestionsGroups(groups));
+                this._initialQuestionsGroupId = this._defineIdGroupRendering(groups);
                 dispatch(fulfilInitialLoading());
             })
     }
@@ -57,10 +71,10 @@ class questions extends Component {
         if(loadingInitial)
             return;
     
-            staffixService.getGroupsquestions()
+            staffixService.getQuestionsGroups()
                 .then(groups => {
-                    dispatch(saveLoadedquestionsGroups(groups));
-                    this._initialIndicatorGroupId = this._defineIdGroupRendering(groups);
+                    dispatch(saveLoadedQuestionsGroups(groups));
+                    this._initialQuestionsGroupId = this._defineIdGroupRendering(groups);
                     dispatch(fulfilInitialLoading());
                 })
     }
@@ -73,20 +87,23 @@ class questions extends Component {
         if(!loadingInitial)
             return <h2>Loading...</h2>
 
+        if(isNaN(this._initialQuestionsGroupId))
+            return <h2>Loading...</h2>
+
         return (
             <Switch>
-                <Redirect exact={true} from="/library/questions-groups" to={`/library/questions-groups/${this._initialIndicatorGroupId}`} />
+                <Redirect exact={true} from="/library/questions-groups" to={`/library/questions-groups/${this._initialQuestionsGroupId}`} />
                 <Route path="/library/questions-groups/:idGroup" render={props => {
                     return (
                         <Fragment>
                             <AsideList {...props}/>
                             <Switch>
-                                <Route exact path="/library/questions-groups/:idGroup/add-indicator" render={(props) => <FormAddIndicator {...props}/>}/>
-                                <Route exact path="/library/questions-groups/:idGroup/edit-indicator/:idIndicator" render={(props) => <FormEditIndicator {...props}/>}/>
-                                <Route exact path="/library/questions-groups/edit" render={(props) => <ListGroupsquestions {...props}/>}/>
-                                <Route exact path="/library/questions-groups/edit/:idGroup" render={(props) => <FormEditGroupquestions {...props}/>}/>
-                                <Route exact path="/library/questions-groups/add" render={(props) => <FormAddGroupquestions {...props}/>}/>
-                                <Route exact path="/library/questions-groups/:idGroup" render={(props) => <Listquestions {...props}/>}/>
+                                <Route exact path="/library/questions-groups/:idGroup/add-question" render={(props) => <AddQuestionForm {...props}/>}/>
+                                <Route exact path="/library/questions-groups/add" render={(props) => <AddQuestionsGroupForm {...props}/>}/>
+                                <Route exact path="/library/questions-groups/edit/:idGroup" render={(props) => <EditQuestionsGroupForm {...props}/>}/>
+                                <Route exact path="/library/questions-groups/edit" render={(props) => <QuestionsGroupList {...props}/>}/>
+                                <Route exact path="/library/questions-groups/:idGroup" render={(props) => <QuestionsGroupContent {...props}/>}/>
+                                <Route exact path="/library/questions-groups/:idGroup/questions/:idCompetence" render={(props) => <QuestionList {...props}/>}/>
                             </Switch>
                         </Fragment>
                     );
@@ -106,4 +123,4 @@ const mapStoreToProps = ({
     };
 }
 
-export default connect(mapStoreToProps)(withStaffixService(questions));
+export default connect(mapStoreToProps)(withStaffixService(Questions));

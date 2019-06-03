@@ -7,13 +7,15 @@ import mockGroupsIndicator from '../../fixtures/groups-indicator'
 import mockGroupsCompetence from '../../fixtures/groups-competence'
 import mockIndicators from '../../fixtures/indicators'
 import mockCompetencies from '../../fixtures/competencies'
+import mockQuestions from '../../fixtures/questions'
+import mockQuestionsGroups from '../../fixtures/questions-groups'
 
 import {
     ifReduxStoreInLocalStorage,
     getReduxStoreFromLocalStorage
 } from '../../libs/redux-store-loader'
 
-const TIME_OUT = 500;
+const TIMEOUT = 500;
 
 const getEntityNameById = (entities, id) => {
     const index = entities.findIndex(el => el.id == id);
@@ -37,9 +39,12 @@ class DummyStaffixService {
 
         this._groupsIndicator = mockGroupsIndicator;
         this._groupsCompetence = mockGroupsCompetence;
-        this._groupsQuestion = [];
+
         this._indicators = mockIndicators;
         this._competencies = mockCompetencies;
+
+        this._questionsGroups = mockQuestionsGroups;
+        this._questions = mockQuestions;
     }
 
     addRequest(request) {
@@ -74,7 +79,7 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._requests);
-            }, TIME_OUT);
+            }, TIMEOUT);
         });
     }
     
@@ -83,7 +88,7 @@ class DummyStaffixService {
             setTimeout(() => {
                 const index = this._requests.findIndex(el => el.id == id);
                 resolve(this._requests[index]);
-            }, TIME_OUT);
+            }, TIMEOUT);
         });
     }
 
@@ -91,7 +96,7 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._companies);
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -99,7 +104,7 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._subdivisions.filter(el => el.companyId == companyId));
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -107,7 +112,7 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._positions.filter(el => el.subdivisionId == subdivisionId));
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -115,7 +120,7 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._candidates.filter(el => el.requestId == requestId));
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -123,15 +128,7 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._groupsIndicator);
-            }, TIME_OUT)
-        })
-    }
-
-    getGroupsQuestions = () => {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(this._groupsQuestion);
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -140,7 +137,7 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._indicators.filter(el => Number(groupIndicatorId) === el.idGroup));
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -154,7 +151,7 @@ class DummyStaffixService {
                 });
                 console.log(this._competencies)
                 resolve();
-            }, TIME_OUT);
+            }, TIMEOUT);
         })
     }
 
@@ -166,7 +163,7 @@ class DummyStaffixService {
                     ...competence
                 };
                 resolve();
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -178,7 +175,7 @@ class DummyStaffixService {
                     this._competencies.splice(index, 1);
                 })
                 resolve();
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -186,7 +183,16 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._competencies.filter(el => Number(copmetenceGroupId) === Number(el.idGroup)));
-            }, TIME_OUT)
+            }, TIMEOUT)
+        })
+    }
+
+    getCompetence = competenceId => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const index = this._competencies.findIndex(el => Number(competenceId) === Number(el.idGroup))
+                resolve(this._competencies[index]);
+            }, TIMEOUT)
         })
     }
 
@@ -200,7 +206,7 @@ class DummyStaffixService {
                     idGroup: Number(competenciesGroup.idGroup)
                 });
                 resolve();
-            }, TIME_OUT);
+            }, TIMEOUT);
         })
     }
 
@@ -210,7 +216,7 @@ class DummyStaffixService {
                 const index = this._groupsCompetence.findIndex(({id}) => id == competenciesGroup.id);
                 this._groupsCompetence[index] = {...competenciesGroup};
                 resolve();
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -222,7 +228,7 @@ class DummyStaffixService {
                     this._groupsCompetence.splice(index, 1);
                 })
                 resolve();
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -230,7 +236,7 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._groupsCompetence);
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -243,7 +249,7 @@ class DummyStaffixService {
                     idGroup: Number(indicator.idGroup)
                 });
                 resolve();
-            }, TIME_OUT);
+            }, TIMEOUT);
         })
     }
 
@@ -253,21 +259,19 @@ class DummyStaffixService {
                 const index = this._indicators.findIndex(({id}) => id == indicator.id);
                 this._indicators[index] = {id: indicator.id, name: indicator.name, idGroup: Number(indicator.idGroup)};
                 resolve();
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
     deleteIndicators = (ids) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                
                 ids.forEach(id => {
                     const index = this._indicators.findIndex(el => el.id == id);
                     this._indicators.splice(index, 1);
                 })
-
                 resolve();
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -279,7 +283,7 @@ class DummyStaffixService {
                     ...indicatorsGroup
                 })
                 resolve();
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -289,7 +293,7 @@ class DummyStaffixService {
                 const index = this._groupsIndicator.findIndex(({id}) => id == indicatorsGroup.id);
                 this._groupsIndicator[index] = {...indicatorsGroup};
                 resolve();
-            }, TIME_OUT)
+            }, TIMEOUT)
         })
     }
 
@@ -303,7 +307,135 @@ class DummyStaffixService {
                 })
 
                 resolve();
-            }, TIME_OUT)
+            }, TIMEOUT)
+        })
+    }
+
+    // ========== Questions ==========
+
+    getQuestionsGroups = () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._questionsGroups);
+            }, TIMEOUT)
+        })
+    }
+
+    //********** start utils */
+    isCompetenceAlreadyInRes = (res, idCompetence) => {
+        return res.some(el => el.idCompetence == idCompetence)
+    }
+    increaseQuantityQuestions = (res, idCompetence) => {
+        const index = res.findIndex(el => el.idCompetence == idCompetence);
+        res[index].questions++;
+    }
+    pushCompetenceIntoRes = (res, idCompetence) => {
+        const index = this._competencies.findIndex(el => Number(el.id) === Number(idCompetence));
+        const { name: competenceName, description: competenceDescription } = this._competencies[index];
+        res.push({
+            idCompetence,
+            competenceName,
+            competenceDescription,
+            questions: 1
+        })
+    }
+    //************ end utils */
+
+    getQuestionsGroupContent = (id) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const res = []
+                this._questions.forEach(el => {
+                    if(Number(el.idQuestionsGroup) !== Number(id))
+                        return;
+
+                    const { idCompetence } = el;
+                    
+                    if(this.isCompetenceAlreadyInRes(res, idCompetence))
+                        this.increaseQuantityQuestions(res, idCompetence)
+                    else 
+                        this.pushCompetenceIntoRes(res, idCompetence)
+                })
+                resolve(res);
+            }, TIMEOUT)
+        })
+    }
+
+    getAllCompetencies = () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._competencies.map(({id, name}) => {
+                    return {id, name}
+                }));
+            }, TIMEOUT)
+        })
+    }
+
+    createQuestion = (question) => {
+        console.log(' ====== ', question)
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                this._questions.push({
+                    id: Math.floor(Math.random() * 100),
+                    ...question
+                })
+                console.log(this._questions)
+                resolve();
+            }, TIMEOUT)
+        })
+    }
+
+    deleteQuestions = (ids) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                ids.forEach(id => {
+                    const index = this._questions.findIndex(el => el.id == id);
+                    this._questions.splice(index, 1);
+                })
+                resolve();
+            }, TIMEOUT)
+        })
+    }
+
+    updateQuestionsGroup = (questionsGroup) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const index = this._questionsGroups.findIndex(({id}) => id == questionsGroup.id);
+                this._questionsGroups[index] = {...questionsGroup};
+                resolve();
+            }, TIMEOUT)
+        })
+    }
+
+    deleteQuestionsGroups = (ids) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                ids.forEach(id => {
+                    const index = this._questionsGroups.findIndex(el => el.id == id);
+                    this._questionsGroups.splice(index, 1);
+                })
+                resolve();
+            }, TIMEOUT)
+        })
+    }
+
+    createQuestionsGroup = (questionsGroup) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                this._questionsGroups.push({
+                    id: Math.floor(Math.random() * 100),
+                    ...questionsGroup
+                })
+                resolve();
+            }, TIMEOUT)
+        })
+    }
+
+    getQuestions = (idGroup, idCompetence) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._questions.filter(el => Number(el.idCompetence) === Number(idCompetence) && Number(el.idQuestionsGroup) === Number(idGroup)))
+            }, TIMEOUT);
         })
     }
 }
