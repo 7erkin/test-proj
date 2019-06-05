@@ -26,14 +26,13 @@ class QuestionsGroupContent extends Component {
 
     componentDidMount() {
         const { match, dispatch, staffixService } = this.props;
-        const id = match.params.idGroup;
+        const id = match.params.idCompetenciesGroup;
 
         this._idRequestedQuestionsGroup = id;
 
         dispatch(startLoadingQuestionsGroupContent());
         staffixService.getQuestionsGroupContent(id)
             .then(content => {
-                console.log('content ', content)
                 dispatch(saveLoadedQuestionsGroupContent(content));
                 dispatch(finishLoadingQuestionsGroupContent());
             })
@@ -42,7 +41,7 @@ class QuestionsGroupContent extends Component {
     // TODO call every time but it really need only every time after updating idGroup
     componentDidUpdate() {
         const { match, dispatch, staffixService } = this.props;
-        const id = match.params.idGroup;
+        const id = match.params.idCompetenciesGroup;
 
         if(this._idRequestedQuestionsGroup == id)
             return;
@@ -65,12 +64,12 @@ class QuestionsGroupContent extends Component {
     //onSearchIndicatorChange = name => this.props.dispatch(updateNameSearchIndicator(name));
 
     render() {
-        const { questionsGroupContent, loadingQuestionsGroupContent, questionsGroups, match: {params: {idGroup}}, match: {url} } = this.props;
+        const { questionsGroupContent, loadingQuestionsGroupContent, competenciesGroups, match: {params: {idCompetenciesGroup}}, match: {url} } = this.props;
 
         if(loadingQuestionsGroupContent)
             return <h2>Loading...</h2>
 
-        const description = this._defineDescriptionGroup(idGroup, questionsGroups);
+        const description = this._defineDescriptionGroup(idCompetenciesGroup, competenciesGroups);
 
         return (
             <section>
@@ -103,7 +102,7 @@ const mapStoreToProps = ({
         questionsGroupContent,
         loadingQuestionsGroupContent,
         applyingChanges,
-        questionsGroups
+        competenciesGroups
     }
 }) => {
 
@@ -111,7 +110,7 @@ const mapStoreToProps = ({
         questionsGroupContent,
         loadingQuestionsGroupContent,
         applyingChanges,
-        questionsGroups
+        competenciesGroups
     };
 }
 

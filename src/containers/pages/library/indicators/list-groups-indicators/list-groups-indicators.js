@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom'
 import { updateDeletedIndicatorsGroups, indicatorsGroupsDeleted } from '../../../../../action-creators/library-page/indicators';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
+import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
 
 class ListGroupsIndicators extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class ListGroupsIndicators extends Component {
         return true;
     }
 
-    onSubmit = () => {
+    onIndicatorsGroupsDeleteClick = () => {
         const {dispatch, staffixService, deletedIndicatorsGroups} = this.props;
 
         dispatch(startApplyingChanges());
@@ -41,26 +42,17 @@ class ListGroupsIndicators extends Component {
         const { indicatorsGroups, deletedIndicatorsGroups } = this.props;
 
         return (
-            <form onSubmit={evt => {
-                evt.preventDefault();
-                this.onSubmit();
-            }}>
-                <input type="text" />
-                <button type="button" onClick={this.onAddIndicatorsGroupClick}>Add</button>
-                <button type="submit">Delete</button>
-                <ul>
-                {
-                    indicatorsGroups.map(({id, name}) => {
-                        return (
-                            <li key={id}>
-                                <Link to={`/library/indicators-groups/edit/${id}`}>{name}</Link>
-                                <input type="checkbox" checked={deletedIndicatorsGroups.findIndex(el => el == id) !== -1} onChange={() => this.onIndicatorsGroupCheck(id)}/>
-                            </li>
-                        );
-                    })
-                }
-            </ul>
-            </form>
+            <DeleteFormView 
+                items={indicatorsGroups}
+                deletedItemIds={deletedIndicatorsGroups}
+                renderItemName={(itemId, name) => {
+                    return <Link to={`/library/indicators-groups/edit/${itemId}`}>{name}</Link>
+                }}
+                onSubmit={this.onIndicatorsGroupsDeleteClick}
+                onInputChange={() => {}}
+                onAddItemClick={this.onAddIndicatorsGroupClick}
+                onItemCheck={this.onIndicatorsGroupCheck}
+            />
         );
     }
 }

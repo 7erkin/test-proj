@@ -8,14 +8,11 @@ import {
     Redirect
 } from 'react-router-dom'
 import { resetInitialLoading, fulfilInitialLoading } from '../../../../action-creators/library-page';
-import { saveLoadedQuestionsGroups } from '../../../../action-creators/library-page/questions';
 import AsideList from './aside-list';
 import QuestionsGroupContent from './questions-group-content';
-import EditQuestionsGroupForm from './edit-questions-group-form';
 import QuestionList from './question-list';
 import AddQuestionForm from './add-question-form'
-import QuestionsGroupList from './questions-group-list';
-import AddQuestionsGroupForm from './add-questions-group-form';
+import { saveLoadedCompetenciesGroups } from '../../../../action-creators/library-page/competencies';
 
 class Questions extends Component {
     constructor(props){
@@ -53,9 +50,9 @@ class Questions extends Component {
             staffixService
         } = this.props;
 
-        staffixService.getQuestionsGroups()
+        staffixService.getCompetenciesGroups()
             .then(groups => {
-                dispatch(saveLoadedQuestionsGroups(groups));
+                dispatch(saveLoadedCompetenciesGroups(groups));
                 this._initialQuestionsGroupId = this._defineIdGroupRendering(groups);
                 dispatch(fulfilInitialLoading());
             })
@@ -71,9 +68,9 @@ class Questions extends Component {
         if(loadingInitial)
             return;
     
-            staffixService.getQuestionsGroups()
+            staffixService.getCompetenciesGroups()
                 .then(groups => {
-                    dispatch(saveLoadedQuestionsGroups(groups));
+                    dispatch(saveLoadedCompetenciesGroups(groups));
                     this._initialQuestionsGroupId = this._defineIdGroupRendering(groups);
                     dispatch(fulfilInitialLoading());
                 })
@@ -93,17 +90,14 @@ class Questions extends Component {
         return (
             <Switch>
                 <Redirect exact={true} from="/library/questions-groups" to={`/library/questions-groups/${this._initialQuestionsGroupId}`} />
-                <Route path="/library/questions-groups/:idGroup" render={props => {
+                <Route path="/library/questions-groups/:idCompetenciesGroup" render={props => {
                     return (
                         <Fragment>
                             <AsideList {...props}/>
                             <Switch>
-                                <Route exact path="/library/questions-groups/:idGroup/add-question" render={(props) => <AddQuestionForm {...props}/>}/>
-                                <Route exact path="/library/questions-groups/add" render={(props) => <AddQuestionsGroupForm {...props}/>}/>
-                                <Route exact path="/library/questions-groups/edit/:idGroup" render={(props) => <EditQuestionsGroupForm {...props}/>}/>
-                                <Route exact path="/library/questions-groups/edit" render={(props) => <QuestionsGroupList {...props}/>}/>
-                                <Route exact path="/library/questions-groups/:idGroup" render={(props) => <QuestionsGroupContent {...props}/>}/>
-                                <Route exact path="/library/questions-groups/:idGroup/questions/:idCompetence" render={(props) => <QuestionList {...props}/>}/>
+                                <Route exact path="/library/questions-groups/:idCompetenciesGroup/add-question" render={(props) => <AddQuestionForm {...props}/>}/>
+                                <Route exact path="/library/questions-groups/:idCompetenciesGroup" render={(props) => <QuestionsGroupContent {...props}/>}/>
+                                <Route exact path="/library/questions-groups/:idCompetenciesGroup/questions/:idCompetence" render={(props) => <QuestionList {...props}/>}/>
                             </Switch>
                         </Fragment>
                     );

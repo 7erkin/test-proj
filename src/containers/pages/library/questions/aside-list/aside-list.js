@@ -17,18 +17,14 @@ class AsideList extends Component {
 
     render() {
         const {
-            questionsGroups
+            competenciesGroups
         } = this.props;
 
         return (
             <AsideListView 
                 items={{
-                    values: questionsGroups, 
+                    values: competenciesGroups, 
                     onClick: this.onActiveGroupChange
-                }} 
-                editButton={{
-                    name: 'Edit', 
-                    onClick: this.onEditButtonClick
                 }}/>
         );
     }
@@ -36,11 +32,11 @@ class AsideList extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        questionsGroups
+        competenciesGroups
     }
 }) => {
     return {
-        questionsGroups
+        competenciesGroups
     }
 }
 

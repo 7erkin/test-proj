@@ -8,6 +8,7 @@ import { startApplyingChanges, finishApplyingChanges } from '../../../../../acti
 import {
     Link
 } from 'react-router-dom'
+import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
 
 class ListIndicators extends Component {
     constructor(props) {
@@ -61,7 +62,7 @@ class ListIndicators extends Component {
         history.push(`${match.url}/add-indicator`);
     }
 
-    onCheckIndicator = (id) => {
+    onIndicatorCheck = (id) => {
         this.props.dispatch(updateDeletedIndicators(id));
     }
 
@@ -86,27 +87,25 @@ class ListIndicators extends Component {
 
         const description = this._defineDescriptionGroup(idGroup, indicatorsGroups);
 
+        const renderItemName = (itemId, name) => {
+            return (
+                <Link to={`/library/indicators-groups/${idGroup}/edit-indicator/${itemId}`}>
+                    {name}
+                </Link>
+            );
+        }
+
         return (
-            <form onSubmit={this.onDeleteIndicators}>
-                <p>{description}</p>
-                <input type="text" />
-                <button type="button" onClick={this.onAddIndicatorClick}>Add</button>
-                <button type="submit">Delete</button>
-                <ul>
-                    {
-                        indicators.map(({id, name}) => {
-                            return (
-                                <li key={id}>
-                                    <Link to={`/library/indicators-groups/${idGroup}/edit-indicator/${id}`}>
-                                        {name}
-                                    </Link>
-                                    <input type="checkbox" checked={deletedIndicators.indexOf(id) !== -1} onChange={() => this.onCheckIndicator(id)} />
-                                </li>
-                            );
-                        })
-                    }
-                </ul>
-            </form>
+            <DeleteFormView 
+                renderItemName={renderItemName}
+                description={description}
+                items={indicators}
+                deletedItemIds={deletedIndicators}
+                onSubmit={this.onDeleteIndicators}
+                onInputChange={() => {}}
+                onItemCheck={this.onIndicatorCheck}
+                onAddItemClick={this.onAddIndicatorClick}
+            />
         );
     }
 }

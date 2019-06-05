@@ -1,0 +1,15 @@
+.delete-form{
+    padding: 20px;
+}
+
+.delete-form input{
+    margin-top: 10px;
+}
+
+.delete-form .buttons {
+    margin-top: 20px
+}
+
+.delete-form .buttons {
+    margin-left: 0;
+}

@@ -3,7 +3,7 @@ import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-ser
 import {connect} from 'react-redux'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
-import { updateNewQuestionGroupId, updateNewQuestionBody, saveLoadedCompetencies } from '../../../../../action-creators/library-page/questions';
+import { updateNewQuestionCompetenceId, updateNewQuestionBody, saveLoadedCompetencies } from '../../../../../action-creators/library-page/questions';
 
 class AddQuestionForm extends Component {
     constructor(props) {
@@ -15,9 +15,9 @@ class AddQuestionForm extends Component {
     }
 
     componentDidMount = () => {
-        const {staffixService, dispatch} = this.props;
+        const {staffixService, dispatch, match: {params: {idCompetenciesGroup}}} = this.props;
 
-        staffixService.getAllCompetencies()
+        staffixService.getCompetencies(idCompetenciesGroup)
             .then(competencies => {
                 dispatch(saveLoadedCompetencies(competencies))
             })
@@ -28,7 +28,7 @@ class AddQuestionForm extends Component {
     }
 
     onIdGroupQuestionsChange = id => {
-        this.props.dispatch(updateNewQuestionGroupId(id));
+        this.props.dispatch(updateNewQuestionCompetenceId(id));
     }
 
     onSubmit = () => {

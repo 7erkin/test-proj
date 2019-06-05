@@ -8,6 +8,7 @@ import { startApplyingChanges, finishApplyingChanges } from '../../../../../acti
 import {
     Link
 } from 'react-router-dom'
+import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
 
 class CompetenciesList extends Component {
     constructor(props) {
@@ -61,11 +62,11 @@ class CompetenciesList extends Component {
         history.push(`${match.url}/add-competence`);
     }
 
-    onCheckCompetence = (id) => {
+    onCompetenceCheck = (id) => {
         this.props.dispatch(updateDeletedCompetencies(id));
     }
 
-    onDeleteCompetencies = () => {
+    onDeleteCompetenciesClick = () => {
         const { dispatch, staffixService, deletedCompetencies } = this.props;
 
         dispatch(startApplyingChanges());
@@ -87,26 +88,21 @@ class CompetenciesList extends Component {
         const description = this._defineDescriptionGroup(idGroup, competenciesGroups);
 
         return (
-            <form onSubmit={this.onDeleteCompetencies}>
-                <p>{description}</p>
-                <input type="text" />
-                <button type="button" onClick={this.onAddCompetenceClick}>Add</button>
-                <button type="submit">Delete</button>
-                <ul>
-                    {
-                        competencies.map(({id, name}) => {
-                            return (
-                                <li key={id}>
-                                    <Link to={`/library/competencies-groups/${idGroup}/edit-competence/${id}`}>
-                                        {name}
-                                    </Link>
-                                    <input type="checkbox" checked={deletedCompetencies.indexOf(id) !== -1} onChange={() => this.onCheckCompetence(id)} />
-                                </li>
-                            );
-                        })
-                    }
-                </ul>
-            </form>
+            <DeleteFormView 
+                description={description}
+                items={competencies}
+                deletedItemIds={deletedCompetencies}
+                renderItemName={(id, name) => {
+                    return (
+                        <Link to={`/library/competencies-groups/${idGroup}/edit-competence/${id}`}>
+                            {name}
+                        </Link>
+                    );
+                }}
+                onSubmit={this.onDeleteCompetenciesClick}
+                onAddItemClick={this.onAddCompetenceClick}
+                onInputChange={() => {}}
+                onItemCheck={this.onCompetenceCheck}/>
         );
     }
 }

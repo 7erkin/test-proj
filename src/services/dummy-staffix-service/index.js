@@ -8,7 +8,6 @@ import mockGroupsCompetence from '../../fixtures/groups-competence'
 import mockIndicators from '../../fixtures/indicators'
 import mockCompetencies from '../../fixtures/competencies'
 import mockQuestions from '../../fixtures/questions'
-import mockQuestionsGroups from '../../fixtures/questions-groups'
 
 import {
     ifReduxStoreInLocalStorage,
@@ -43,7 +42,6 @@ class DummyStaffixService {
         this._indicators = mockIndicators;
         this._competencies = mockCompetencies;
 
-        this._questionsGroups = mockQuestionsGroups;
         this._questions = mockQuestions;
     }
 
@@ -339,6 +337,10 @@ class DummyStaffixService {
             questions: 1
         })
     }
+    isCompetenceBelongGroup = (idCompetence, idCompetenciesGroup) => {
+        const index = this._competencies.findIndex(el => Number(el.id) === Number(idCompetence));
+        return Number(this._competencies[index].idGroup) === Number(idCompetenciesGroup);
+    }
     //************ end utils */
 
     getQuestionsGroupContent = (id) => {
@@ -346,11 +348,11 @@ class DummyStaffixService {
             setTimeout(() => {
                 const res = []
                 this._questions.forEach(el => {
-                    if(Number(el.idQuestionsGroup) !== Number(id))
-                        return;
-
                     const { idCompetence } = el;
                     
+                    if(!this.isCompetenceBelongGroup(idCompetence, id))
+                        return;
+
                     if(this.isCompetenceAlreadyInRes(res, idCompetence))
                         this.increaseQuantityQuestions(res, idCompetence)
                     else 
@@ -397,44 +399,10 @@ class DummyStaffixService {
         })
     }
 
-    updateQuestionsGroup = (questionsGroup) => {
+    getQuestions = (idCompetence) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const index = this._questionsGroups.findIndex(({id}) => id == questionsGroup.id);
-                this._questionsGroups[index] = {...questionsGroup};
-                resolve();
-            }, TIMEOUT)
-        })
-    }
-
-    deleteQuestionsGroups = (ids) => {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                ids.forEach(id => {
-                    const index = this._questionsGroups.findIndex(el => el.id == id);
-                    this._questionsGroups.splice(index, 1);
-                })
-                resolve();
-            }, TIMEOUT)
-        })
-    }
-
-    createQuestionsGroup = (questionsGroup) => {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                this._questionsGroups.push({
-                    id: Math.floor(Math.random() * 100),
-                    ...questionsGroup
-                })
-                resolve();
-            }, TIMEOUT)
-        })
-    }
-
-    getQuestions = (idGroup, idCompetence) => {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(this._questions.filter(el => Number(el.idCompetence) === Number(idCompetence) && Number(el.idQuestionsGroup) === Number(idGroup)))
+                resolve(this._questions.filter(el => Number(el.idCompetence) === Number(idCompetence)))
             }, TIMEOUT);
         })
     }

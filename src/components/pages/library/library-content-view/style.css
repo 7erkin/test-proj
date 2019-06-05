@@ -3,7 +3,7 @@
 }
 
 .library-content :first-child{
-    flex-grow: 1;
+    flex-grow: 0.4;
 }
 
 .library-content :last-child{

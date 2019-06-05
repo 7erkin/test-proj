@@ -2,26 +2,51 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
-    List, ListItem, ListItemText
+    List, ListItem, ListItemText, Button, withStyles
 } from '@material-ui/core'
 
 import './style.css'
+
+const buttonStyles = {
+    root: {
+        background: 'green',
+        color: 'white',
+        width: '150px',
+        marginTop: '20px',
+        // TODO: how to center?!
+        margin: '0 auto'
+    },
+    focusVisible: {
+        background: 'orange',
+        color: 'white'
+    }
+}
+
+const listStyles = {
+    root: {
+        padding: '0',
+        // TODO: how to center?!
+        marginTop: '20px',
+        margin: '0 auto'
+    }
+}
+
+const CustomList = withStyles(listStyles)(List);
+
+const CustomButton = withStyles(buttonStyles)(Button);
 
 const AsideListView = ({
     items: {
         values,
         onClick: onItemClick
     },
-    editButton: {
-        name: buttonName,
-        onClick: onEditButtonClick
-    }
+    editButton = null
 }) => {
 
     return (
         <div className="aside-list">
-            <button type="button" onClick={onEditButtonClick}>{buttonName}</button>
-            <List>
+            {editButton === null ? null : <CustomButton size="medium" variant="contained" onClick={editButton.onClick}>{editButton.name}</CustomButton>}
+            <CustomList>
             {
                 values.map(({id, name}) => {
                     return (
@@ -31,7 +56,7 @@ const AsideListView = ({
                     );
                 })
             }
-            </List>
+            </CustomList>
         </div>
     );
 }
@@ -43,7 +68,11 @@ AsideListView.propTypes = {
             name: PropTypes.string.isRequired
         }).isRequired,
         onClick: PropTypes.func
-    }).isRequired
+    }).isRequired,
+    editButton: {
+        name: PropTypes.string.isRequired,
+        onClick: PropTypes.func.isRequired
+    }
 }
 
 export default AsideListView;

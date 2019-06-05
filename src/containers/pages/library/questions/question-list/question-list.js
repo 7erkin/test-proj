@@ -12,12 +12,12 @@ class QuestionList extends Component {
     }
 
     componentDidMount() {
-        const { match:{params: {idCompetence, idGroup}}, dispatch, staffixService } = this.props;
+        const { match:{params: {idCompetence}}, dispatch, staffixService } = this.props;
 
         dispatch(startLoadingQuestions());
         Promise.all([
             staffixService.getCompetence(idCompetence),
-            staffixService.getQuestions(idGroup, idCompetence)
+            staffixService.getQuestions(idCompetence)
         ]).then(results => {
             this._competenceName = results[0].name;
             dispatch(saveLoadedQuestions(results[1]));
