@@ -9,6 +9,7 @@ import './style.css'
 
 const buttonStyles = {
     root: {
+        display: 'block',
         background: 'green',
         color: 'white',
         width: '150px',
@@ -45,7 +46,7 @@ const AsideListView = ({
 
     return (
         <div className="aside-list">
-            {editButton === null ? null : <CustomButton size="medium" variant="contained" onClick={editButton.onClick}>{editButton.name}</CustomButton>}
+            {editButton === null ? null : <CustomButton size="medium" variant="contained" onClick={editButton.onClick}>{editButton.name === undefined ? 'Группы' : editButton.name}</CustomButton>}
             <CustomList>
             {
                 values.map(({id, name}) => {
@@ -61,11 +62,18 @@ const AsideListView = ({
     );
 }
 
+// TODO: default values to props should work this way
+// AsideListView.defaultProps = {
+//     editButton: {
+//         name: 'Группы'
+//     }
+// }
+
 AsideListView.propTypes = {
     list: PropTypes.shape({
         values: PropTypes.arrayOf({
             id: PropTypes.number.isRequired,
-            name: PropTypes.string.isRequired
+            name: PropTypes.string
         }).isRequired,
         onClick: PropTypes.func
     }).isRequired,

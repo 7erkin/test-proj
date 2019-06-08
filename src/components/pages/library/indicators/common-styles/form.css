@@ -1,0 +1,12 @@
+.indicators-form-common {
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 50px;
+    background-color: azure;
+}
+
+.indicators-form-common .field {
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+}

@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Button, List, withStyles, ListItem} from '@material-ui/core'
+import {Button, List, withStyles, ListItem, Typography} from '@material-ui/core'
 
 import './style.css'
+import CustomSearchView from '../../../common/custom-search-view';
 
 const addButtonStyles = {
     root: {
@@ -25,10 +26,16 @@ const DeleteFormView = ({
     description = null,
     items,
     deletedItemIds,
-    onSubmit,
     onInputChange,
     onItemCheck,
-    onAddItemClick
+    addButton: {
+        label: addButtonLabel,
+        onClick: addButtonClick
+    },
+    deleteButton: {
+        label: deleteButtonLabel,
+        onClick: deleteButtonClick
+    }
 }) => {
 
     const Description = description === null ? null : <b>{description}</b>;
@@ -36,24 +43,28 @@ const DeleteFormView = ({
     return (
         <form className="delete-form" onSubmit={evt => {
             evt.preventDefault();
-            onSubmit();
+            deleteButtonClick();
         }}>
-            {Description}
-            <input placeholder="Input entity name to search..." type="text" className="form-control" onChange={evt => onInputChange(evt.target.value)}/>
+            <Typography variant="body1" gutterBottom>
+                {Description}
+            </Typography>
+            <CustomSearchView value={''} onChange={onInputChange} placeholder="Введите название сущности..."/>
             <div className="buttons">
-                <AddButton variant="contained" onClick={onAddItemClick}>Add</AddButton>
-                <DeleteButton variant="contained" type="submit">Delete</DeleteButton>
+                <AddButton variant="contained" onClick={addButtonClick}>{addButtonLabel}</AddButton>
+                <DeleteButton variant="contained" type="submit" disabled={!deletedItemIds.length}>{deleteButtonLabel}</DeleteButton>
             </div>
             <List>
             {
                 items.map(({id, name}) => {
                     return (
                         <ListItem key={id}>
-                            {renderItemName(id, name)}
+                            <Typography variant="body1">
+                                {renderItemName(id, name)}
+                            </Typography>
                             <input 
-                                type="checkbox" 
-                                checked={deletedItemIds.indexOf(id) !== -1} 
-                                onChange={() => onItemCheck(id)} />
+                                    type="checkbox" 
+                                    checked={deletedItemIds.indexOf(id) !== -1} 
+                                    onChange={() => onItemCheck(id)} />
                         </ListItem>
                     );
                 })
@@ -71,10 +82,16 @@ DeleteFormView.propTypes = {
         name: PropTypes.string.isRequired
     }).isRequired,
     deletedItemIds: PropTypes.array.isRequired,
-    onSubmit: PropTypes.func.isRequired,
     onInputChange: PropTypes.func.isRequired,
     onItemCheck: PropTypes.func.isRequired,
-    onAddItemClick: PropTypes.func.isRequired
+    addButton: PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        onClick: PropTypes.func.isRequired
+    }).isRequired,
+    deleteButton: PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        onClick: PropTypes.func.isRequired
+    }).isRequired
 }
 
 export default DeleteFormView;

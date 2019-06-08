@@ -1,0 +1,12 @@
+.indicator-form {
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 50px;
+    background-color: azure;
+}
+
+.indicator-form .input {
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+}

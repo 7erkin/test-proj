@@ -1,16 +1,19 @@
 import React, { Component, Fragment } from 'react'
 import withStaffixService from '../../../../hoc/hoc-services/with-staffix-service';
-import { fulfilInitialLoading, resetInitialLoading } from '../../../../action-creators/library-page';
+import { 
+    fulfilInitialLoading, 
+    resetInitialLoading 
+} from '../../../../action-creators/library-page';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import FormAddIndicator from './form-add-indicator';
-import FormEditIndicator from './form-edit-indicator';
-import FormEditGroupIndicators from './form-edit-group-indicators';
 import ListGroupsIndicators from './list-groups-indicators';
-import FormAddGroupIndicators from './form-add-group-indicators';
 import ListIndicators from './list-indicators';
 import { saveLoadedIndicatorsGroups } from '../../../../action-creators/library-page/indicators';
 import AsideList from './aside-list';
+import LibraryContentCenterView from '../../../../components/pages/library/library-content-center-view';
+import LoadingIndicator from '../../../../components/common/loading-indicator/loading-indicator';
+import { AddIndicatorForm, EditIndicatorForm } from './indicator-form';
+import { EditIndicatorsGroupForm, AddIndicatorsGroupForm } from './indicators-group-form';
 
 // два случая, если попали по ссылки или переходили по приложению
 // если по ссылке, то Выгружаем группы и Выгружаем сущности. Затем отрисовываем дочерний компонент
@@ -84,10 +87,10 @@ class Indicators extends Component {
         } = this.props;
 
         if(!loadingInitial)
-            return <h2>Loading...</h2>
+            return <LoadingIndicator />
 
         if(isNaN(this._initialIndicatorGroupId))
-            return <h2>Loading...</h2>
+            return <LoadingIndicator />
 
         return (
             <Switch>
@@ -96,14 +99,16 @@ class Indicators extends Component {
                     return (
                         <Fragment>
                             <AsideList {...props}/>
-                            <Switch>
-                                <Route exact path="/library/indicators-groups/:idGroup/add-indicator" render={(props) => <FormAddIndicator {...props}/>}/>
-                                <Route exact path="/library/indicators-groups/:idGroup/edit-indicator/:idIndicator" render={(props) => <FormEditIndicator {...props}/>}/>
-                                <Route exact path="/library/indicators-groups/edit" render={(props) => <ListGroupsIndicators {...props}/>}/>
-                                <Route exact path="/library/indicators-groups/edit/:idGroup" render={(props) => <FormEditGroupIndicators {...props}/>}/>
-                                <Route exact path="/library/indicators-groups/add" render={(props) => <FormAddGroupIndicators {...props}/>}/>
-                                <Route exact path="/library/indicators-groups/:idGroup" render={(props) => <ListIndicators {...props}/>}/>
-                            </Switch>
+                            <LibraryContentCenterView>
+                                <Switch>
+                                    <Route exact path="/library/indicators-groups/:idGroup/add-indicator" render={(props) => <AddIndicatorForm {...props}/>}/>
+                                    <Route exact path="/library/indicators-groups/:idGroup/edit-indicator/:idIndicator" render={(props) => <EditIndicatorForm {...props}/>}/>
+                                    <Route exact path="/library/indicators-groups/edit" render={(props) => <ListGroupsIndicators {...props}/>}/>
+                                    <Route exact path="/library/indicators-groups/edit/:idGroup" render={(props) => <EditIndicatorsGroupForm {...props}/>}/>
+                                    <Route exact path="/library/indicators-groups/add" render={(props) => <AddIndicatorsGroupForm {...props}/>}/>
+                                    <Route exact path="/library/indicators-groups/:idGroup" render={(props) => <ListIndicators {...props}/>}/>
+                                </Switch>
+                            </LibraryContentCenterView>
                         </Fragment>
                     );
                 }} />

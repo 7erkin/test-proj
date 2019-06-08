@@ -9,7 +9,9 @@ import {
     Link
 } from 'react-router-dom'
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
+import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
 
+// TODO: should reset store becaues deletedIndicatorsIds is remains after deleting
 class ListIndicators extends Component {
     constructor(props) {
         super(props);
@@ -83,7 +85,7 @@ class ListIndicators extends Component {
         const { indicators, loadingIndicators, indicatorsGroups, match: {params: {idGroup}}, deletedIndicators } = this.props;
 
         if(loadingIndicators)
-            return <h2>Loading...</h2>
+            return <LoadingIndicator />
 
         const description = this._defineDescriptionGroup(idGroup, indicatorsGroups);
 
@@ -101,10 +103,16 @@ class ListIndicators extends Component {
                 description={description}
                 items={indicators}
                 deletedItemIds={deletedIndicators}
-                onSubmit={this.onDeleteIndicators}
                 onInputChange={() => {}}
                 onItemCheck={this.onIndicatorCheck}
-                onAddItemClick={this.onAddIndicatorClick}
+                addButton={{
+                    label: 'Добавить индикатор',
+                    onClick: this.onAddIndicatorClick
+                }}
+                deleteButton={{
+                    label: 'Удалить',
+                    onClick: this.onDeleteIndicators
+                }}
             />
         );
     }

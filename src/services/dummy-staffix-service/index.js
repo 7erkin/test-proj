@@ -406,6 +406,39 @@ class DummyStaffixService {
             }, TIMEOUT);
         })
     }
+
+    // ##### valid API
+    isCompetenceWithNameExist = name => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._competencies.some(el => el.name === name));
+            }, TIMEOUT);
+        })
+    }
+
+    isCompetenciesGroupWithNameExist = name => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._groupsCompetence.some(el => el.name === name));
+            }, TIMEOUT);
+        })
+    }
+
+    isIndicatorWithNameExist = name => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._indicators.some(el => el.name === name));
+            }, TIMEOUT);
+        })
+    }
+
+    isIndicatorsGroupWithNameExist = name => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._groupsIndicator.some(el => el.name === name));
+            }, TIMEOUT);
+        })
+    }
 }
 
 export default DummyStaffixService;

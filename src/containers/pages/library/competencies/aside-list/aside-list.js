@@ -27,7 +27,6 @@ class AsideList extends Component {
                     onClick: this.onActiveGroupChange
                 }} 
                 editButton={{
-                    name: 'Edit', 
                     onClick: this.onEditButtonClick
                 }}/>
         );

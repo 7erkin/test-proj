@@ -9,6 +9,7 @@ import {
     Link
 } from 'react-router-dom'
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
+import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
 
 class CompetenciesList extends Component {
     constructor(props) {
@@ -83,7 +84,7 @@ class CompetenciesList extends Component {
         const { competencies, loadingCompetencies, competenciesGroups, match: {params: {idGroup}}, deletedCompetencies } = this.props;
 
         if(loadingCompetencies)
-            return <h2>Loading...</h2>
+            return <LoadingIndicator />
 
         const description = this._defineDescriptionGroup(idGroup, competenciesGroups);
 
@@ -99,10 +100,16 @@ class CompetenciesList extends Component {
                         </Link>
                     );
                 }}
-                onSubmit={this.onDeleteCompetenciesClick}
-                onAddItemClick={this.onAddCompetenceClick}
                 onInputChange={() => {}}
-                onItemCheck={this.onCompetenceCheck}/>
+                onItemCheck={this.onCompetenceCheck}
+                addButton={{
+                    label: 'Добавить компетенцию',
+                    onClick: this.onAddCompetenceClick
+                }}
+                deleteButton={{
+                    label: 'Удалить',
+                    onClick: this.onDeleteCompetenciesClick
+                }}/>
         );
     }
 }

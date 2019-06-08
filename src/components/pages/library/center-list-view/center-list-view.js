@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
+import './style.css'
+
 import {
     ListItem, ListItemText, List
 } from '@material-ui/core'

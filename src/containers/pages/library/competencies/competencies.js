@@ -4,13 +4,14 @@ import { fulfilInitialLoading, resetInitialLoading } from '../../../../action-cr
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AsideList from './aside-list';
-import AddCompetenceForm from './add-competence-form';
-import EditCompetenceForm from './edit-competence-form';
 import CompetenciesGroupList from './competencies-group-list';
 import EditCompetenciesGroupForm from './edit-competencies-group-form';
 import AddCompetenciesGroupForm from './add-competencies-group-form';
 import CompetenceList from './competence-list';
 import { saveLoadedCompetenciesGroups } from '../../../../action-creators/library-page/competencies';
+import { AddCompetenceForm, EditCompetenceForm } from './competence-form';
+import LibraryContentCenterView from '../../../../components/pages/library/library-content-center-view';
+import LoadingIndicator from '../../../../components/common/loading-indicator/loading-indicator';
 
 // два случая, если попали по ссылки или переходили по приложению
 // если по ссылке, то Выгружаем группы и Выгружаем сущности. Затем отрисовываем дочерний компонент
@@ -84,10 +85,10 @@ class Competencies extends Component {
         } = this.props;
 
         if(!loadingInitial)
-            return <h2>Loading...</h2>
+            return <LoadingIndicator />
 
         if(isNaN(this._initialCompetenciesGroupId))
-            return <h2>Loading...</h2>
+            return <LoadingIndicator />
 
         return (
             <Switch>
@@ -96,14 +97,16 @@ class Competencies extends Component {
                     return (
                         <Fragment>
                             <AsideList {...props}/>
-                            <Switch>
-                                <Route exact path="/library/competencies-groups/:idGroup/add-competence" render={(props) => <AddCompetenceForm {...props}/>}/>
-                                <Route exact path="/library/competencies-groups/:idGroup/edit-competence/:idCompetence" render={(props) => <EditCompetenceForm {...props}/>}/>
-                                <Route exact path="/library/competencies-groups/edit" render={(props) => <CompetenciesGroupList {...props}/>}/>
-                                <Route exact path="/library/competencies-groups/edit/:idGroup" render={(props) => <EditCompetenciesGroupForm {...props}/>}/>
-                                <Route exact path="/library/competencies-groups/add" render={(props) => <AddCompetenciesGroupForm {...props}/>}/>
-                                <Route exact path="/library/competencies-groups/:idGroup" render={(props) => <CompetenceList {...props}/>}/>
-                            </Switch>
+                            <LibraryContentCenterView>
+                                <Switch>
+                                    <Route exact path="/library/competencies-groups/:idGroup/add-competence" render={(props) => <AddCompetenceForm {...props}/>}/>
+                                    <Route exact path="/library/competencies-groups/:idGroup/edit-competence/:idCompetence" render={(props) => <EditCompetenceForm {...props}/>}/>
+                                    <Route exact path="/library/competencies-groups/edit" render={(props) => <CompetenciesGroupList {...props}/>}/>
+                                    <Route exact path="/library/competencies-groups/edit/:idGroup" render={(props) => <EditCompetenciesGroupForm {...props}/>}/>
+                                    <Route exact path="/library/competencies-groups/add" render={(props) => <AddCompetenciesGroupForm {...props}/>}/>
+                                    <Route exact path="/library/competencies-groups/:idGroup" render={(props) => <CompetenceList {...props}/>}/>
+                                </Switch>
+                            </LibraryContentCenterView>
                         </Fragment>
                     );
                 }} />

@@ -48,10 +48,16 @@ class ListGroupsIndicators extends Component {
                 renderItemName={(itemId, name) => {
                     return <Link to={`/library/indicators-groups/edit/${itemId}`}>{name}</Link>
                 }}
-                onSubmit={this.onIndicatorsGroupsDeleteClick}
                 onInputChange={() => {}}
-                onAddItemClick={this.onAddIndicatorsGroupClick}
                 onItemCheck={this.onIndicatorsGroupCheck}
+                addButton={{
+                    label: 'Добавить группу',
+                    onClick: this.onAddIndicatorsGroupClick
+                }}
+                deleteButton={{
+                    label: 'Удалить',
+                    onClick: this.onIndicatorsGroupsDeleteClick
+                }}
             />
         );
     }

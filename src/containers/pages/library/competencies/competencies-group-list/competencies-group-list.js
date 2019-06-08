@@ -53,10 +53,16 @@ class CompetenciesGroupList extends Component {
                         </Link>
                     );
                 }}
-                onSubmit={this.onDeleteCompetenciesGroupsClick}
-                onAddItemClick={this.onAddCompetenciesGroupClick}
                 onInputChange={() => {}}
-                onItemCheck={this.onCompetenciesGroupCheck}/>
+                onItemCheck={this.onCompetenciesGroupCheck}
+                addButton={{
+                    label: '',
+                    onClick: this.onAddCompetenciesGroupClick
+                }}
+                deleteButton={{
+                    label: '',
+                    onClick: this.onDeleteCompetenciesGroupsClick
+                }}/>
         );
     }
 }
