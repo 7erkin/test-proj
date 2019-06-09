@@ -1,0 +1,9 @@
+.competence-form .name-and-groupid .field:first-child{
+    width: 60%;
+    margin-right: 30px;
+}
+
+.competence-form .name-and-groupid {
+    margin-bottom: 30px;
+}
+

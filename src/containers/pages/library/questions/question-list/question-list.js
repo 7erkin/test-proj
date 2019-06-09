@@ -4,6 +4,8 @@ import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-ser
 import { connect } from 'react-redux';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 import { startLoadingQuestions, saveLoadedQuestions, finishLoadingQuestions, updateDeletedQuestions, questionsDeleted } from '../../../../../action-creators/library-page/questions';
+import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
+import QuestionListView from '../../../../../components/pages/library/questions/question-list-view';
 
 class QuestionList extends Component {
     constructor(props) {
@@ -52,26 +54,15 @@ class QuestionList extends Component {
         } = this.props;
 
         if(loadingQuestions)
-            return <h2>Loading...</h2>
+            return <LoadingIndicator />
 
         return (
-            <form onSubmit={evt => {
-                evt.preventDefault();
-                this.onSubmit();
-            }}>
-                <p>Competence: {this._competenceName}</p>
-                <button type="submit">Delete</button>
-                <ul>
-                    {questions.map(el1 => {
-                        return (
-                            <li key={el1.id}>
-                                {el1.body}
-                                <input type="checkbox" onChange={() => this.onQuestionCheck(el1.id)} checked={deletedQuestions.some(el2 => el2 == el1.id)}/>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </form>
+            <QuestionListView 
+                competenceName={this._competenceName}
+                questions={questions}
+                deletedQuestions={deletedQuestions}
+                onQuestionCheck={this.onQuestionCheck}
+                onSubmit={this.onSubmit}/>
         );
     }
 }

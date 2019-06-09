@@ -1,0 +1,18 @@
+.competence-form-common{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 30px;
+}
+
+.horizontal-wrapper {
+    display: flex;
+}
+
+.competence-form-common .competence-form-button {
+    position: relative;
+}
+
+.competence-form-common .competence-form-button button:last-of-type{
+    position: absolute;
+    right: 0;
+}

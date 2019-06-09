@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import { connect } from 'react-redux';
-import { startLoadingIndicators, saveLoadedIndicators, finishLoadingIndicators, updateDeletedIndicators } from '../../../../../action-creators/library-page/indicators';
+import { startLoadingIndicators, saveLoadedIndicators, finishLoadingIndicators, updateDeletedIndicators, updateVisibleIndicators } from '../../../../../action-creators/library-page/indicators';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 
 import {
@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom'
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
 import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
+
 
 // TODO: should reset store becaues deletedIndicatorsIds is remains after deleting
 class ListIndicators extends Component {
@@ -78,6 +79,9 @@ class ListIndicators extends Component {
             })
     }
 
+    onSearchChange = pattern => {
+        this.props.dispatch(updateVisibleIndicators(pattern))
+    }
 
     //onSearchIndicatorChange = name => this.props.dispatch(updateNameSearchIndicator(name));
 
@@ -103,7 +107,7 @@ class ListIndicators extends Component {
                 description={description}
                 items={indicators}
                 deletedItemIds={deletedIndicators}
-                onInputChange={() => {}}
+                onSearchChange={this.onSearchChange}
                 onItemCheck={this.onIndicatorCheck}
                 addButton={{
                     label: 'Добавить индикатор',
@@ -120,7 +124,7 @@ class ListIndicators extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        indicators,
+        visibleIndicators: indicators,
         deletedIndicators,
         loadingIndicators,
         applyingChanges,

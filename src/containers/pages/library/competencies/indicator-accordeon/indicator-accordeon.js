@@ -4,7 +4,7 @@ import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-ser
 
 import Accordeon from '../../../../../components/pages/library/accordeon';
 import { startLoadingIndicators, saveLoadedIndicators, finishLoadingIndicators } from '../../../../../action-creators/library-page/indicators';
-import { updateNewCompetencePointedIndicators } from '../../../../../action-creators/library-page/competencies';
+
 import withPointedIndicators from '../../../../../hoc/with-pointed-indicators';
 
 import { mode } from '../../../../../hoc/with-pointed-indicators/with-pointed-indicators';

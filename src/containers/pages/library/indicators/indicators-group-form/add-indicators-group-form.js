@@ -6,10 +6,6 @@ import {
     newIndicatorsGroupSaved 
 } from '../../../../../action-creators/library-page/indicators';
 
-import CustomSaveButton from '../../../../../components/common/custom-save-button';
-import CustomCancelButton from '../../../../../components/common/custom-cancel-button';
-import CustomTextAreaView from '../../../../../components/common/custom-textarea-view';
-import CustomInputView from '../../../../../components/common/custom-input-view';
 import IndicatorsGroupFormView from '../../../../../components/pages/library/indicators/indicators-group-form-view';
 
 class AddIndicatorsGroupForm extends Component {

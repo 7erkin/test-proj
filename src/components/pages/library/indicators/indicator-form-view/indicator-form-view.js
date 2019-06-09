@@ -9,22 +9,6 @@ import CustomSelectView from '../../../../common/custom-select-view';
 import CustomCancelButton from '../../../../common/custom-cancel-button';
 import CustomSaveButton from '../../../../common/custom-save-button';
 
-const inputIndicatorNameStyles = {
-    root: {
-        marginLeft: 100,
-        width: 700,
-        background: 'green'
-    }
-}
-
-const selectIndicatorsGroupStyles = {
-    root: {
-        marginLeft: 100,
-        width: 700,
-        background: 'green'
-    }
-}
-
 const IndicatorFormView = ({
     indicatorName,
     validation,
@@ -35,28 +19,30 @@ const IndicatorFormView = ({
     onSubmit, onCancel
 }) => {
     return (
-        <form className="indicators-form indicators-form-common" onSubmit={evt => {
+        <form className="indicator-form indicators-form-common" onSubmit={evt => {
             evt.preventDefault();
             onSubmit();
         }}>
-            <div className="field">
-                <CustomInputView 
-                    label="Indicator name: " 
-                    value={indicatorName}
-                    onChange={onIndicatorNameChange}
-                    err={{...validation}}
-                    classes={inputIndicatorNameStyles}/>
+            <div className="horizontal-wrapper">
+                <div className="field">
+                    <CustomInputView 
+                        label="Название индикатора " 
+                        value={indicatorName}
+                        onChange={onIndicatorNameChange}
+                        err={{...validation}}/>
+                </div>
+                <div className="field">
+                    <CustomSelectView 
+                        label="Группа индикатора " 
+                        onChange={onIndicatorsGroupIdChange} 
+                        items={indicatorsGroups} 
+                        value={indicatorsGroupId}/>
+                </div>
             </div>
-            <div className="field">
-                <CustomSelectView 
-                    label="Indicators group: " 
-                    onChange={onIndicatorsGroupIdChange} 
-                    items={indicatorsGroups} 
-                    value={indicatorsGroupId}
-                    classes={selectIndicatorsGroupStyles}/>
+            <div className="indicators-form-button">
+                <CustomSaveButton disabled={validation.hasErr} />
+                <CustomCancelButton onClick={onCancel} />
             </div>
-            <CustomSaveButton disabled={!validation.hasErr} />
-            <CustomCancelButton onClick={onCancel} />
         </form>
     );
 }

@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
-    TextField
+    TextField, Typography
 } from '@material-ui/core'
+
+import './style.css'
 
 const CustomInputView = ({
     label,
@@ -19,8 +21,8 @@ const CustomInputView = ({
 }) => {
     return (
         <div class="custom-input">
-            <label>{label}</label>
             <TextField 
+                label={label}
                 type="text" 
                 error={hasErr} 
                 helperText={hasErr ? messageErr : ''} 

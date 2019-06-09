@@ -1,5 +1,7 @@
 import React from 'react'
-import { Select } from '@material-ui/core';
+import { Select, MenuItem, OutlinedInput, InputLabel, FormControl } from '@material-ui/core';
+
+import './style.css'
 
 const CustomSelectView = ({
     label,
@@ -8,14 +10,21 @@ const CustomSelectView = ({
     onChange,
     ...others
 }) => {
+    console.log(onChange);
     return (
         <div className="custom-select">
-            <label>{label}</label>
-            <Select value={value} onChange={(evt) => {}} {...others}>
+        <FormControl>
+            <InputLabel htmlFor="select">{label}</InputLabel>
+            <Select inputProps={{name: label, id: 'select'}} value={value} onChange={(evt) => onChange(evt.target.value)} {...others}>
             {
-                items.map(el => <option value={el.id}>{el.name}</option>)
+                items.map(el => {
+                    return (
+                        <MenuItem value={el.id}>{el.name}</MenuItem>
+                    );
+                })
             }
             </Select>
+        </FormControl>
         </div>
     );
 }

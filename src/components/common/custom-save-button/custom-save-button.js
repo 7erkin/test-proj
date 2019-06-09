@@ -3,7 +3,11 @@ import { Button, withStyles } from "@material-ui/core";
 
 const styles = {
     root: {
-        background: 'green'
+        background: 'green',
+        color: 'white'
+    },
+    disabled: {
+        background: 'grey'
     }
 }
 

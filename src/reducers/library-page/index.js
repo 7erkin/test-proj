@@ -30,7 +30,9 @@ import {
     INDICATORS_GROUPS_DELETED,
 
     START_LOADING_INDICATORS_GROUPS,
-    FINISH_LOADING_INDICATORS_GROUPS
+    FINISH_LOADING_INDICATORS_GROUPS,
+    UPDATE_VISIBLE_INDICATORS,
+    UPDATE_VISIBLE_INDICATORS_GROUPS
 } from '../../actions/library-page/indicators'
 
 import {
@@ -82,7 +84,9 @@ import {
     UPDATE_EDIT_COMPETENCE_GROUP_ID,
     UPDATE_EDIT_COMPETENCE_INDICATOR_INFLUENCE,
     RESET_EDIT_COMPETENCE_FORM,
-    RESET_NEW_COMPETENCE_FORM
+    RESET_NEW_COMPETENCE_FORM,
+    UPDATE_VISIBLE_COMPETENCIES,
+    UPDATE_VISIBLE_COMPETENCIES_GROUPS
 
 } from '../../actions/library-page/competencies'
 
@@ -263,6 +267,16 @@ const rootReducer = (state = initialState, {type, value}) => {
         case RESET_EDIT_COMPETENCE_FORM:
             return competenceReducer.resetEditCompetenceForm(state);
 
+
+        case UPDATE_VISIBLE_COMPETENCIES:
+            return competenceReducer.updateVisibleCompetencies(state, value);
+        case UPDATE_VISIBLE_COMPETENCIES_GROUPS:
+            return competenceReducer.updateVisibleCompetenciesGroups(state, value);
+
+        case UPDATE_VISIBLE_INDICATORS:
+            return indicatorReducer.updateVisibleIndicators(state, value);
+        case UPDATE_VISIBLE_INDICATORS_GROUPS:
+            return indicatorReducer.updateVisibleIndicatorsGroups(state, value);
         default:
             return state;
     }

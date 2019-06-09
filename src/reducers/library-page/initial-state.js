@@ -49,6 +49,11 @@ export default {
         description: ''
     },
 
+    visibleIndicators: [],
+    visibleIndicatorsGroups: [],
+    visibleCompetencies: [],
+    visibleCompetenciesGroups: [],
+
     loadingCompetencies: false,
 
     loadingIndicatorsGroups: false,

@@ -29,9 +29,24 @@ import {
     INDICATORS_GROUPS_DELETED,
 
     START_LOADING_INDICATORS_GROUPS,
-    FINISH_LOADING_INDICATORS_GROUPS
+    FINISH_LOADING_INDICATORS_GROUPS,
+
+    UPDATE_VISIBLE_INDICATORS,
+    UPDATE_VISIBLE_INDICATORS_GROUPS
 } from '../../actions/library-page/indicators'
 
+export const updateVisibleIndicators = pattern => {
+    return {
+        type: UPDATE_VISIBLE_INDICATORS,
+        value: pattern
+    }
+}
+export const updateVisibleIndicatorsGroups = pattern => {
+    return {
+        type: UPDATE_VISIBLE_INDICATORS_GROUPS,
+        value: pattern
+    }
+}
 // savings
 export const indicatorsGroupsDeleted = () => {
     return {

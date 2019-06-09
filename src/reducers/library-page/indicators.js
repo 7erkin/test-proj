@@ -1,5 +1,18 @@
 import initialState from './initial-state'
 
+export const updateVisibleIndicators = (state, value) => {
+    return {
+        ...state,
+        visibleIndicators: state.indicators.filter(el => el.name.toUpperCase().indexOf(value.toUpperCase()) !== -1)
+    }
+}
+export const updateVisibleIndicatorsGroups = (state, value) => {
+    return {
+        ...state,
+        visibleIndicatorsGroups: state.indicatorsGroups.filter(el => el.name.toUpperCase().indexOf(value.toUpperCase()) !== -1)
+    }
+}
+
 export const newIndicatorSaved = (state) => {
     return {
         ...state,
@@ -63,13 +76,15 @@ export const finishLoadingIndicators = (state, value) => {
 export const saveLoadedIndicators = (state, value) => {
     return {
         ...state,
-        indicators: value
+        indicators: value,
+        visibleIndicators: value
     }
 }
 export const saveLoadedIndicatorsGroups = (state, value) => {
     return {
         ...state,
-        indicatorsGroups: value
+        indicatorsGroups: value,
+        visibleIndicatorsGroups: value
     }
 }
 export const updateEditIndicatorsGroupName = (state, value) => {

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import {
     Link
 } from 'react-router-dom'
-import { updateDeletedIndicatorsGroups, indicatorsGroupsDeleted } from '../../../../../action-creators/library-page/indicators';
+import { updateDeletedIndicatorsGroups, indicatorsGroupsDeleted, updateVisibleIndicatorsGroups } from '../../../../../action-creators/library-page/indicators';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
 
@@ -38,6 +38,10 @@ class ListGroupsIndicators extends Component {
         this.props.history.push('/library/indicators-groups/add');
     }
 
+    onSearchChange = pattern => {
+        this.props.dispatch(updateVisibleIndicatorsGroups(pattern))
+    }
+
     render() {
         const { indicatorsGroups, deletedIndicatorsGroups } = this.props;
 
@@ -48,7 +52,7 @@ class ListGroupsIndicators extends Component {
                 renderItemName={(itemId, name) => {
                     return <Link to={`/library/indicators-groups/edit/${itemId}`}>{name}</Link>
                 }}
-                onInputChange={() => {}}
+                onSearchChange={this.onSearchChange}
                 onItemCheck={this.onIndicatorsGroupCheck}
                 addButton={{
                     label: 'Добавить группу',
@@ -65,7 +69,7 @@ class ListGroupsIndicators extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        indicatorsGroups,
+        visibleIndicatorsGroups: indicatorsGroups,
         deletedIndicatorsGroups,
         applyingChanges
     }

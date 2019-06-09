@@ -1,12 +1,8 @@
-.indicator-form {
-    width: 700px;
-    margin: 0 auto;
-    margin-top: 50px;
-    background-color: azure;
+.indicators-form-common .field:last-child {
+    margin-bottom: 30px;
+    margin-left: 20px;
 }
 
-.indicator-form .input {
-    margin-bottom: 50px;
-    display: flex;
-    justify-content: center;
+.indicators-form-common .field:first-child {
+    width: 50%;
 }

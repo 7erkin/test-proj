@@ -7,7 +7,7 @@ import {
     Link
 } from 'react-router-dom'
 
-import { updateDeletedCompetenciesGroups, competenciesGroupsDeleted } from '../../../../../action-creators/library-page/competencies';
+import { updateDeletedCompetenciesGroups, competenciesGroupsDeleted, updateVisibleCompetenciesGroups } from '../../../../../action-creators/library-page/competencies';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
 
@@ -39,6 +39,10 @@ class CompetenciesGroupList extends Component {
         this.props.history.push('/library/competencies-groups/add');
     }
 
+    onSearchChange = pattern => {
+        this.props.dispatch(updateVisibleCompetenciesGroups(pattern))
+    }
+
     render() {
         const { competenciesGroups, deletedCompetenciesGroups } = this.props;
 
@@ -53,14 +57,14 @@ class CompetenciesGroupList extends Component {
                         </Link>
                     );
                 }}
-                onInputChange={() => {}}
+                onSearchChange={this.onSearchChange}
                 onItemCheck={this.onCompetenciesGroupCheck}
                 addButton={{
-                    label: '',
+                    label: 'Добавить группу',
                     onClick: this.onAddCompetenciesGroupClick
                 }}
                 deleteButton={{
-                    label: '',
+                    label: 'Удалить',
                     onClick: this.onDeleteCompetenciesGroupsClick
                 }}/>
         );
@@ -69,7 +73,7 @@ class CompetenciesGroupList extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        competenciesGroups,
+        visibleCompetenciesGroups: competenciesGroups,
         deletedCompetenciesGroups,
         applyingChanges
     }

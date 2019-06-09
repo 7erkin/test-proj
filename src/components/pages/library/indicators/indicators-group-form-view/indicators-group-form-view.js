@@ -15,6 +15,7 @@ const IndicatorsGroupFormView = ({
     onSubmit, onCancel, 
     //validation
 }) => {
+
     return (
         <form className="indicators-group-form indicators-form-common" onSubmit={evt => {
             evt.preventDefault();
@@ -34,8 +35,10 @@ const IndicatorsGroupFormView = ({
                     onChange={onIndicatorsGroupDescriptionChange} 
                     err={{hasErr: false, messageErr: ''}} />
             </div>
-            <CustomSaveButton />
-            <CustomCancelButton onClick={onCancel} />
+            <div className="indicators-form-button">
+                <CustomSaveButton />
+                <CustomCancelButton onClick={onCancel} />
+            </div>
         </form>
     );
 }

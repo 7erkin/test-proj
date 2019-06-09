@@ -2,11 +2,17 @@
     width: 700px;
     margin: 0 auto;
     margin-top: 50px;
-    background-color: azure;
 }
 
-.indicators-form-common .field {
-    margin-bottom: 50px;
+.horizontal-wrapper{
     display: flex;
-    justify-content: center;
+}
+
+.indicators-form-common .indicators-form-button {
+    position: relative;
+}
+
+.indicators-form-common .indicators-form-button button:last-of-type{
+    position: absolute;
+    right: 0;
 }

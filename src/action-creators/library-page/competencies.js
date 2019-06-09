@@ -36,8 +36,25 @@ import {
     UPDATE_EDIT_COMPETENCE_INDICATOR_INFLUENCE,
     UPLOAD_EDITED_COMPETENCE,
     RESET_EDIT_COMPETENCE_FORM,
-    RESET_NEW_COMPETENCE_FORM
+    RESET_NEW_COMPETENCE_FORM,
+
+    UPDATE_VISIBLE_COMPETENCIES,
+    UPDATE_VISIBLE_COMPETENCIES_GROUPS
 } from '../../actions/library-page/competencies'
+
+export const updateVisibleCompetencies = (pattern) => {
+    return {
+        type: UPDATE_VISIBLE_COMPETENCIES,
+        value: pattern
+    }
+}
+export const updateVisibleCompetenciesGroups = (pattern) => {
+    return {
+        type: UPDATE_VISIBLE_COMPETENCIES_GROUPS,
+        value: pattern
+    }
+}
+
 export const resetEditCompetenceForm = () => {
     return {
         type: RESET_EDIT_COMPETENCE_FORM

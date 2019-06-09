@@ -1,5 +1,17 @@
 import initialState from './initial-state'
 
+export const updateVisibleCompetencies = (state, value) => {
+    return {
+        ...state,
+        visibleCompetencies: state.competencies.filter(el => el.name.toUpperCase().indexOf(value.toUpperCase()) !== -1)
+    }
+}
+export const updateVisibleCompetenciesGroups = (state, value) => {
+    return {
+        ...state,
+        visibleCompetenciesGroups: state.competenciesGroups.filter(el => el.name.toUpperCase().indexOf(value.toUpperCase()) !== -1)
+    }
+}
 export const newCompetenceSaved = (state) => {
     return {
         ...state,
@@ -63,13 +75,15 @@ export const finishLoadingCompetencies = (state, value) => {
 export const saveLoadedCompetencies = (state, value) => {
     return {
         ...state,
-        competencies: value
+        competencies: value,
+        visibleCompetencies: value
     }
 }
 export const saveLoadedCompetenciesGroups = (state, value) => {
     return {
         ...state,
-        competenciesGroups: value
+        competenciesGroups: value,
+        visibleCompetenciesGroups: value
     }
 }
 export const updateEditCompetenciesGroupName = (state, value) => {

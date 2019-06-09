@@ -9,10 +9,12 @@ import {
 } from 'react-router-dom'
 import { resetInitialLoading, fulfilInitialLoading } from '../../../../action-creators/library-page';
 import AsideList from './aside-list';
-import QuestionsGroupContent from './questions-group-content';
 import QuestionList from './question-list';
 import AddQuestionForm from './add-question-form'
 import { saveLoadedCompetenciesGroups } from '../../../../action-creators/library-page/competencies';
+import LoadingIndicator from '../../../../components/common/loading-indicator/loading-indicator';
+import LibraryContentCenterView from '../../../../components/pages/library/library-content-center-view';
+import QuestionsAffiliation from './questions-affiliation';
 
 class Questions extends Component {
     constructor(props){
@@ -82,10 +84,10 @@ class Questions extends Component {
         } = this.props;
 
         if(!loadingInitial)
-            return <h2>Loading...</h2>
+            return <LoadingIndicator />
 
         if(isNaN(this._initialQuestionsGroupId))
-            return <h2>Loading...</h2>
+            return <LoadingIndicator />
 
         return (
             <Switch>
@@ -94,11 +96,13 @@ class Questions extends Component {
                     return (
                         <Fragment>
                             <AsideList {...props}/>
-                            <Switch>
-                                <Route exact path="/library/questions-groups/:idCompetenciesGroup/add-question" render={(props) => <AddQuestionForm {...props}/>}/>
-                                <Route exact path="/library/questions-groups/:idCompetenciesGroup" render={(props) => <QuestionsGroupContent {...props}/>}/>
-                                <Route exact path="/library/questions-groups/:idCompetenciesGroup/questions/:idCompetence" render={(props) => <QuestionList {...props}/>}/>
-                            </Switch>
+                            <LibraryContentCenterView>
+                                <Switch>
+                                    <Route exact path="/library/questions-groups/:idCompetenciesGroup/add-question" render={(props) => <AddQuestionForm {...props}/>}/>
+                                    <Route exact path="/library/questions-groups/:idCompetenciesGroup" render={(props) => <QuestionsAffiliation {...props}/>}/>
+                                    <Route exact path="/library/questions-groups/:idCompetenciesGroup/questions/:idCompetence" render={(props) => <QuestionList {...props}/>}/>
+                                </Switch>
+                            </LibraryContentCenterView>
                         </Fragment>
                     );
                 }} />

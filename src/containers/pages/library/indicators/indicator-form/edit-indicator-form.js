@@ -23,7 +23,7 @@ class EditIndicatorForm extends Component {
         this.props.dispatch(updateEditIndicatorName(name));
     }
 
-    onIndicatorsGroupsIdChange = id => {
+    onIndicatorsGroupIdChange = id => {
         this.props.dispatch(updateEditIndicatorIdGroup(id))
     }
 

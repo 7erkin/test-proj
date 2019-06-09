@@ -2,14 +2,18 @@ import React, { Component } from 'react'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import { connect } from 'react-redux';
-import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 
-import {
-    Link
-} from 'react-router-dom'
-import { saveLoadedQuestionsGroupContent, startLoadingQuestionsGroupContent, finishLoadingQuestionsGroupContent } from '../../../../../action-creators/library-page/questions';
+import { 
+    saveLoadedQuestionsGroupContent, 
+    startLoadingQuestionsGroupContent, 
+    finishLoadingQuestionsGroupContent 
+} from '../../../../../action-creators/library-page/questions';
 
-class QuestionsGroupContent extends Component {
+import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
+
+import QuestionsAffiliationView from '../../../../../components/pages/library/questions/questions-affiliation-view';
+
+class QuestionsAffiliation extends Component {
     constructor(props) {
         super(props);
         this._idRequestedQuestionsGroup = NaN;
@@ -61,38 +65,27 @@ class QuestionsGroupContent extends Component {
         history.push(`${match.url}/add-question`);
     }
 
+    onRowClick = (competenceId) => {
+        const { history, match: {url} } = this.props;
+        history.push(`${url}/questions/${competenceId}`)
+    }
+
     //onSearchIndicatorChange = name => this.props.dispatch(updateNameSearchIndicator(name));
 
     render() {
-        const { questionsGroupContent, loadingQuestionsGroupContent, competenciesGroups, match: {params: {idCompetenciesGroup}}, match: {url} } = this.props;
+        const { questionsGroupContent, loadingQuestionsGroupContent, competenciesGroups, match: {params: {idCompetenciesGroup}} } = this.props;
 
         if(loadingQuestionsGroupContent)
-            return <h2>Loading...</h2>
+            return <LoadingIndicator />
 
         const description = this._defineDescriptionGroup(idCompetenciesGroup, competenciesGroups);
 
         return (
-            <section>
-                <p>{description}</p>
-                <input type="text" />
-                <button type="button" onClick={this.onAddQuestionClick}>Add</button>
-                <ul>
-                    {
-                        questionsGroupContent.map((el, index) => {
-                            return (
-                                <li key={index}>
-                                    {'Competence name: '}
-                                    {el.competenceName} {' ===== '}
-                                    {'Competence description: '}
-                                    {el.competenceDescription} {' ===== '}
-                                    {'Quantity questions: '}
-                                    <Link to={`${url}/questions/${el.idCompetence}`}>{el.questions}</Link>
-                                </li>
-                            );
-                        })
-                    }
-                </ul>
-            </section>
+            <QuestionsAffiliationView 
+                competenceGroupDescription={description}
+                questionsGroupContent={questionsGroupContent}
+                onAddQuestionClick={this.onAddQuestionClick}
+                onRowClick={this.onRowClick} />
         );
     }
 }
@@ -114,4 +107,4 @@ const mapStoreToProps = ({
     };
 }
 
-export default connect(mapStoreToProps)(withStaffixService(withEffectApplyingChanges(QuestionsGroupContent)));
+export default connect(mapStoreToProps)(withStaffixService(withEffectApplyingChanges(QuestionsAffiliation)));

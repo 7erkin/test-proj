@@ -10,11 +10,10 @@ const CustomOutlinedInput = withStyles({
 })(OutlinedInput);
 
 const CustomSearchView = ({
-    value, 
     onChange,
     ...others
 }) => {
-    return <CustomOutlinedInput notched={true} {...others}/>
+    return <CustomOutlinedInput onChange={onChange} notched={true} {...others}/>
 }
 
 export default CustomSearchView;

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import { connect } from 'react-redux';
-import { startLoadingCompetencies, saveLoadedCompetencies, finishLoadingCompetencies, updateDeletedCompetencies } from '../../../../../action-creators/library-page/competencies';
+import { startLoadingCompetencies, saveLoadedCompetencies, finishLoadingCompetencies, updateDeletedCompetencies, updateVisibleCompetencies } from '../../../../../action-creators/library-page/competencies';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
 
 import {
@@ -78,7 +78,7 @@ class CompetenciesList extends Component {
     }
 
 
-    //onSearchcompetenceChange = name => this.props.dispatch(updateNameSearchcompetence(name));
+    onSearchChange = pattern => this.props.dispatch(updateVisibleCompetencies(pattern));
 
     render() {
         const { competencies, loadingCompetencies, competenciesGroups, match: {params: {idGroup}}, deletedCompetencies } = this.props;
@@ -100,7 +100,7 @@ class CompetenciesList extends Component {
                         </Link>
                     );
                 }}
-                onInputChange={() => {}}
+                onSearchChange={this.onSearchChange}
                 onItemCheck={this.onCompetenceCheck}
                 addButton={{
                     label: 'Добавить компетенцию',
@@ -116,7 +116,7 @@ class CompetenciesList extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        competencies,
+        visibleCompetencies: competencies,
         deletedCompetencies,
         loadingCompetencies,
         applyingChanges,

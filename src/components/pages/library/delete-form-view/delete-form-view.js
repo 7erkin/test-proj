@@ -11,6 +11,7 @@ const addButtonStyles = {
         color: 'white'
     }
 }
+
 const deleteButtonsStyles = {
     root: {
         background: 'red',
@@ -26,7 +27,7 @@ const DeleteFormView = ({
     description = null,
     items,
     deletedItemIds,
-    onInputChange,
+    onSearchChange,
     onItemCheck,
     addButton: {
         label: addButtonLabel,
@@ -48,7 +49,7 @@ const DeleteFormView = ({
             <Typography variant="body1" gutterBottom>
                 {Description}
             </Typography>
-            <CustomSearchView value={''} onChange={onInputChange} placeholder="Введите название сущности..."/>
+            <CustomSearchView onChange={(evt) => onSearchChange(evt.target.value)} placeholder="Введите название сущности..."/>
             <div className="buttons">
                 <AddButton variant="contained" onClick={addButtonClick}>{addButtonLabel}</AddButton>
                 <DeleteButton variant="contained" type="submit" disabled={!deletedItemIds.length}>{deleteButtonLabel}</DeleteButton>
@@ -82,7 +83,7 @@ DeleteFormView.propTypes = {
         name: PropTypes.string.isRequired
     }).isRequired,
     deletedItemIds: PropTypes.array.isRequired,
-    onInputChange: PropTypes.func.isRequired,
+    onSearchChange: PropTypes.func.isRequired,
     onItemCheck: PropTypes.func.isRequired,
     addButton: PropTypes.shape({
         label: PropTypes.string.isRequired,

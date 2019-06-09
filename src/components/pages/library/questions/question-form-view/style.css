@@ -1,0 +1,18 @@
+.question-form .field {
+    margin-bottom: 30px;
+}
+
+.question-form {
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.question-form .question-form-button {
+    position: relative;
+}
+
+.question-form .question-form-button button:last-of-type{
+    position: absolute;
+    right: 0;
+}

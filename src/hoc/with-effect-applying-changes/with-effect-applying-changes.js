@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import LoadingIndicator from '../../components/common/loading-indicator/loading-indicator';
 
 const withEffectApplyingChanges = WrappedContainer => {
     return class extends Component {
@@ -12,7 +13,7 @@ const withEffectApplyingChanges = WrappedContainer => {
             } = this.props;
 
             if(applyingChanges)
-                return <h2>Saving changes...</h2>
+                return <LoadingIndicator />
 
             return <WrappedContainer {...this.props} />
         }
