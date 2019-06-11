@@ -10,8 +10,43 @@ import {
     UPDATE_DELETED_QUESTIONS,
     QUESTIONS_DELETED,
     RESET_DELETED_QUESTIONS,
-    UPDATE_NEW_QUESTION_COMPETENCE_ID
+    UPDATE_NEW_QUESTION_COMPETENCE_ID,
+    NEW_QUESTION_COMPETENCE_ID_SUCCESS_VALIDATION,
+    NEW_QUESTION_COMPETENCE_ID_ERROR_VALIDATION,
+    NEW_QUESTION_BODY_ERROR_VALIDATION,
+    NEW_QUESTION_BODY_SUCCESS_VALIDATION,
+    RESET_NEW_QUESTION_FORM
 } from '../../actions/library-page/questions'
+
+export const resetNewQuestionForm = () => {
+    return {
+        type: RESET_NEW_QUESTION_FORM
+    }
+}
+
+export const newQuestionCompetenceIdSuccessValidation = () => {
+    return {
+        type: NEW_QUESTION_COMPETENCE_ID_SUCCESS_VALIDATION
+    }
+}
+export const newQuestionCompetenceIdErrorValidation = (errorMessage) => {
+    return {
+        type: NEW_QUESTION_COMPETENCE_ID_ERROR_VALIDATION,
+        value: errorMessage
+    }
+}
+
+export const newQuestionBodySuccessValidation = () => {
+    return {
+        type: NEW_QUESTION_BODY_SUCCESS_VALIDATION
+    }
+}
+export const newQuestionBodyErrorValidation = (errorMessage) => {
+    return {
+        type: NEW_QUESTION_BODY_ERROR_VALIDATION,
+        value: errorMessage
+    }
+}
 
 export const saveLoadedCompetencies = (competencies) => {
     return {

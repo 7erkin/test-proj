@@ -9,10 +9,7 @@ import './style.css'
 
 const CustomInputView = ({
     label,
-    err: {
-        hasErr,
-        messageErr
-    },
+    err: errorMessage,
     value,
     onChange,
     multiline = false,
@@ -24,8 +21,8 @@ const CustomInputView = ({
             <TextField 
                 label={label}
                 type="text" 
-                error={hasErr} 
-                helperText={hasErr ? messageErr : ''} 
+                error={errorMessage.length} 
+                helperText={errorMessage} 
                 value={value} 
                 onChange={evt => onChange(evt.target.value)}
                 multiline={multiline}

@@ -82,6 +82,7 @@ class QuestionsAffiliation extends Component {
 
         return (
             <QuestionsAffiliationView 
+                competenciesGroupId={idCompetenciesGroup}
                 competenceGroupDescription={description}
                 questionsGroupContent={questionsGroupContent}
                 onAddQuestionClick={this.onAddQuestionClick}

@@ -3,16 +3,18 @@ import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-ser
 import {connect} from 'react-redux'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
-import { updateNewQuestionCompetenceId, updateNewQuestionBody, saveLoadedCompetencies } from '../../../../../action-creators/library-page/questions';
+import { updateNewQuestionCompetenceId, updateNewQuestionBody, saveLoadedCompetencies, resetNewQuestionForm } from '../../../../../action-creators/library-page/questions';
 import QuestionFormView from '../../../../../components/pages/library/questions/question-form-view';
+import withValidationApi from './with-validation-api';
+import withValidationPolicy from './with-validation-logic';
 
 class AddQuestionForm extends Component {
     constructor(props) {
         super(props);
     }
 
-    _isValid = name => {
-        return true;
+    componentWillUnmount() {
+        this.props.dispatch(resetNewQuestionForm());
     }
 
     componentDidMount = () => {
@@ -42,11 +44,22 @@ class AddQuestionForm extends Component {
                 params: {
                     idGroup: idQuestionsGroup
                 }
-            }
+            },
+            isFormValid
         } = this.props;
 
+        if(!isFormValid())
+            return;
+
         dispatch(startApplyingChanges());
-        staffixService.createQuestion({idQuestionsGroup, ...newQuestion})
+
+        const question = {
+            idQuestionsGroup, 
+            body: newQuestion.body.text,
+            idCompetence: newQuestion.idCompetence.text
+        };
+
+        staffixService.createQuestion(question)
             .then(() => {
                 dispatch(finishApplyingChanges());
                 //some actions with history - depends on how we got on this component
@@ -63,31 +76,34 @@ class AddQuestionForm extends Component {
         const {
             competencies,
             newQuestion: {
-                body, idGroup
-            }
+                body: {
+                    text: body,
+                    errorMessage: errBody
+                }, 
+                idCompetence: {
+                    text: idCompetence,
+                    errorMessage: errCompetenceId
+                }
+            },
+            onQuestionBodyBlur,
+            onCompetenceIdBlur
         } = this.props;
 
         return (
             <QuestionFormView 
                 questionBody={body}
-                competenceId={idGroup}
+                competenceId={idCompetence}
                 onSubmit={this.onSubmit}
                 onCancel={this.onCancel}
                 onQuestionBodyChange={this.onQuestionBodyChange}
                 onCompetenceIdChange={this.onCompetenceIdChange}
                 competencies={competencies}
-                validation={{hasErr: false, messageErr: ''}}
-                />
-            // <form onSubmit={this.onSubmit}>
-            //     <input type="text" value={body} onChange={(evt) => this.onNameChange(evt.target.value)} />
-            //     <select value={idGroup} onChange={(evt) => this.onIdGroupQuestionsChange(evt.target.value)}>
-            //     {
-            //         competencies.map(({id, name}) => <option value={id}>{name}</option>)
-            //     }
-            //     </select>
-            //     <button type="submit">Save</button>
-            //     <button type="button" onClick={this.onCancel}>Cancel</button>
-            // </form>
+                validation={{
+                    errCompetenceId,
+                    errBody
+                }} 
+                onQuestionBodyBlur={onQuestionBodyBlur}
+                onCompetenceIdBlur={onCompetenceIdBlur} />
         );
     }
 }
@@ -107,4 +123,7 @@ const mapStoreToProps = ({
     };
 }
 
-export default connect(mapStoreToProps)(withStaffixService(withEffectApplyingChanges(AddQuestionForm)));
+export default connect(mapStoreToProps)(withStaffixService(
+                                            withEffectApplyingChanges(
+                                                withValidationApi(
+                                                    withValidationPolicy(AddQuestionForm)))));

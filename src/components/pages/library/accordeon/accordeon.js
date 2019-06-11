@@ -72,6 +72,7 @@ function CustomizedExpansionPanels({
                   //handleChange(`panel${index}`)}
                 }}>
                     <ExpansionPanelSummary aria-controls={`panel${index}d-content`} id={`panel${index}d-header`}>
+                      
                       <Typography>{el.name}</Typography>
                     </ExpansionPanelSummary>
                     {

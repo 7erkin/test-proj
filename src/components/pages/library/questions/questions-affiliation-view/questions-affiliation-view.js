@@ -10,7 +10,8 @@ const QuestionsAffiliationView = ({
     competenceGroupDescription,
     onAddQuestionClick,
     onRowClick,
-    questionsGroupContent
+    questionsGroupContent,
+    competenciesGroupId
 }) => {
     return (
         <section className="questions-affiliation">
@@ -19,8 +20,8 @@ const QuestionsAffiliationView = ({
             </Typography>
             <CustomSearchView value={''} onChange={() => {}} placeholder="Введите название сущности..." />
             <CustomAddButton onClick={onAddQuestionClick}>Добавить вопрос</CustomAddButton>
-            <ContentTable 
-                onRowClick={onRowClick}
+            <ContentTable
+                competenciesGroupId={competenciesGroupId}
                 values={questionsGroupContent} 
                 columns={[
                     'Название компетенции', 

@@ -3,12 +3,18 @@ import React from 'react'
 import Table from '@material-ui/core/Table';
 import { TableRow, TableCell, TableBody, TableHead } from '@material-ui/core';
 
+import {
+    Link
+} from 'react-router-dom'
+
 export default ({
     columns,
     values,
-    onRowClick
+    competenciesGroupId
 }) => {
 
+    console.log(values)
+    
     return (
         <Table>
             <TableHead>
@@ -21,10 +27,12 @@ export default ({
                     values.map(el => {
                         console.log(values)
                         return (
-                            <TableRow onClick={() => onRowClick(el.idCompetence)}>
+                            <TableRow>
                                 <TableCell>{el.competenceName}</TableCell>
                                 <TableCell>{el.competenceDescription}</TableCell>
-                                <TableCell>{el.questions}</TableCell>
+                                <TableCell>
+                                    <Link to={`/library/questions-groups/${competenciesGroupId}/questions/${el.idCompetence}`}>{el.questions}</Link>
+                                </TableCell>
                             </TableRow>
                         );
                     })

@@ -10,12 +10,17 @@ import CustomTextAreaView from '../../../../common/custom-textarea-view';
 
 const QuestionFormView = ({
     questionBody,
-    validation,
+    validation: {
+        errCompetenceId,
+        errBody
+    },
     onQuestionBodyChange,
     competenceId,
     onCompetenceIdChange,
     competencies,
-    onSubmit, onCancel
+    onSubmit, onCancel,
+    onCompetenceIdBlur,
+    onQuestionBodyBlur
 }) => {
     return (
         <form className="question-form" onSubmit={evt => {
@@ -27,17 +32,20 @@ const QuestionFormView = ({
                     label="Компетенция проверяемая вопросом" 
                     onChange={onCompetenceIdChange} 
                     items={competencies} 
-                    value={competenceId}/>
+                    value={competenceId}
+                    err={errCompetenceId}
+                    onBlur={onCompetenceIdBlur}/>
             </div>
             <div className="field">
                 <CustomTextAreaView
                     label="Вопрос" 
                     value={questionBody}
                     onChange={onQuestionBodyChange}
-                    err={{...validation}}/>
+                    err={errBody}
+                    onBlur={onQuestionBodyBlur}/>
             </div>
             <div className="question-form-button">
-                <CustomSaveButton disabled={!validation.hasErr} />
+                <CustomSaveButton />
                 <CustomCancelButton onClick={onCancel} />
             </div>
         </form>

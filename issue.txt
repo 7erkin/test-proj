@@ -1,0 +1,21 @@
+1. <QuestionFormView 
+                questionBody={body}
+                competenceId={idCompetence}
+                onSubmit={this.onSubmit}
+                onCancel={this.onCancel}
+                onQuestionBodyChange={this.onQuestionBodyChange}
+                onCompetenceIdChange={this.onCompetenceIdChange}
+                competencies={competencies}
+                validation={{
+                    competenceId: {
+                        ...idCompetenceValidation
+                    },
+                    body: {
+                        ...bodyValidation
+                    }
+                }}
+                onQuestionBodyBlur /> always pass many props is bad approach, i mean
+
+2. Select - cannot find how to add helper text
+3. When i press submit button it nothing happen - only blur
+4. two times add question form do save new question

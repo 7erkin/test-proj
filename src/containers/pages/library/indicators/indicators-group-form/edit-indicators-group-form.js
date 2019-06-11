@@ -12,11 +12,11 @@ class EditIndicatorsGroupForm extends Component {
         super(props);
     }
 
-    onNameChange = name => {
+    onIndicatorsGroupNameChange = name => {
         this.props.dispatch(updateEditIndicatorsGroupName(name));
     }
 
-    onDescriptionChange = description => {
+    onIndicatorsGroupDescriptionChange = description => {
         this.props.dispatch(updateEditIndicatorsGroupDescription(description));
     }
 

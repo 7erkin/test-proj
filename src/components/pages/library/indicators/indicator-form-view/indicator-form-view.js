@@ -29,14 +29,15 @@ const IndicatorFormView = ({
                         label="Название индикатора " 
                         value={indicatorName}
                         onChange={onIndicatorNameChange}
-                        err={{...validation}}/>
+                        err=''/>
                 </div>
                 <div className="field">
                     <CustomSelectView 
                         label="Группа индикатора " 
                         onChange={onIndicatorsGroupIdChange} 
                         items={indicatorsGroups} 
-                        value={indicatorsGroupId}/>
+                        value={indicatorsGroupId}
+                        err=''/>
                 </div>
             </div>
             <div className="indicators-form-button">

@@ -32,14 +32,15 @@ const CompetenceFormView = ({
                         value={competenceName} 
                         label='Название компетенции' 
                         onChange={onCompetenceNameChange} 
-                        err={{hasErr: false, messageErr: ''}}/>
+                        err=''/>
                 </div>
                 <div className="field">
                     <CustomSelectView 
                         value={competenciesGroupId} 
                         label='Группа компетенций' 
                         items={competenciesGroups} 
-                        onChange={onCompetenceGroupIdChange}/>
+                        onChange={onCompetenceGroupIdChange}
+                        err=''/>
                 </div>
             </div>
             <div className="field">
@@ -47,7 +48,7 @@ const CompetenceFormView = ({
                     value={competenceDescription} 
                     label='Описание компетенции' 
                     onChange={onCompetenceDescriptionChange} 
-                    err={{hasErr: false, messageErr: ''}}/>
+                    err=''/>
             { accordeon }
             </div>
             <div className="competence-form-button">

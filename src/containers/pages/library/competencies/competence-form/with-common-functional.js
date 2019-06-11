@@ -49,7 +49,13 @@ const withCommonFunctional = WrappedCompetenceForm => {
                             history.push(`/library/competencies-groups/${idGroup}`)
                         })
                 },
-                onCancel: () => {}
+                onCancel: () => {
+                    const {
+                        history
+                    } = this.props;
+
+                    history.goBack();
+                }
             };
 
             return (

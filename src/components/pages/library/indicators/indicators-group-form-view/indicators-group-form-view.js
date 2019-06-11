@@ -26,14 +26,14 @@ const IndicatorsGroupFormView = ({
                     label="Название групы: " 
                     value={indicatorsGroupName} 
                     onChange={onIndicatorsGroupNameChange} 
-                    err={{hasErr: false, messageErr: ''}}/>
+                    err=''/>
             </div>
             <div className="field">
                 <CustomTextAreaView 
                     label="Описание группы: " 
                     value={indicatorsGroupDescription} 
                     onChange={onIndicatorsGroupDescriptionChange} 
-                    err={{hasErr: false, messageErr: ''}} />
+                    err='' />
             </div>
             <div className="indicators-form-button">
                 <CustomSaveButton />

@@ -62,8 +62,14 @@ export default {
     loadingQuestionsGroupContent: false,
     questionsGroupContent: [],
     newQuestion: {
-        body: '',
-        idCompetence: ''
+        body: {
+            text: '',
+            errorMessage: ''
+        },
+        idCompetence: {
+            text: '',
+            errorMessage: ''
+        }
     },
     deletedQuestions: [],
     deletedQuestionsGroups: [],

@@ -1,3 +1,6 @@
 .aside-list{
     border-right: 1px solid rgb(23, 3, 97);
 }
+.aside-list {
+    padding-top: 35px;
+}

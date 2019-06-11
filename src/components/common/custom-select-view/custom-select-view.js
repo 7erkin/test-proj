@@ -8,6 +8,7 @@ const CustomSelectView = ({
     value,
     items,
     onChange,
+    err,
     ...others
 }) => {
     console.log(onChange);
@@ -15,7 +16,7 @@ const CustomSelectView = ({
         <div className="custom-select">
         <FormControl>
             <InputLabel htmlFor="select">{label}</InputLabel>
-            <Select inputProps={{name: label, id: 'select'}} value={value} onChange={(evt) => onChange(evt.target.value)} {...others}>
+            <Select helperText={err} error={err.length} inputProps={{name: label, id: 'select'}} value={value} onChange={(evt) => onChange(evt.target.value)} {...others}>
             {
                 items.map(el => {
                     return (

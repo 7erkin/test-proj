@@ -99,7 +99,13 @@ import {
     START_LOADING_QUESTIONS,
     FINISH_LOADING_QUESTIONS,
     UPDATE_DELETED_QUESTIONS,
-    QUESTIONS_DELETED
+    QUESTIONS_DELETED,
+    NEW_QUESTION_BODY_SUCCESS_VALIDATION,
+    NEW_QUESTION_BODY_ERROR_VALIDATION,
+    NEW_QUESTION_COMPETENCE_ID_SUCCESS_VALIDATION,
+    NEW_QUESTION_COMPETENCE_ID_ERROR_VALIDATION,
+    UPDATE_NEW_QUESTION_COMPETENCE_ID,
+    RESET_NEW_QUESTION_FORM
 } from '../../actions/library-page/questions'
 
 const fulfilInitialLoading = (state) => {
@@ -140,6 +146,8 @@ const rootReducer = (state = initialState, {type, value}) => {
 
         case UPDATE_NEW_QUESTION_BODY:
             return questionReducer.updateNewQuestionBody(state, value);
+        case UPDATE_NEW_QUESTION_COMPETENCE_ID:
+            return questionReducer.updateNewQuestionCompetenceId(state, value)
         case SAVE_LOADED_QUESTIONS_GROUP_CONTENT:
             return questionReducer.saveLoadedQuestionsGroupContent(state, value);
         case START_LOADING_QUESTIONS_GROUP_CONTENT:
@@ -156,6 +164,8 @@ const rootReducer = (state = initialState, {type, value}) => {
             return questionReducer.updateDeletedQuestions(state, value);
         case QUESTIONS_DELETED:
             return questionReducer.questionsDeleted(state);
+        case RESET_NEW_QUESTION_FORM:
+            return questionReducer.resetNewQuestion(state);
 
         case UPDATE_NEW_INDICATOR_NAME:
             return indicatorReducer.updateNewIndicatorName(state, value);
@@ -277,6 +287,16 @@ const rootReducer = (state = initialState, {type, value}) => {
             return indicatorReducer.updateVisibleIndicators(state, value);
         case UPDATE_VISIBLE_INDICATORS_GROUPS:
             return indicatorReducer.updateVisibleIndicatorsGroups(state, value);
+
+        case NEW_QUESTION_BODY_SUCCESS_VALIDATION:
+            return questionReducer.newQuestionBodyValidationSucceeded(state)
+        case NEW_QUESTION_BODY_ERROR_VALIDATION:
+            return questionReducer.newQuestionBodyValidationError(state, value)
+        case NEW_QUESTION_COMPETENCE_ID_SUCCESS_VALIDATION:
+            return questionReducer.newQuestionCompetenceIdValidationSucceeded(state)
+        case NEW_QUESTION_COMPETENCE_ID_ERROR_VALIDATION:
+            return questionReducer.newQuestionCompetenceIdValidationError(state, value)
+            
         default:
             return state;
     }
