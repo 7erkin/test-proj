@@ -7,11 +7,11 @@ import {
     Route,
     Redirect
 } from 'react-router-dom'
-import { resetInitialLoading, fulfilInitialLoading } from '../../../../action-creators/library-page';
+import { resetInitialLoading, fulfilInitialLoading } from '../../../../action-creators/library-page/page-managing';
 import AsideList from './aside-list';
 import QuestionList from './question-list';
 import AddQuestionForm from './add-question-form'
-import { saveLoadedCompetenciesGroups } from '../../../../action-creators/library-page/competencies';
+import { saveLoadedCompetenciesGroups } from '../../../../action-creators/library-page/competencies/competencies';
 import LoadingIndicator from '../../../../components/common/loading-indicator/loading-indicator';
 import LibraryContentCenterView from '../../../../components/pages/library/library-content-center-view';
 import QuestionsAffiliation from './questions-affiliation';
@@ -113,7 +113,9 @@ class Questions extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        loadingInitial
+        pageManaging: {
+            loadingInitial
+        }
     }
 }) => {
     return {

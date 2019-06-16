@@ -8,7 +8,7 @@ const withValidationPolicy = WrappedForm => {
             super(props)
         }
 
-        isFormValid = () => {
+        validateForm = () => {
             this.trySubmit();
 
             const {
@@ -40,7 +40,7 @@ const withValidationPolicy = WrappedForm => {
         render() {
             return (
                 <WrappedForm {...this.props}
-                    isFormValid={this.isFormValid}
+                    validateForm={this.validateForm}
                     onQuestionBodyBlur={this.onQuestionBodyBlur}
                     onCompetenceIdBlur={this.onCompetenceIdBlur} />
             );

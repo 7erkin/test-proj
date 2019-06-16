@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import {
-    TextField, Typography
+    TextField
 } from '@material-ui/core'
 
 import './style.css'

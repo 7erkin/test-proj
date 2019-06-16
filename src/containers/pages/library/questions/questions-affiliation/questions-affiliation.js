@@ -3,11 +3,14 @@ import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-c
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import { connect } from 'react-redux';
 
-import { 
-    saveLoadedQuestionsGroupContent, 
-    startLoadingQuestionsGroupContent, 
-    finishLoadingQuestionsGroupContent 
-} from '../../../../../action-creators/library-page/questions';
+import {  
+    startLoadingContent, 
+    finishLoadingContent 
+} from '../../../../../action-creators/library-page/questions/loading';
+
+import {  
+    saveLoadedContent
+} from '../../../../../action-creators/library-page/questions/questions';
 
 import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
 
@@ -34,11 +37,11 @@ class QuestionsAffiliation extends Component {
 
         this._idRequestedQuestionsGroup = id;
 
-        dispatch(startLoadingQuestionsGroupContent());
+        dispatch(startLoadingContent());
         staffixService.getQuestionsGroupContent(id)
             .then(content => {
-                dispatch(saveLoadedQuestionsGroupContent(content));
-                dispatch(finishLoadingQuestionsGroupContent());
+                dispatch(saveLoadedContent(content));
+                dispatch(finishLoadingContent());
             })
     }
 
@@ -50,13 +53,12 @@ class QuestionsAffiliation extends Component {
         if(this._idRequestedQuestionsGroup == id)
             return;
 
-        dispatch(startLoadingQuestionsGroupContent());
+        dispatch(startLoadingContent());
         staffixService.getQuestionsGroupContent(id)
             .then(content => {
-                console.log('content ', content)
                 this._idRequestedQuestionsGroup = id;
-                dispatch(saveLoadedQuestionsGroupContent(content));
-                dispatch(finishLoadingQuestionsGroupContent());
+                dispatch(saveLoadedContent(content));
+                dispatch(finishLoadingContent());
             })
     }
 
@@ -73,9 +75,9 @@ class QuestionsAffiliation extends Component {
     //onSearchIndicatorChange = name => this.props.dispatch(updateNameSearchIndicator(name));
 
     render() {
-        const { questionsGroupContent, loadingQuestionsGroupContent, competenciesGroups, match: {params: {idCompetenciesGroup}} } = this.props;
+        const { content, loadingContent, competenciesGroups, match: {params: {idCompetenciesGroup}} } = this.props;
 
-        if(loadingQuestionsGroupContent)
+        if(loadingContent)
             return <LoadingIndicator />
 
         const description = this._defineDescriptionGroup(idCompetenciesGroup, competenciesGroups);
@@ -84,25 +86,36 @@ class QuestionsAffiliation extends Component {
             <QuestionsAffiliationView 
                 competenciesGroupId={idCompetenciesGroup}
                 competenceGroupDescription={description}
-                questionsGroupContent={questionsGroupContent}
-                onAddQuestionClick={this.onAddQuestionClick}
-                onRowClick={this.onRowClick} />
+                content={content}
+                onAddQuestionClick={this.onAddQuestionClick} />
         );
     }
 }
 
 const mapStoreToProps = ({
     libraryPage: {
-        questionsGroupContent,
-        loadingQuestionsGroupContent,
-        applyingChanges,
-        competenciesGroups
+        competenciesPage: {
+            common: {
+                competenciesGroups
+            }
+        },
+        questionsPage: {
+            common: {
+                content
+            },
+            loading: {
+                loadingContent
+            }
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
 
     return {
-        questionsGroupContent,
-        loadingQuestionsGroupContent,
+        content,
+        loadingContent,
         applyingChanges,
         competenciesGroups
     };

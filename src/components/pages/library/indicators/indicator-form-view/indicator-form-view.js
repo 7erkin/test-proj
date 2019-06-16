@@ -11,12 +11,17 @@ import CustomSaveButton from '../../../../common/custom-save-button';
 
 const IndicatorFormView = ({
     indicatorName,
-    validation,
+    validation: {
+        errorIndicatorName,
+        errorIndicatorGroupId
+    },
     onIndicatorNameChange,
     indicatorsGroupId,
     onIndicatorsGroupIdChange,
     indicatorsGroups,
-    onSubmit, onCancel
+    onSubmit, onCancel,
+    onIndicatorNameBlur,
+    onIndicatorGroupIdBlur
 }) => {
     return (
         <form className="indicator-form indicators-form-common" onSubmit={evt => {
@@ -29,7 +34,8 @@ const IndicatorFormView = ({
                         label="Название индикатора " 
                         value={indicatorName}
                         onChange={onIndicatorNameChange}
-                        err=''/>
+                        err={errorIndicatorName} 
+                        onBlur={onIndicatorNameBlur} />
                 </div>
                 <div className="field">
                     <CustomSelectView 
@@ -37,11 +43,12 @@ const IndicatorFormView = ({
                         onChange={onIndicatorsGroupIdChange} 
                         items={indicatorsGroups} 
                         value={indicatorsGroupId}
-                        err=''/>
+                        err={errorIndicatorGroupId}
+                        onBlur={onIndicatorGroupIdBlur} />
                 </div>
             </div>
             <div className="indicators-form-button">
-                <CustomSaveButton disabled={validation.hasErr} />
+                <CustomSaveButton />
                 <CustomCancelButton onClick={onCancel} />
             </div>
         </form>

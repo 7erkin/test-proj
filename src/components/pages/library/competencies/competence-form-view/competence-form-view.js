@@ -18,8 +18,15 @@ const CompetenceFormView = ({
     onCompetenceDescriptionChange,
     onCompetenceGroupIdChange,
     onSubmit, onCancel,
-    accordeon
-    //validation
+    accordeon,
+    validation: {
+        errorCompetenceName,
+        errorCompetenceDescription,
+        errorCompetenceGroupId
+    },
+    onCompetenceNameBlur,
+    onCompetenceDescriptionBlur,
+    onCompetenceGroupIdBlur
 }) => {
     return (
         <form className="competence-form competence-form-common" onSubmit={evt => {
@@ -32,7 +39,8 @@ const CompetenceFormView = ({
                         value={competenceName} 
                         label='Название компетенции' 
                         onChange={onCompetenceNameChange} 
-                        err=''/>
+                        err={errorCompetenceName} 
+                        onBlur={onCompetenceNameBlur} />
                 </div>
                 <div className="field">
                     <CustomSelectView 
@@ -40,7 +48,8 @@ const CompetenceFormView = ({
                         label='Группа компетенций' 
                         items={competenciesGroups} 
                         onChange={onCompetenceGroupIdChange}
-                        err=''/>
+                        err={errorCompetenceGroupId} 
+                        onBlur={onCompetenceGroupIdBlur} />
                 </div>
             </div>
             <div className="field">
@@ -48,7 +57,8 @@ const CompetenceFormView = ({
                     value={competenceDescription} 
                     label='Описание компетенции' 
                     onChange={onCompetenceDescriptionChange} 
-                    err=''/>
+                    err={errorCompetenceDescription} 
+                    onBlur={onCompetenceDescriptionBlur} />
             { accordeon }
             </div>
             <div className="competence-form-button">

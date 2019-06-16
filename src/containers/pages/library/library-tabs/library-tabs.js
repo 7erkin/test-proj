@@ -24,12 +24,12 @@ class LibraryTabs extends Component {
             <LibraryTabsView 
                 tabs={[
                     {
-                        name: 'Компетенции',
-                        url: '/library/competencies-groups'
-                    },
-                    {
                         name: 'Индикаторы',
                         url: '/library/indicators-groups'
+                    },
+                    {
+                        name: 'Компетенции',
+                        url: '/library/competencies-groups'
                     },
                     {
                         name: 'Вопросы',

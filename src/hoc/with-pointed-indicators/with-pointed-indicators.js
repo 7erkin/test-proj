@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 
-import { 
-    updateEditCompetencePointedIndicators, 
-    updateNewCompetencePointedIndicators 
-} from '../../action-creators/library-page/competencies';
+import { updateEditCompetencePointedIndicators } from '../../action-creators/library-page/competencies/edit-competence';
+import { updateNewCompetencePointedIndicators } from '../../action-creators/library-page/competencies/new-competence';
 
 const mode = {
     EDIT: 0,
@@ -22,10 +20,8 @@ const withPointedIndicators = option => Accordeon => {
 
         render() {
             const {
-                libraryPage: {
-                    editCompetence,
-                    newCompetence
-                }
+                editCompetence,
+                newCompetence
             } = this.props;
 
             let pointedIndicators = [];

@@ -7,8 +7,8 @@ import {
     Link
 } from 'react-router-dom'
 
-import { updateDeletedCompetenciesGroups, competenciesGroupsDeleted, updateVisibleCompetenciesGroups } from '../../../../../action-creators/library-page/competencies';
-import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
+import { updateDeletedCompetenciesGroups, competenciesGroupsDeleted, updateVisibleCompetenciesGroups } from '../../../../../action-creators/library-page/competencies/competencies';
+import { startApplyingChanges, finishApplyingChanges, resetInitialLoading } from '../../../../../action-creators/library-page/page-managing';
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
 
 class CompetenciesGroupList extends Component {
@@ -28,6 +28,7 @@ class CompetenciesGroupList extends Component {
             .then(() => {
                 dispatch(finishApplyingChanges());
                 dispatch(competenciesGroupsDeleted());
+                dispatch(resetInitialLoading())
             })
     }
 
@@ -73,9 +74,15 @@ class CompetenciesGroupList extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        visibleCompetenciesGroups: competenciesGroups,
-        deletedCompetenciesGroups,
-        applyingChanges
+        competenciesPage: {
+            common: {
+                visibleCompetenciesGroups: competenciesGroups,
+                deletedCompetenciesGroups
+            }
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
     return {

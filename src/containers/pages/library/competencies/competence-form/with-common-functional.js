@@ -3,12 +3,15 @@ import React from 'react'
 import { 
     startApplyingChanges, 
     finishApplyingChanges 
-} from '../../../../../action-creators/library-page';
+} from '../../../../../action-creators/library-page/page-managing';
+import {  
+    saveLoadedIndicatorsGroups
+} from '../../../../../action-creators/library-page/indicators/indicators';
 import { 
-    startLoadingIndicatorsGroups, 
-    saveLoadedIndicatorsGroups, 
+    startLoadingIndicatorsGroups,  
     finishLoadingIndicatorsGroups 
-} from '../../../../../action-creators/library-page/indicators';
+} from '../../../../../action-creators/library-page/indicators/loading';
+
 
 const withCommonFunctional = WrappedCompetenceForm => {
     return class extends React.Component {
@@ -16,50 +19,56 @@ const withCommonFunctional = WrappedCompetenceForm => {
             super(props);
         }
 
-        render() {
-            const commonFunctional = {
-                getIndicatorsGroups: () => {
-                    const {
-                        dispatch,
-                        staffixService
-                    } = this.props;
-            
-                    dispatch(startLoadingIndicatorsGroups());
-                    staffixService.getGroupsIndicators()
-                        .then(groups => {
-                            dispatch(saveLoadedIndicatorsGroups(groups));
-                            dispatch(finishLoadingIndicatorsGroups());
-                        })
-                },
-                onSaveCompetenceClick: (promise, resetForm) => {
-                    const {
-                        dispatch, history, 
-                        match: {
-                            params: {
-                                idGroup
-                            }
-                        }
-                    } = this.props
+        getIndicatorsGroups = () => {
+            const {
+                dispatch,
+                staffixService
+            } = this.props;
+    
+            dispatch(startLoadingIndicatorsGroups());
+            staffixService.getGroupsIndicators()
+                .then(groups => {
+                    dispatch(saveLoadedIndicatorsGroups(groups));
+                    dispatch(finishLoadingIndicatorsGroups());
+                })
+        }
 
-                    dispatch(startApplyingChanges());
-                    promise
-                        .then(() => {
-                            dispatch(resetForm())
-                            dispatch(finishApplyingChanges())
-                            history.push(`/library/competencies-groups/${idGroup}`)
-                        })
-                },
-                onCancel: () => {
-                    const {
-                        history
-                    } = this.props;
+        onCancel = () => {
+            const {
+                history
+            } = this.props;
 
-                    history.goBack();
+            history.goBack();
+        }
+
+        saveCompetenceExecutor = async (saveCompetence, resolvedCallbacks) => {
+            const {
+                dispatch, history, 
+                match: {
+                    params: {
+                        idGroup
+                    }
                 }
-            };
+            } = this.props
+
+            dispatch(startApplyingChanges())
+
+            await saveCompetence()
+
+            await Promise.all(resolvedCallbacks.map(cb => cb()))
+
+            dispatch(finishApplyingChanges())
+            
+            history.push(`/library/competencies-groups/${idGroup}`)
+        }
+
+        render(){
 
             return (
-                <WrappedCompetenceForm {...commonFunctional} {...this.props} />
+                <WrappedCompetenceForm {...this.props} 
+                    getIndicatorsGroups={this.getIndicatorsGroups}
+                    saveCompetenceExecutor={this.saveCompetenceExecutor}
+                    onCancel={this.onCancel} />
             );
         }
     }

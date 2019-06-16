@@ -1,0 +1,28 @@
+.group-form-common .field:last-child {
+    margin-bottom: 30px;
+    margin-left: 20px;
+}
+
+.group-form-common .field:first-child {
+    width: 50%;
+}
+
+.group-form-common {
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.horizontal-wrapper{
+    display: flex;
+}
+
+.group-form-common .group-form-button {
+    position: relative;
+}
+
+.group-form-common .group-form-button button:last-of-type{
+    position: absolute;
+    right: 0;
+}
+

@@ -213,6 +213,8 @@ class DummyStaffixService {
             setTimeout(() => {
                 const index = this._groupsCompetence.findIndex(({id}) => id == competenciesGroup.id);
                 this._groupsCompetence[index] = {...competenciesGroup};
+
+                console.log(this._groupsCompetence)
                 resolve();
             }, TIMEOUT)
         })

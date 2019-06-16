@@ -4,41 +4,71 @@ import CompetenceFormView from '../../../../../components/pages/library/competen
 
 import { AddCopmetenceIndicatorAccordeon } from '../indicator-accordeon/indicator-accordeon';
 
-import { 
-    updateNewCompetenceName, 
-    updateNewCompetenceDescription, 
-    updateNewCompetenceGroupId, 
-    resetNewCompetenceForm 
-} from '../../../../../action-creators/library-page/competencies';
+import { updateNewCompetenceName, updateNewCompetenceDescription, updateNewCompetenceGroupId, resetNewCompetence, newCompetenceSaved } from '../../../../../action-creators/library-page/competencies/new-competence'
 
 class AddCompetenceForm extends Component {
     constructor(props) {
         super(props);
+
+        this._isSubmit = false;
+    }
+
+    componentWillUnmount = () => {
+        if(!this._isSubmit)
+            this.props.dispatch(resetNewCompetence())
     }
 
     onCompetenceNameChange = name => this.props.dispatch(updateNewCompetenceName(name))
     onCompetenceDescriptionChange = description => this.props.dispatch(updateNewCompetenceDescription(description))
     onCompetenceGroupIdChange = id => this.props.dispatch(updateNewCompetenceGroupId(id))
 
-    onSubmit = () => {
+    onSubmit = async () => {
         const {
-            onSaveCompetenceClick, staffixService, newCompetence
+            dispatch,
+            staffixService, newCompetence: { name: { text: name }, description: { text: description }, idGroup: { text: idGroup }, indicators},
+            validateForm,
+            saveCompetenceExecutor
         } = this.props;
 
-        const promise = staffixService.createCompetence(newCompetence);
+        if(!await validateForm()) return;
 
-        onSaveCompetenceClick(promise, resetNewCompetenceForm);
+        this._isSubmit = true;
+
+        const resolvedCallbacks = [
+            () => {dispatch(newCompetenceSaved())}
+        ]
+
+        const competence = {
+            name,
+            description,
+            idGroup,
+            indicators
+        }
+
+        saveCompetenceExecutor(() => staffixService.createCompetence(competence), resolvedCallbacks);
     }
 
     render() {
         const {
             newCompetence: {
-                name,
-                description,
-                idGroup
+                name: {
+                    text: name,
+                    errorMessage: errorCompetenceName
+                },
+                description: {
+                    text: description,
+                    errorMessage: errorCompetenceDescription
+                },
+                idGroup: {
+                    text: idGroup,
+                    errorMessage: errorCompetenceGroupId
+                }
             },
             competenciesGroups,
-            onCancel
+            onCancel,
+            onCompetenceNameBlur,
+            onCompetenceDescriptionBlur,
+            onCompetenceGroupIdBlur
         } = this.props;
 
         return (
@@ -52,17 +82,35 @@ class AddCompetenceForm extends Component {
                 onCompetenceGroupIdChange={this.onCompetenceGroupIdChange} 
                 accordeon={<AddCopmetenceIndicatorAccordeon />}
                 onSubmit={this.onSubmit}
-                onCancel={onCancel} />
+                onCancel={onCancel}
+                validation={{
+                    errorCompetenceDescription,
+                    errorCompetenceGroupId,
+                    errorCompetenceName
+                }} 
+                onCompetenceNameBlur={onCompetenceNameBlur}
+                onCompetenceDescriptionBlur={onCompetenceDescriptionBlur}
+                onCompetenceGroupIdBlur={onCompetenceGroupIdBlur} />
         );
     }
 }
 
 export const mapStoreToAddCompetenceFormProps = ({
     libraryPage: {
-        newCompetence,
-        loadingIndicatorsGroups,
-        applyingChanges,
-        competenciesGroups
+        indicatorsPage: {
+            loading: {
+                loadingIndicatorsGroups
+            }
+        },
+        competenciesPage: {
+            common: {
+                competenciesGroups
+            },
+            newCompetence
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
     return {

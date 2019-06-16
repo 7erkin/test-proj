@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
 import { 
     updateNewIndicatorName, 
-    updateNewIndicatorIdGroup 
-} from '../../../../../action-creators/library-page/indicators';
+    updateNewIndicatorIdGroup, 
+    resetNewIndicator,
+    newIndicatorSaved
+} from '../../../../../action-creators/library-page/indicators/new-indicator';
 import IndicatorFormView from '../../../../../components/pages/library/indicators/indicator-form-view';
 
 class AddIndicatorForm extends Component {
     constructor(props) {
         super(props);
+
+        this._isSubmited = false;
+    }
+
+    componentWillUnmount = () => {
+        if(!this._isSubmited)
+            this.props.dispatch(resetNewIndicator());
     }
 
     onIndicatorNameChange = name => {
@@ -18,25 +27,43 @@ class AddIndicatorForm extends Component {
         this.props.dispatch(updateNewIndicatorIdGroup(id));
     }
 
-    onSubmit = () => {
+    onSubmit = async () => {
         const {
+            dispatch,
             staffixService,
-            newIndicator,
-            onSaveIndicatorClick
+            newIndicator: {
+                name: { text: name },
+                idGroup: { text: idGroup }
+            },
+            saveIndicatorExecutor,
+            validateForm
         } = this.props;
 
-        const promise = staffixService.createIndicator(newIndicator)
+        if(!await validateForm())
+            return;
 
-        onSaveIndicatorClick(promise);
+        const resolvedCallbacks = [() => {dispatch(newIndicatorSaved())}];
+
+        this._isSubmited = true;
+
+        saveIndicatorExecutor(() =>staffixService.createIndicator({name, idGroup}), resolvedCallbacks);
     }
 
     render() {
         const {
             indicatorsGroups,
             newIndicator: {
-                name, idGroup
+                name: { 
+                    text: name,
+                    errorMessage: errorIndicatorName
+                }, 
+                idGroup: { 
+                    text: idGroup,
+                    errorMessage: errorIndicatorGroupId
+                }
             },
-            onCancel
+            onCancel,
+            onIndicatorNameBlur, onIndicatorGroupIdBlur
         } = this.props;
 
         return (
@@ -49,9 +76,11 @@ class AddIndicatorForm extends Component {
                 onSubmit={this.onSubmit}
                 onCancel={onCancel}
                 validation={{
-                    hasErr: false,
-                    messsageErr: ''
+                    errorIndicatorName,
+                    errorIndicatorGroupId
                 }}
+                onIndicatorNameBlur={onIndicatorNameBlur}
+                onIndicatorGroupIdBlur={onIndicatorGroupIdBlur}
             />
         );
     }
@@ -59,9 +88,15 @@ class AddIndicatorForm extends Component {
 
 export const mapStoreToAddIndicatorFormProps = ({
     libraryPage: {
-        indicatorsGroups,
-        newIndicator,
-        applyingChanges
+        indicatorsPage: {
+            common: {
+                indicatorsGroups
+            },
+            newIndicator
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
     

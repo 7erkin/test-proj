@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import {connect} from 'react-redux'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
-import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
-import { updateNewQuestionCompetenceId, updateNewQuestionBody, saveLoadedCompetencies, resetNewQuestionForm } from '../../../../../action-creators/library-page/questions';
+import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page/page-managing';
+import { updateNewQuestionCompetenceId, updateNewQuestionBody, resetNewQuestion } from '../../../../../action-creators/library-page/questions/new-question';
+import { saveLoadedCompetencies } from '../../../../../action-creators/library-page/competencies/competencies';
 import QuestionFormView from '../../../../../components/pages/library/questions/question-form-view';
 import withValidationApi from './with-validation-api';
 import withValidationPolicy from './with-validation-logic';
@@ -11,10 +12,13 @@ import withValidationPolicy from './with-validation-logic';
 class AddQuestionForm extends Component {
     constructor(props) {
         super(props);
+
+        this._isSubmited = false;
     }
 
     componentWillUnmount() {
-        this.props.dispatch(resetNewQuestionForm());
+        if(!this._isSubmited)
+            this.props.dispatch(resetNewQuestion());
     }
 
     componentDidMount = () => {
@@ -45,11 +49,13 @@ class AddQuestionForm extends Component {
                     idGroup: idQuestionsGroup
                 }
             },
-            isFormValid
+            validateForm
         } = this.props;
 
-        if(!isFormValid())
+        if(!validateForm())
             return;
+
+        this._isSubmited = true;
 
         dispatch(startApplyingChanges());
 
@@ -61,9 +67,8 @@ class AddQuestionForm extends Component {
 
         staffixService.createQuestion(question)
             .then(() => {
-                dispatch(finishApplyingChanges());
-                //some actions with history - depends on how we got on this component
                 history.goBack();
+                dispatch(finishApplyingChanges());
             })
     }
 
@@ -110,9 +115,17 @@ class AddQuestionForm extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        competencies,
-        newQuestion,
-        applyingChanges
+        competenciesPage: {
+            common: {
+                competencies
+            }
+        },
+        questionsPage: {
+            newQuestion
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
     

@@ -35,7 +35,11 @@ class AsideList extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        indicatorsGroups
+        indicatorsPage: {
+            common: {
+                indicatorsGroups
+            }
+        }
     }
 }) => {
     return {

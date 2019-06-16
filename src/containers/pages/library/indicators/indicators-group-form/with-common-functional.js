@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
+import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page/page-managing';
 
 const withCommonFunctional = IndicatorsGroupForm => {
     return class extends Component {
@@ -16,24 +16,25 @@ const withCommonFunctional = IndicatorsGroupForm => {
             this.goBack();
         }
 
-        onSaveIndicatorsGroupClick = (promise, resolveCallbacks) => {
+        saveIndicatorsGroupExecutor = async (saveIndicatorsGroup, resolvedCallbacks) => {
             const { dispatch } = this.props;
 
             dispatch(startApplyingChanges());
 
-            promise
-                .then(() => {
-                    dispatch(finishApplyingChanges());
-                    resolveCallbacks.forEach(cb => dispatch(cb()))
-                    this.goBack();
-                })
+            await saveIndicatorsGroup()
+
+            await Promise.all(resolvedCallbacks.map(cb => cb()))
+
+            this.goBack()
+
+            dispatch(finishApplyingChanges())
         }
 
         render() {
             return (
                 <IndicatorsGroupForm 
                     {...this.props}
-                    onSaveIndicatorsGroupClick={this.onSaveIndicatorsGroupClick}
+                    saveIndicatorsGroupExecutor={this.saveIndicatorsGroupExecutor}
                     onCancel={this.onCancel}/>
             );
         }

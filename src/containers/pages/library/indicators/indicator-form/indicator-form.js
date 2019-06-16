@@ -10,22 +10,24 @@ import {
 import { connect } from 'react-redux';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes';
-import withValidation from '../../competencies/competence-form/with-validation';
 import withCommonFunctional from './with-common-functional';
+import withValidationApi from './with-validation-api';
+import withEditFormValidationLogic from './with-edit-form-validation-logic';
+import withNewFormValidationLogic from './with-new-form-validation-logic';
 
 const AddIndicatorForm = connect(mapStoreToAddIndicatorFormProps)(
                             withStaffixService(
                                 withEffectApplyingChanges(
-                                    withValidation(
+                                    withValidationApi(
                                         withCommonFunctional(
-                                            SimpleAddIndicatorForm)))))
+                                            withNewFormValidationLogic(SimpleAddIndicatorForm))))))
 
 const EditIndicatorForm = connect(mapStoreToEditIndicatorFormProps)(
                             withStaffixService(
                                 withEffectApplyingChanges(
-                                    withValidation(
+                                    withValidationApi(
                                         withCommonFunctional(
-                                            SimpleEditIndicatorForm)))))
+                                            withEditFormValidationLogic(SimpleEditIndicatorForm))))))
 
 export {
     AddIndicatorForm,

@@ -11,7 +11,9 @@ import SimpleAddCompetenceForm from './add-competence-form';
 
 import { mapStoreToEditCompetenceFormProps } from './edit-competence-form'
 import { mapStoreToAddCompetenceFormProps } from './add-competence-form'
-import withValidation from './with-validation';
+import withValidationApi from './with-validation-api';
+import withEditFormValidation from './with-edit-form-validation';
+import withAddFormValidation from './with-add-form-validation';
 
 // TODO: how to combine view of each CompetenceView
 const EditCompetenceForm = connect(mapStoreToEditCompetenceFormProps)(
@@ -19,14 +21,16 @@ const EditCompetenceForm = connect(mapStoreToEditCompetenceFormProps)(
                                     withEffectApplyingChanges(
                                         withCommonFunctional(
                                             withLoadingIndicatorsGroups(
-                                                withValidation(SimpleEditCompetenceForm))))))
+                                                withValidationApi(
+                                                    withEditFormValidation(SimpleEditCompetenceForm)))))))
 
 const AddCompetenceForm = connect(mapStoreToAddCompetenceFormProps)(
                                 withStaffixService(
                                     withEffectApplyingChanges(
                                         withCommonFunctional(
                                             withLoadingIndicatorsGroups(
-                                                withValidation(SimpleAddCompetenceForm))))))
+                                                withValidationApi(
+                                                    withAddFormValidation(SimpleAddCompetenceForm)))))))
 
 export {
     EditCompetenceForm,

@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import {
     Link
 } from 'react-router-dom'
-import { updateDeletedIndicatorsGroups, indicatorsGroupsDeleted, updateVisibleIndicatorsGroups } from '../../../../../action-creators/library-page/indicators';
-import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
+import { updateDeletedIndicatorsGroups, indicatorsGroupsDeleted, updateVisibleIndicatorsGroups } from '../../../../../action-creators/library-page/indicators/indicators';
+import { startApplyingChanges, finishApplyingChanges, resetInitialLoading } from '../../../../../action-creators/library-page/page-managing';
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
 
 class ListGroupsIndicators extends Component {
@@ -27,6 +27,7 @@ class ListGroupsIndicators extends Component {
             .then(() => {
                 dispatch(finishApplyingChanges());
                 dispatch(indicatorsGroupsDeleted());
+                dispatch(resetInitialLoading())
             })
     }
 
@@ -69,9 +70,15 @@ class ListGroupsIndicators extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        visibleIndicatorsGroups: indicatorsGroups,
-        deletedIndicatorsGroups,
-        applyingChanges
+        indicatorsPage: {
+            common: {
+                indicatorsGroups,
+                deletedIndicatorsGroups
+            }
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
     return {

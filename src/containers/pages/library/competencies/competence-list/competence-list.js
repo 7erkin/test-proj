@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import { connect } from 'react-redux';
-import { startLoadingCompetencies, saveLoadedCompetencies, finishLoadingCompetencies, updateDeletedCompetencies, updateVisibleCompetencies } from '../../../../../action-creators/library-page/competencies';
-import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
+import { saveLoadedCompetencies, updateDeletedCompetencies, updateVisibleCompetencies } from '../../../../../action-creators/library-page/competencies/competencies';
+import { startLoadingCompetencies, finishLoadingCompetencies } from '../../../../../action-creators/library-page/competencies/loading';
+import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page/page-managing';
 
 import {
     Link
@@ -116,12 +117,20 @@ class CompetenciesList extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        visibleCompetencies: competencies,
-        deletedCompetencies,
-        loadingCompetencies,
-        applyingChanges,
-        competenciesGroups
-    }
+        competenciesPage: {
+            common: {
+                visibleCompetencies: competencies,
+                deletedCompetencies,
+                competenciesGroups
+            },
+            loading: {
+                loadingCompetencies
+            }
+        },
+        pageManaging: {
+            applyingChanges
+        }
+    } 
 }) => {
 
     return {

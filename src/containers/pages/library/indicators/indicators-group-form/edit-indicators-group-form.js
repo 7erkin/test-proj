@@ -3,17 +3,29 @@ import React, { Component } from 'react'
 import { 
     updateEditIndicatorsGroupName, 
     updateEditIndicatorsGroupDescription, 
-    editIndicatorsGroupSaved 
-} from '../../../../../action-creators/library-page/indicators';
+    editIndicatorsGroupSaved, 
+    setEditIndicatorsGroup,
+    resetEditIndicatorsGroup
+} from '../../../../../action-creators/library-page/indicators/edit-indicators-group';
 import IndicatorsGroupFormView from '../../../../../components/pages/library/indicators/indicators-group-form-view';
+import { resetInitialLoading } from '../../../../../action-creators/library-page/page-managing';
+
 
 class EditIndicatorsGroupForm extends Component {
     constructor(props) {
         super(props);
+
+        this._isSubmited = false;
+    }
+
+    componentWillUnmount = () => {
+        if(!this._isSubmited)
+            this.props.dispatch(resetEditIndicatorsGroup())
     }
 
     onIndicatorsGroupNameChange = name => {
-        this.props.dispatch(updateEditIndicatorsGroupName(name));
+        if(!this._isSubmited)
+            this.props.dispatch(updateEditIndicatorsGroupName(name));
     }
 
     onIndicatorsGroupDescriptionChange = description => {
@@ -27,26 +39,39 @@ class EditIndicatorsGroupForm extends Component {
 
         const {name, description} = indicatorsGroups[index];
 
-        dispatch(updateEditIndicatorsGroupName(name));
-        dispatch(updateEditIndicatorsGroupDescription(description));
+        dispatch(setEditIndicatorsGroup({name, description}));
     } 
 
-    onSubmit = () => {
+    onSubmit = async () => {
         const {
+            dispatch,
             staffixService,
-            editIndicatorsGroup,
+            editIndicatorsGroup: { name: { text: name }, description: { text: description }},
             match: {
                 params: {
                     idGroup
                 }
             },
-            onSaveIndicatorsGroupClick
+            saveIndicatorsGroupExecutor,
+            validateForm
         } = this.props;
 
-        const promise = staffixService.updateIndicatorsGroup({id: idGroup, ...editIndicatorsGroup})
-        const resolveCallbacks = [editIndicatorsGroupSaved];
+        if(!await validateForm()) return;
 
-        onSaveIndicatorsGroupClick(promise, resolveCallbacks);
+        const indicatorsGroup = {
+            id: idGroup,
+            name,
+            description
+        }
+
+        this._isSubmited = true;
+        
+        const resolvedCallbacks = [
+            () => {dispatch(editIndicatorsGroupSaved())},
+            () => {dispatch(resetInitialLoading())}
+        ]
+
+        saveIndicatorsGroupExecutor(() => staffixService.updateIndicatorsGroup(indicatorsGroup), resolvedCallbacks)
     }
 
     onCancel = () => {
@@ -55,8 +80,13 @@ class EditIndicatorsGroupForm extends Component {
 
     render() {
         const {
-            editIndicatorsGroup: {name, description},
-            onCancel
+            editIndicatorsGroup: {
+                name: { text: name, errorMessage: errorName }, 
+                description: { text: description, errorMessage: errorDescription }
+            },
+            onCancel,
+            onIndicatorsGroupNameBlur,
+            onIndicatorsGroupDescriptionBlur
         } = this.props;
 
         return (
@@ -66,16 +96,28 @@ class EditIndicatorsGroupForm extends Component {
                 onIndicatorsGroupNameChange={this.onIndicatorsGroupNameChange}
                 onIndicatorsGroupDescriptionChange={this.onIndicatorsGroupDescriptionChange}
                 onSubmit={this.onSubmit}
-                onCancel={onCancel}/>
+                onCancel={onCancel}
+                validation={{
+                    errorIndicatorsGroupName: errorName,
+                    errorIndicatorsGroupDescription: errorDescription
+                }}
+                onIndicatorsGroupNameBlur={onIndicatorsGroupNameBlur} 
+                onIndicatorsGroupDescriptionBlur={onIndicatorsGroupDescriptionBlur} />
         );
     }
 }
 
 export const mapStoreToEditIndicatorsGroupFormProps = ({
     libraryPage: {
-        editIndicatorsGroup,
-        indicatorsGroups,
-        applyingChanges
+        indicatorsPage: {
+            common: {
+                indicatorsGroups
+            },
+            editIndicatorsGroup
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
     

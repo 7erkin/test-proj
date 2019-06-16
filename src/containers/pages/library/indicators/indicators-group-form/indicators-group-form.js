@@ -10,17 +10,21 @@ import {
 import { connect } from 'react-redux';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes';
-import withValidation from './with-validation';
+import withValidationApi from './with-validation-api';
 import withCommonFunctional from './with-common-functional';
+import withAddFormValidation from './with-add-form-validation';
+import withEditFormValidation from './with-edit-form-validation';
 
 export const AddIndicatorsGroupForm = connect(mapStoreToAddIndicatorsGroupFormProps)(
                                     withStaffixService(
                                         withEffectApplyingChanges(
-                                            withValidation(
-                                                withCommonFunctional(SimpleAddIndicatorsGroupForm)))))
+                                            withValidationApi(
+                                                withCommonFunctional(
+                                                    withAddFormValidation(SimpleAddIndicatorsGroupForm))))))
 
 export const EditIndicatorsGroupForm = connect(mapStoreToEditIndicatorsGroupFormProps)(
                                     withStaffixService(
                                         withEffectApplyingChanges(
-                                            withValidation(
-                                                withCommonFunctional(SimpleEditIndicatorsGroupForm)))))
+                                            withValidationApi(
+                                                withCommonFunctional(
+                                                    withEditFormValidation(SimpleEditIndicatorsGroupForm))))))

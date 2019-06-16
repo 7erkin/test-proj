@@ -13,7 +13,12 @@ const IndicatorsGroupFormView = ({
     indicatorsGroupDescription,
     onIndicatorsGroupDescriptionChange,
     onSubmit, onCancel, 
-    //validation
+    validation: {
+        errorIndicatorsGroupName,
+        errorIndicatorsGroupDescription
+    },
+    onIndicatorsGroupNameBlur,
+    onIndicatorsGroupDescriptionBlur
 }) => {
 
     return (
@@ -23,17 +28,19 @@ const IndicatorsGroupFormView = ({
         }}>
             <div className="field">
                 <CustomInputView
-                    label="Название групы: " 
+                    label="Название группы: " 
                     value={indicatorsGroupName} 
                     onChange={onIndicatorsGroupNameChange} 
-                    err=''/>
+                    err={errorIndicatorsGroupName}
+                    onBlur={onIndicatorsGroupNameBlur} />
             </div>
             <div className="field">
                 <CustomTextAreaView 
                     label="Описание группы: " 
                     value={indicatorsGroupDescription} 
                     onChange={onIndicatorsGroupDescriptionChange} 
-                    err='' />
+                    err={errorIndicatorsGroupDescription} 
+                    onBlur={onIndicatorsGroupDescriptionBlur} />
             </div>
             <div className="indicators-form-button">
                 <CustomSaveButton />

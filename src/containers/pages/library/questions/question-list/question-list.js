@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import { connect } from 'react-redux';
-import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
-import { startLoadingQuestions, saveLoadedQuestions, finishLoadingQuestions, updateDeletedQuestions, questionsDeleted } from '../../../../../action-creators/library-page/questions';
+import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page/page-managing';
+import { saveLoadedQuestions, updateDeletedQuestions, questionsDeleted } from '../../../../../action-creators/library-page/questions/questions';
+import { startLoadingQuestions, finishLoadingQuestions } from '../../../../../action-creators/library-page/questions/loading';
 import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
 import QuestionListView from '../../../../../components/pages/library/questions/question-list-view';
 
@@ -69,10 +70,18 @@ class QuestionList extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        questions,
-        deletedQuestions,
-        loadingQuestions,
-        applyingChanges
+        questionsPage: {
+            common: {
+                questions,
+                deletedQuestions
+            },
+            loading: {
+                loadingQuestions
+            }
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
 

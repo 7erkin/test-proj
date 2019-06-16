@@ -11,7 +11,6 @@ const CustomSelectView = ({
     err,
     ...others
 }) => {
-    console.log(onChange);
     return (
         <div className="custom-select">
         <FormControl>

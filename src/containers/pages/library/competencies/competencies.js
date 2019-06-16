@@ -1,17 +1,16 @@
 import React, { Component, Fragment } from 'react'
 import withStaffixService from '../../../../hoc/hoc-services/with-staffix-service';
-import { fulfilInitialLoading, resetInitialLoading } from '../../../../action-creators/library-page';
+import { fulfilInitialLoading, resetInitialLoading } from '../../../../action-creators/library-page/page-managing';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AsideList from './aside-list';
 import CompetenciesGroupList from './competencies-group-list';
-import EditCompetenciesGroupForm from './edit-competencies-group-form';
-import AddCompetenciesGroupForm from './add-competencies-group-form';
 import CompetenceList from './competence-list';
-import { saveLoadedCompetenciesGroups } from '../../../../action-creators/library-page/competencies';
+import { saveLoadedCompetenciesGroups } from '../../../../action-creators/library-page/competencies/competencies';
 import { AddCompetenceForm, EditCompetenceForm } from './competence-form';
 import LibraryContentCenterView from '../../../../components/pages/library/library-content-center-view';
 import LoadingIndicator from '../../../../components/common/loading-indicator/loading-indicator';
+import { EditCompetenciesGroupForm, AddCompetenciesGroupForm } from './competencies-group-form';
 
 // два случая, если попали по ссылки или переходили по приложению
 // если по ссылке, то Выгружаем группы и Выгружаем сущности. Затем отрисовываем дочерний компонент
@@ -117,7 +116,9 @@ class Competencies extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        loadingInitial
+        pageManaging: {
+            loadingInitial
+        }
     }
 }) => {
     return {

@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
-import { updateEditIndicatorName, updateEditIndicatorIdGroup } from '../../../../../action-creators/library-page/indicators';
+import { updateEditIndicatorName, updateEditIndicatorIdGroup, setEditIndicator, editIndicatorSaved, resetEditIndicator } from '../../../../../action-creators/library-page/indicators/edit-indicator';
 import IndicatorFormView from '../../../../../components/pages/library/indicators/indicator-form-view';
 
 class EditIndicatorForm extends Component {
     constructor(props) {
         super(props);
+
+        this._isSubmited = false;
+    }
+
+    componentWillUnmount = () => {
+        if(!this._isSubmited)
+            this.props.dispatch(resetEditIndicator());
     }
 
     // TODO case when one get the component by reference - indicators won't be loaded
@@ -15,8 +22,7 @@ class EditIndicatorForm extends Component {
 
         const {name, idGroup} =  indicators[index];
 
-        dispatch(updateEditIndicatorName(name));
-        dispatch(updateEditIndicatorIdGroup(idGroup));
+        dispatch(setEditIndicator({name, idGroup}));
     }
 
     onIndicatorNameChange = name => {
@@ -27,34 +33,57 @@ class EditIndicatorForm extends Component {
         this.props.dispatch(updateEditIndicatorIdGroup(id))
     }
 
-    onSubmit = () => {
+    onSubmit = async () => {
         const {
+            dispatch,
             staffixService,
-            editIndicator,
+            editIndicator: { name: { text: name }, idGroup: { text: idGroup }},
             match: {
                 params: {
                     idIndicator
                 }
             },
-            onSaveIndicatorClick
+            saveIndicatorExecutor,
+            validateForm
         } = this.props;
 
-        const promise = staffixService.updateIndicator({
-            id: idIndicator, 
-            ...editIndicator
-        });
+        if(!await validateForm())
+            return;
 
-        onSaveIndicatorClick(promise);
+        const indicator = {
+            id: idIndicator,
+            name, 
+            idGroup
+        }
+
+        if(!await validateForm())
+            return;
+
+        const resolvedCallbacks = [() => {dispatch(editIndicatorSaved())}];
+
+        this._isSubmited = true;
+
+        saveIndicatorExecutor(() => staffixService.updateIndicator(indicator), resolvedCallbacks);
     }
 
     render() {
         const { 
-            editIndicator: { 
-                name, idGroup
+            editIndicator: {
+                name: { 
+                    text: name,
+                    errorMessage: errorIndicatorName
+                }, 
+                idGroup: { 
+                    text: idGroup,
+                    errorMessage: errorIndicatorGroupId
+                }
             }, 
             indicatorsGroups,
-            onCancel
+            onCancel,
+            onIndicatorNameBlur, onIndicatorGroupIdBlur
         } = this.props;
+
+        console.log('err1: ', errorIndicatorName)
 
         return (
             <IndicatorFormView 
@@ -66,9 +95,11 @@ class EditIndicatorForm extends Component {
                 onSubmit={this.onSubmit}
                 onCancel={onCancel}
                 validation={{
-                    hasErr: false,
-                    messageErr: ''
+                    errorIndicatorName,
+                    errorIndicatorGroupId
                 }}
+                onIndicatorNameBlur={onIndicatorNameBlur}
+                onIndicatorGroupIdBlur={onIndicatorGroupIdBlur}
             />
         );
     }
@@ -76,10 +107,16 @@ class EditIndicatorForm extends Component {
 
 export const mapStoreToEditIndicatorFormProps = ({
     libraryPage: {
-        editIndicator,
-        indicatorsGroups,
-        indicators,
-        applyingChanges
+        indicatorsPage: {
+            common: {
+                indicatorsGroups,
+                indicators
+            },
+            editIndicator
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
     return {

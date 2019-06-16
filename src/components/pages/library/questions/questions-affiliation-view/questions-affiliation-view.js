@@ -9,8 +9,7 @@ import './style.css'
 const QuestionsAffiliationView = ({
     competenceGroupDescription,
     onAddQuestionClick,
-    onRowClick,
-    questionsGroupContent,
+    content,
     competenciesGroupId
 }) => {
     return (
@@ -22,7 +21,7 @@ const QuestionsAffiliationView = ({
             <CustomAddButton onClick={onAddQuestionClick}>Добавить вопрос</CustomAddButton>
             <ContentTable
                 competenciesGroupId={competenciesGroupId}
-                values={questionsGroupContent} 
+                values={content} 
                 columns={[
                     'Название компетенции', 
                     'Описание компетенции', 

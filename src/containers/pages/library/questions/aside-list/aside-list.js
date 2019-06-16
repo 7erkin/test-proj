@@ -32,7 +32,11 @@ class AsideList extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        competenciesGroups
+        competenciesPage: {
+            common: {
+                competenciesGroups
+            }
+        }
     }
 }) => {
     return {

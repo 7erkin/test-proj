@@ -7,6 +7,30 @@ class CustomValidation extends Component{
         this._trySubmit = false;
     }
 
+    validateAndUpdate = async validationData => {
+        let valid = true;
+
+        const promises = validationData.map(async ({
+            value,
+            validationOkCb,
+            validationErrCb,
+            validator
+        }) => {
+            let res = await validator(value);
+
+            if(!res.length)
+                validationOkCb() 
+            else{
+                valid = false
+                validationErrCb(res)
+            } 
+        })
+
+        await Promise.all(promises)
+
+        return valid;
+    }
+
     trySubmit = () => {
         this._trySubmit = true;
     }

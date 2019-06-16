@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 
 import LibraryView from '../../../components/pages/library/library-view';
 import LibraryTabs from './library-tabs';
@@ -20,7 +20,7 @@ const Library = ({history}) => {
             <LibraryTabs history={history}/>
             <LibraryContentView>
                 <Switch>
-                    <Redirect exact={true} from="/library" to="/library/competencies-groups" />
+                    <Redirect exact={true} from="/library" to="/library/indicators-groups" />
                     <Route path="/library/competencies-groups" render={(props) => <Competencies {...props}/> }/>
                     <Route path="/library/indicators-groups" render={(props) => <Indicators {...props}/> }/>
                     <Route path="/library/questions-groups" render={props => <Questions {...props}/> }/>

@@ -5,7 +5,7 @@ import {
     newQuestionCompetenceIdSuccessValidation, 
     newQuestionBodyErrorValidation, 
     newQuestionBodySuccessValidation
-} from '../../../../../action-creators/library-page/questions';
+} from '../../../../../action-creators/library-page/questions/new-question';
 
 
 

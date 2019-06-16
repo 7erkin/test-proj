@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
+import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page/page-managing';
 
 const withCommonFunctional = IndicatorForm => {
     return class extends Component {
@@ -16,24 +16,25 @@ const withCommonFunctional = IndicatorForm => {
             this.goBack();
         }
 
-        onSaveIndicatorClick = (promise) => {
+        saveIndicatorExecutor = async (saveIndicator, resolvedCallbacks) => {
             const { dispatch } = this.props;
 
             dispatch(startApplyingChanges());
 
-            promise
-                .then(() => {
-                    dispatch(finishApplyingChanges());
-                    //some actions with history - depends on how we got on this component
-                    this.goBack();
-                })
+            await saveIndicator();
+
+            await Promise.all(resolvedCallbacks.map(cb => cb()))
+
+            this.goBack()
+
+            dispatch(finishApplyingChanges())
         }
 
         render() {
             return (
                 <IndicatorForm 
                     {...this.props}
-                    onSaveIndicatorClick={this.onSaveIndicatorClick}
+                    saveIndicatorExecutor={this.saveIndicatorExecutor}
                     onCancel={this.onCancel}/>
             );
         }

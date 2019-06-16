@@ -3,12 +3,12 @@ import withStaffixService from '../../../../hoc/hoc-services/with-staffix-servic
 import { 
     fulfilInitialLoading, 
     resetInitialLoading 
-} from '../../../../action-creators/library-page';
+} from '../../../../action-creators/library-page/page-managing';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ListGroupsIndicators from './list-groups-indicators';
 import ListIndicators from './list-indicators';
-import { saveLoadedIndicatorsGroups } from '../../../../action-creators/library-page/indicators';
+import { saveLoadedIndicatorsGroups } from '../../../../action-creators/library-page/indicators/indicators';
 import AsideList from './aside-list';
 import LibraryContentCenterView from '../../../../components/pages/library/library-content-center-view';
 import LoadingIndicator from '../../../../components/common/loading-indicator/loading-indicator';
@@ -119,7 +119,9 @@ class Indicators extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        loadingInitial
+        pageManaging: {
+            loadingInitial
+        }
     }
 }) => {
     return {

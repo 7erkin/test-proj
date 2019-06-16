@@ -4,53 +4,84 @@ import CompetenceFormView from '../../../../../components/pages/library/competen
 
 import { EditCompetenceIndicatorAccordeon } from '../indicator-accordeon/indicator-accordeon';
 
-import { 
-    updateEditCompetenceName, 
-    updateEditCompetenceDescription, 
-    updateEditCompetenceGroupId, 
-    resetEditCompetenceForm, 
-    uploadEditedCompetence
-} from '../../../../../action-creators/library-page/competencies';
+import { updateEditCompetenceName, updateEditCompetenceDescription, updateEditCompetenceGroupId, setEditCompetence, resetEditCompetence, editCompetenceSaved } from '../../../../../action-creators/library-page/competencies/edit-competence'
 
 
 class EditCompetenceForm extends Component {
     constructor(props) {
         super(props);
+
+        this._isSubmit = false
     }
 
     _uploadCompetenceNameToStore() {
         const {dispatch, competencies, match: {params: {idCompetence}}} = this.props;
         const index = competencies.findIndex(el => el.id == idCompetence);
-        dispatch(uploadEditedCompetence(competencies[index]))
+        dispatch(setEditCompetence(competencies[index]))
     }
 
     componentDidMount() {
         this._uploadCompetenceNameToStore();
     }
 
+    componentWillUnmount = () => {
+        if(!this._isSubmit)
+            this.props.dispatch(resetEditCompetence())
+    }
+
     onCompetenceNameChange = name => this.props.dispatch(updateEditCompetenceName(name))
     onCompetenceDescriptionChange = description => this.props.dispatch(updateEditCompetenceDescription(description))
     onCompetenceGroupIdChange = id => this.props.dispatch(updateEditCompetenceGroupId(id))
 
-    onSubmit = () => {
+    onSubmit = async () => {
         const {
-            onSaveCompetenceClick, staffixService, editCompetence
+            dispatch,
+            staffixService, editCompetence: { name: { text: name }, description: { text: description }, idGroup: { text: idGroup }, indicators},
+            match: { params: { idCompetence }},
+            saveCompetenceExecutor,
+            validateForm
         } = this.props;
 
-        const promise = staffixService.updateCompetence(editCompetence);
+        if(!await validateForm()) return;
 
-        onSaveCompetenceClick(promise, resetEditCompetenceForm);
+        this._isSubmit = true;
+
+        const resolvedCallbacks = [
+            () => {dispatch(editCompetenceSaved())}
+        ]
+
+        const competence = {
+            id: idCompetence,
+            name,
+            description,
+            idGroup,
+            indicators
+        }
+
+        saveCompetenceExecutor(() => staffixService.updateCompetence(competence), resolvedCallbacks);
     }
 
     render() {
         const {
             editCompetence: {
-                name,
-                description,
-                idGroup
+                name: {
+                    text: name,
+                    errorMessage: errorCompetenceName
+                },
+                description: {
+                    text: description,
+                    errorMessage: errorCompetenceDescription
+                },
+                idGroup: {
+                    text: idGroup,
+                    errorMessage: errorCompetenceGroupId
+                }
             },
             competenciesGroups,
-            onCancel
+            onCancel,
+            onCompetenceNameBlur,
+            onCompetenceDescriptionBlur,
+            onCompetenceGroupIdBlur
         } = this.props;
 
         return (
@@ -64,18 +95,36 @@ class EditCompetenceForm extends Component {
                 onCompetenceGroupIdChange={this.onCompetenceGroupIdChange} 
                 accordeon={<EditCompetenceIndicatorAccordeon />}
                 onSubmit={this.onSubmit}
-                onCancel={onCancel} />
+                onCancel={onCancel}
+                validation={{
+                    errorCompetenceDescription,
+                    errorCompetenceGroupId,
+                    errorCompetenceName
+                }} 
+                onCompetenceNameBlur={onCompetenceNameBlur}
+                onCompetenceDescriptionBlur={onCompetenceDescriptionBlur}
+                onCompetenceGroupIdBlur={onCompetenceGroupIdBlur} />
         );
     }
 }
 
 const mapStoreToEditCompetenceFormProps = ({
     libraryPage: {
-        editCompetence,
-        loadingIndicatorsGroups,
-        applyingChanges,
-        competencies,
-        competenciesGroups
+        indicatorsPage: {
+            loading: {
+                loadingIndicatorsGroups
+            }
+        },
+        competenciesPage: {
+            common: {
+                competencies,
+                competenciesGroups
+            },
+            editCompetence
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
     return {

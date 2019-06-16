@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 
 import Accordeon from '../../../../../components/pages/library/accordeon';
-import { startLoadingIndicators, saveLoadedIndicators, finishLoadingIndicators } from '../../../../../action-creators/library-page/indicators';
-
+import { startLoadingIndicators, finishLoadingIndicators } from '../../../../../action-creators/library-page/indicators/loading';
+import { saveLoadedIndicators } from '../../../../../action-creators/library-page/indicators/indicators';
 import withPointedIndicators from '../../../../../hoc/with-pointed-indicators';
 
 import { mode } from '../../../../../hoc/with-pointed-indicators/with-pointed-indicators';
@@ -57,7 +57,7 @@ class IndicatorAccordeon extends Component {
                                     {indicators.map(el1 => {
                                         const checked = pointedIndicators.some(el2 => el2.id == el1.id);
                                             return (
-                                                <li>
+                                                <li key={Math.random() * 1000}>
                                                     {el1.name}
                                                     <input type="checkbox" checked={checked} onChange={evt => {
                                                         evt.preventDefault();
@@ -76,7 +76,7 @@ class IndicatorAccordeon extends Component {
                                         filter(el => el.idGroup == indicatorsGroupId).
                                         map(el => {
                                             return (
-                                                <li>
+                                                <li key={Math.random() * 1000}>
                                                     {el.name}
                                                     <input type="checkbox" checked={true} onChange={evt => {
                                                         evt.preventDefault();
@@ -96,17 +96,27 @@ class IndicatorAccordeon extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        indicators,
-        indicatorsGroups,
-        loadingIndicators
-    },
-    libraryPage
+        competenciesPage: {
+            newCompetence,
+            editCompetence
+        },
+        indicatorsPage: {
+            common: {
+                indicators,
+                indicatorsGroups
+            },
+            loading: {
+                loadingIndicators
+            }
+        }
+    }
 }) => {
     return {
         indicators,
         indicatorsGroups,
         loadingIndicators,
-        libraryPage
+        newCompetence,
+        editCompetence
     }
 }
 

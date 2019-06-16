@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import withEffectApplyingChanges from '../../../../../hoc/with-effect-applying-changes/with-effect-applying-changes';
 import withStaffixService from '../../../../../hoc/hoc-services/with-staffix-service';
 import { connect } from 'react-redux';
-import { startLoadingIndicators, saveLoadedIndicators, finishLoadingIndicators, updateDeletedIndicators, updateVisibleIndicators } from '../../../../../action-creators/library-page/indicators';
-import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page';
+import { startLoadingIndicators, finishLoadingIndicators } from '../../../../../action-creators/library-page/indicators/loading';
+import { saveLoadedIndicators, updateDeletedIndicators, updateVisibleIndicators } from '../../../../../action-creators/library-page/indicators/indicators';
+import { startApplyingChanges, finishApplyingChanges } from '../../../../../action-creators/library-page/page-managing';
 
 import {
     Link
@@ -17,10 +18,6 @@ class ListIndicators extends Component {
     constructor(props) {
         super(props);
         this._idRequestedGroupIndicators = NaN;
-    }
-
-    _isValid = name => {
-        return true;
     }
 
     _defineDescriptionGroup = (idGroup, groups) => {
@@ -75,7 +72,7 @@ class ListIndicators extends Component {
         dispatch(startApplyingChanges());
         staffixService.deleteIndicators(deletedIndicators)
             .then(() => {
-                dispatch(finishApplyingChanges());
+                dispatch(finishApplyingChanges())
             })
     }
 
@@ -124,11 +121,19 @@ class ListIndicators extends Component {
 
 const mapStoreToProps = ({
     libraryPage: {
-        visibleIndicators: indicators,
-        deletedIndicators,
-        loadingIndicators,
-        applyingChanges,
-        indicatorsGroups
+        indicatorsPage: {
+            common: {
+                indicators,
+                indicatorsGroups,
+                deletedIndicators
+            },
+            loading: {
+                loadingIndicators
+            }
+        },
+        pageManaging: {
+            applyingChanges
+        }
     }
 }) => {
 
