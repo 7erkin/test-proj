@@ -23,12 +23,10 @@ const AddButton = withStyles(addButtonStyles)(Button)
 const DeleteButton = withStyles(deleteButtonsStyles)(Button)
 
 const DeleteFormView = ({
-    renderItemName,
     description = null,
-    items,
-    deletedItemIds,
     onSearchChange,
-    onItemCheck,
+    searchPlaceholder,
+    hasCheckedItems,
     addButton: {
         label: addButtonLabel,
         onClick: addButtonClick
@@ -36,7 +34,8 @@ const DeleteFormView = ({
     deleteButton: {
         label: deleteButtonLabel,
         onClick: deleteButtonClick
-    }
+    },
+    children
 }) => {
 
     const Description = description === null ? null : <b>{description}</b>;
@@ -49,28 +48,12 @@ const DeleteFormView = ({
             <Typography variant="body1" gutterBottom>
                 {Description}
             </Typography>
-            <CustomSearchView onChange={(evt) => onSearchChange(evt.target.value)} placeholder="Введите название сущности..."/>
+            <CustomSearchView onChange={(evt) => onSearchChange(evt.target.value)} placeholder={searchPlaceholder}/>
             <div className="buttons">
                 <AddButton variant="contained" onClick={addButtonClick}>{addButtonLabel}</AddButton>
-                <DeleteButton variant="contained" type="submit" disabled={!deletedItemIds.length}>{deleteButtonLabel}</DeleteButton>
+                <DeleteButton variant="contained" type="submit" disabled={!hasCheckedItems}>{deleteButtonLabel}</DeleteButton>
             </div>
-            <List>
-            {
-                items.map(({id, name}) => {
-                    return (
-                        <ListItem key={id}>
-                            <Typography variant="body1">
-                                {renderItemName(id, name)}
-                            </Typography>
-                            <input 
-                                    type="checkbox" 
-                                    checked={deletedItemIds.indexOf(id) !== -1} 
-                                    onChange={() => onItemCheck(id)} />
-                        </ListItem>
-                    );
-                })
-            }
-            </List>
+            {children}
         </form>
     );
 }

@@ -9,7 +9,7 @@ import {
 } from '../../../../../action-creators/library-page/questions/loading';
 
 import {  
-    saveLoadedContent
+    saveLoadedContent, updateVisibleContent
 } from '../../../../../action-creators/library-page/questions/questions';
 
 import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
@@ -72,7 +72,9 @@ class QuestionsAffiliation extends Component {
         history.push(`${url}/questions/${competenceId}`)
     }
 
-    //onSearchIndicatorChange = name => this.props.dispatch(updateNameSearchIndicator(name));
+    onSearchContent = competenceName => {
+        this.props.dispatch(updateVisibleContent(competenceName))
+    }
 
     render() {
         const { content, loadingContent, competenciesGroups, match: {params: {idCompetenciesGroup}} } = this.props;
@@ -86,6 +88,7 @@ class QuestionsAffiliation extends Component {
             <QuestionsAffiliationView 
                 competenciesGroupId={idCompetenciesGroup}
                 competenceGroupDescription={description}
+                onSearchContent={this.onSearchContent}
                 content={content}
                 onAddQuestionClick={this.onAddQuestionClick} />
         );
@@ -101,7 +104,7 @@ const mapStoreToProps = ({
         },
         questionsPage: {
             common: {
-                content
+                visibleContent: content
             },
             loading: {
                 loadingContent

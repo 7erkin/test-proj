@@ -6,7 +6,8 @@ import {
     SAVE_LOADED_CONTENT,
     SAVE_LOADED_QUESTIONS,
     UPDATE_DELETED_QUESTIONS,
-    RESET_DELETED_QUESTIONS
+    RESET_DELETED_QUESTIONS,
+    UPDATE_VISIBLE_CONTENT
 } from '../../../../actions/library-page/questions/questions'
 
 export default (state = initialState, { type, value }) => {
@@ -19,6 +20,8 @@ export default (state = initialState, { type, value }) => {
             return _.updateDeletedQuestions(state, value) 
         case RESET_DELETED_QUESTIONS:
             return _.resetDeletedQuestions(state)
+        case UPDATE_VISIBLE_CONTENT:
+            return _.updateVisibleContent(state, value)
         default:
             return state;
     }

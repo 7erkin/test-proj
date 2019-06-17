@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom'
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
 import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
+import CompetenceTableView from '../../../../../components/pages/library/competencies/competence-table-view';
 
 class CompetenciesList extends Component {
     constructor(props) {
@@ -92,17 +93,9 @@ class CompetenciesList extends Component {
         return (
             <DeleteFormView 
                 description={description}
-                items={competencies}
-                deletedItemIds={deletedCompetencies}
-                renderItemName={(id, name) => {
-                    return (
-                        <Link to={`/library/competencies-groups/${idGroup}/edit-competence/${id}`}>
-                            {name}
-                        </Link>
-                    );
-                }}
                 onSearchChange={this.onSearchChange}
-                onItemCheck={this.onCompetenceCheck}
+                hasCheckedItems={!!deletedCompetencies.length}
+                searchPlaceholder="Введите имя компетенции..."
                 addButton={{
                     label: 'Добавить компетенцию',
                     onClick: this.onAddCompetenceClick
@@ -110,7 +103,19 @@ class CompetenciesList extends Component {
                 deleteButton={{
                     label: 'Удалить',
                     onClick: this.onDeleteCompetenciesClick
-                }}/>
+                }}>
+                    <CompetenceTableView 
+                        competencies={competencies}
+                        deletedCompeteceIds={deletedCompetencies}
+                        onCompetenceCheck={this.onCompetenceCheck}
+                        renderName={(id, name) => {
+                            return (
+                                <Link to={`/library/competencies-groups/${idGroup}/edit-competence/${id}`}>
+                                    {name}
+                                </Link>
+                            );
+                        }} />
+                </DeleteFormView>
         );
     }
 }

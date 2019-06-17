@@ -1,3 +1,7 @@
 .questions-affiliation:nth-child(1){
     margin-bottom: 20px;
 }
+
+.questions-affiliation button {
+    margin-top: 20px;
+}

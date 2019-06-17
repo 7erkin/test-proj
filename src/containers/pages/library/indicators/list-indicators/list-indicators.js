@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom'
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
 import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
+import IndicatorTableView from '../../../../../components/pages/library/indicators/indicator-table-view.js';
 
 
 // TODO: should reset store becaues deletedIndicatorsIds is remains after deleting
@@ -80,8 +81,6 @@ class ListIndicators extends Component {
         this.props.dispatch(updateVisibleIndicators(pattern))
     }
 
-    //onSearchIndicatorChange = name => this.props.dispatch(updateNameSearchIndicator(name));
-
     render() {
         const { indicators, loadingIndicators, indicatorsGroups, match: {params: {idGroup}}, deletedIndicators } = this.props;
 
@@ -90,7 +89,7 @@ class ListIndicators extends Component {
 
         const description = this._defineDescriptionGroup(idGroup, indicatorsGroups);
 
-        const renderItemName = (itemId, name) => {
+        const renderIndicatorName = (itemId, name) => {
             return (
                 <Link to={`/library/indicators-groups/${idGroup}/edit-indicator/${itemId}`}>
                     {name}
@@ -100,12 +99,10 @@ class ListIndicators extends Component {
 
         return (
             <DeleteFormView 
-                renderItemName={renderItemName}
                 description={description}
-                items={indicators}
-                deletedItemIds={deletedIndicators}
                 onSearchChange={this.onSearchChange}
-                onItemCheck={this.onIndicatorCheck}
+                hasCheckedItems={!!deletedIndicators.length}
+                searchPlaceholder="Введите имя индикатора..."
                 addButton={{
                     label: 'Добавить индикатор',
                     onClick: this.onAddIndicatorClick
@@ -114,7 +111,13 @@ class ListIndicators extends Component {
                     label: 'Удалить',
                     onClick: this.onDeleteIndicators
                 }}
-            />
+            >
+                <IndicatorTableView 
+                    indicators={indicators}
+                    deletedIndicatorIds={deletedIndicators}
+                    onIndicatorCheck={this.onIndicatorCheck}
+                    renderName={renderIndicatorName} />
+            </DeleteFormView>
         );
     }
 }

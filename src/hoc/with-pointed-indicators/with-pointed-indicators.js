@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { updateEditCompetencePointedIndicators } from '../../action-creators/library-page/competencies/edit-competence';
-import { updateNewCompetencePointedIndicators } from '../../action-creators/library-page/competencies/new-competence';
+import { updateEditCompetencePointedIndicators, updateEditCompetenceIndicatorInfluence } from '../../action-creators/library-page/competencies/edit-competence';
+import { updateNewCompetencePointedIndicators, updateNewCompetenceIndicatorInfluence } from '../../action-creators/library-page/competencies/new-competence';
 
 const mode = {
     EDIT: 0,
@@ -26,20 +26,24 @@ const withPointedIndicators = option => Accordeon => {
 
             let pointedIndicators = [];
             let onIndicatorCheck = () => {};
+            let onInfluenceChange = () => {}
 
             if(mode.EDIT === option){
                 pointedIndicators = editCompetence.indicators;
                 onIndicatorCheck = indicator => this.props.dispatch(updateEditCompetencePointedIndicators(indicator))
+                onInfluenceChange = (id, influence) => this.props.dispatch(updateEditCompetenceIndicatorInfluence({id, influence}))
             } else {
                 pointedIndicators = newCompetence.indicators;
                 onIndicatorCheck = indicator => this.props.dispatch(updateNewCompetencePointedIndicators(indicator))
+                onInfluenceChange = (id, influence) => this.props.dispatch(updateNewCompetenceIndicatorInfluence({id, influence}))
             }
 
             return (
                 <Accordeon 
                     {...this.props}
                     pointedIndicators={pointedIndicators} 
-                    onIndicatorCheck={onIndicatorCheck} />
+                    onIndicatorCheck={onIndicatorCheck}
+                    onInfluenceChange={onInfluenceChange} />
             );
         }
     }

@@ -9,6 +9,7 @@ import './style.css'
 const QuestionsAffiliationView = ({
     competenceGroupDescription,
     onAddQuestionClick,
+    onSearchContent,
     content,
     competenciesGroupId
 }) => {
@@ -17,7 +18,7 @@ const QuestionsAffiliationView = ({
             <Typography variant="body1" gutterBottom>
                 {competenceGroupDescription}
             </Typography>
-            <CustomSearchView value={''} onChange={() => {}} placeholder="Введите название сущности..." />
+            <CustomSearchView onChange={(evt) => {onSearchContent(evt.target.value)}} placeholder="Введите имя компетенции..." />
             <CustomAddButton onClick={onAddQuestionClick}>Добавить вопрос</CustomAddButton>
             <ContentTable
                 competenciesGroupId={competenciesGroupId}
@@ -27,6 +28,7 @@ const QuestionsAffiliationView = ({
                     'Описание компетенции', 
                     'Количество вопросов']} />
         </section>
+        
     );
 }
 

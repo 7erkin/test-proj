@@ -9,6 +9,20 @@ import withPointedIndicators from '../../../../../hoc/with-pointed-indicators';
 
 import { mode } from '../../../../../hoc/with-pointed-indicators/with-pointed-indicators';
 import LoadingIndicator from '../../../../../components/common/loading-indicator/loading-indicator';
+import { Select } from '@material-ui/core';
+
+const InfluenceSelector = ({
+    indicatorId,
+    influence,
+    onInfluenceChange
+}) => {
+    return (
+        <Select value={influence} onChange={evt => onInfluenceChange(indicatorId, evt.target.value)}>
+            <option value='positive'>Положительное</option>
+            <option value='negative'>Отрицательное</option>
+        </Select>
+    );
+}
 
 class IndicatorAccordeon extends Component {
     constructor(props){
@@ -38,7 +52,8 @@ class IndicatorAccordeon extends Component {
             indicatorsGroups,
             loadingIndicators,
             pointedIndicators,
-            onIndicatorCheck
+            onIndicatorCheck,
+            onInfluenceChange
         } = this.props;
 
         return (
@@ -55,10 +70,12 @@ class IndicatorAccordeon extends Component {
                             return (
                                 <ul>
                                     {indicators.map(el1 => {
-                                        const checked = pointedIndicators.some(el2 => el2.id == el1.id);
+                                            const index = pointedIndicators.findIndex(el2 => el2.id == el1.id);
+                                            const checked = index !== -1;
                                             return (
                                                 <li key={Math.random() * 1000}>
                                                     {el1.name}
+                                                    {checked ? <InfluenceSelector indicatorId={el1.id} influence={pointedIndicators[index].influence} onInfluenceChange={onInfluenceChange} /> : null}
                                                     <input type="checkbox" checked={checked} onChange={evt => {
                                                         evt.preventDefault();
                                                         onIndicatorCheck({...el1})
@@ -78,6 +95,7 @@ class IndicatorAccordeon extends Component {
                                             return (
                                                 <li key={Math.random() * 1000}>
                                                     {el.name}
+                                                    {<InfluenceSelector indicatorId={el.id} influence={el.influence} onInfluenceChange={onInfluenceChange} />}
                                                     <input type="checkbox" checked={true} onChange={evt => {
                                                         evt.preventDefault();
                                                         onIndicatorCheck({...el})

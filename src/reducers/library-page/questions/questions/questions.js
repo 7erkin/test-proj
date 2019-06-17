@@ -8,7 +8,8 @@ export const resetDeletedQuestions = (state, value) => {
 export const saveLoadedQuestionsGroupContent = (state, value) => {
     return {
         ...state,
-        content: value
+        content: value,
+        visibleContent: value
     }
 }
 export const saveLoadedQuestions = (state, value) => {
@@ -26,5 +27,12 @@ export const updateDeletedQuestions = (state, value) => {
     return {
         ...state,
         deletedQuestions
+    }
+}
+export const updateVisibleContent = (state, value) => {
+    const { content } = state;
+    return {
+        ...state,
+        visibleContent: content.filter(({ competenceName }) => competenceName.toUpperCase().indexOf(value.toUpperCase()) !== -1)
     }
 }

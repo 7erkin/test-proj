@@ -1,4 +1,4 @@
-import { SAVE_LOADED_CONTENT, SAVE_LOADED_QUESTIONS, QUESTIONS_DELETED, RESET_DELETED_QUESTIONS, UPDATE_DELETED_QUESTIONS } from '../../../actions/library-page/questions/questions'
+import { SAVE_LOADED_CONTENT, SAVE_LOADED_QUESTIONS, QUESTIONS_DELETED, RESET_DELETED_QUESTIONS, UPDATE_DELETED_QUESTIONS, UPDATE_VISIBLE_CONTENT } from '../../../actions/library-page/questions/questions'
 
 export const saveLoadedContent = content => {
     return {
@@ -27,5 +27,11 @@ export const updateDeletedQuestions = id => {
     return {
         type: UPDATE_DELETED_QUESTIONS,
         value: id
+    }
+}
+export const updateVisibleContent = competenceName => {
+    return {
+        type: UPDATE_VISIBLE_CONTENT,
+        value: competenceName
     }
 }
