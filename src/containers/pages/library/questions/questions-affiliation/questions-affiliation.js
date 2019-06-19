@@ -22,10 +22,6 @@ class QuestionsAffiliation extends Component {
         this._idRequestedQuestionsGroup = NaN;
     }
 
-    _isValid = name => {
-        return true;
-    }
-
     _defineDescriptionGroup = (idGroup, groups) => {
         const index = groups.findIndex(el => el.id == idGroup);
         return groups[index].description;
@@ -62,11 +58,6 @@ class QuestionsAffiliation extends Component {
             })
     }
 
-    onAddQuestionClick = () => {
-        const { history, match } = this.props;
-        history.push(`${match.url}/add-question`);
-    }
-
     onRowClick = (competenceId) => {
         const { history, match: {url} } = this.props;
         history.push(`${url}/questions/${competenceId}`)
@@ -89,8 +80,7 @@ class QuestionsAffiliation extends Component {
                 competenciesGroupId={idCompetenciesGroup}
                 competenceGroupDescription={description}
                 onSearchContent={this.onSearchContent}
-                content={content}
-                onAddQuestionClick={this.onAddQuestionClick} />
+                content={content} />
         );
     }
 }

@@ -188,8 +188,10 @@ class DummyStaffixService {
     getCompetence = competenceId => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const index = this._competencies.findIndex(el => Number(competenceId) === Number(el.idGroup))
-                resolve(this._competencies[index]);
+                const index = this._competencies.findIndex(el => Number(competenceId) === Number(el.id))
+                const competence = this._competencies[index]
+                console.log('COMP: ', competence)
+                resolve(competence);
             }, TIMEOUT)
         })
     }
@@ -343,6 +345,20 @@ class DummyStaffixService {
         const index = this._competencies.findIndex(el => Number(el.id) === Number(idCompetence));
         return Number(this._competencies[index].idGroup) === Number(idCompetenciesGroup);
     }
+    addEmptyContent = (competenceGroupId, res) => {
+        this._competencies.forEach(({ id, idGroup, name, description }) => {
+            if(Number(idGroup) !== Number(competenceGroupId)) return
+
+            if(res.some(el => Number(el.idCompetence) === Number(id))) return 
+            
+            res.push({
+                idCompetence: id,
+                competenceName: name,
+                competenceDescription: description,
+                questions: 0
+            })
+        })
+    }
     //************ end utils */
 
     getQuestionsGroupContent = (id) => {
@@ -354,12 +370,13 @@ class DummyStaffixService {
                     
                     if(!this.isCompetenceBelongGroup(idCompetence, id))
                         return;
-
+                    
                     if(this.isCompetenceAlreadyInRes(res, idCompetence))
                         this.increaseQuantityQuestions(res, idCompetence)
                     else 
                         this.pushCompetenceIntoRes(res, idCompetence)
                 })
+                this.addEmptyContent(id, res)
                 resolve(res);
             }, TIMEOUT)
         })
@@ -404,7 +421,9 @@ class DummyStaffixService {
     getQuestions = (idCompetence) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(this._questions.filter(el => Number(el.idCompetence) === Number(idCompetence)))
+                const questions = this._questions.filter(el => Number(el.idCompetence) === Number(idCompetence))
+                console.log('adad: ', questions)
+                resolve(questions)
             }, TIMEOUT);
         })
     }

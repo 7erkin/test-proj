@@ -1,14 +1,12 @@
 import React from 'react'
 import { Typography } from '@material-ui/core';
 import CustomSearchView from '../../../../common/custom-search-view';
-import CustomAddButton from '../../../../common/custom-add-button';
 import ContentTable from '../content-table';
 
 import './style.css'
 
 const QuestionsAffiliationView = ({
     competenceGroupDescription,
-    onAddQuestionClick,
     onSearchContent,
     content,
     competenciesGroupId
@@ -19,7 +17,6 @@ const QuestionsAffiliationView = ({
                 {competenceGroupDescription}
             </Typography>
             <CustomSearchView onChange={(evt) => {onSearchContent(evt.target.value)}} placeholder="Введите имя компетенции..." />
-            <CustomAddButton onClick={onAddQuestionClick}>Добавить вопрос</CustomAddButton>
             <ContentTable
                 competenciesGroupId={competenciesGroupId}
                 values={content} 

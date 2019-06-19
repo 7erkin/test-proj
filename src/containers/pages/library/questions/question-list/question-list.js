@@ -28,7 +28,7 @@ class QuestionList extends Component {
         })
     }
 
-    onSubmit = () => {
+    onDeleteQuestionsClick = () => {
         const {
             dispatch,
             staffixService,
@@ -41,6 +41,11 @@ class QuestionList extends Component {
                 dispatch(questionsDeleted());
                 dispatch(finishApplyingChanges());
             })
+    }
+
+    onAddQuestionClick = () => {
+        const { history, match: { params: { idCompetenciesGroup }} } = this.props;
+        history.push(`/library/questions-groups/${idCompetenciesGroup}/add-question`);
     }
 
     onQuestionCheck = id => {
@@ -63,7 +68,8 @@ class QuestionList extends Component {
                 questions={questions}
                 deletedQuestions={deletedQuestions}
                 onQuestionCheck={this.onQuestionCheck}
-                onSubmit={this.onSubmit}/>
+                onDeleteQuestions={this.onDeleteQuestionsClick}
+                onAddQuestion={this.onAddQuestionClick} />
         );
     }
 }

@@ -1,36 +1,48 @@
 import React from 'react'
-import { Typography, List, ListItemText, ListItem } from '@material-ui/core';
-import CustomDeleteButton from '../../../../common/custom-delete-button';
+import DeleteFormView from '../../delete-form-view/delete-form-view';
+import DeleteFormTableView from '../../delete-form-table-view/delete-form-table-view';
+import { TableRow, TableCell } from '@material-ui/core';
 
 const QuestionListView = ({
     questions,
     deletedQuestions,
-    onSubmit,
+    onDeleteQuestions,
+    onAddQuestion,
     onQuestionCheck,
     competenceName
 }) => {
     return (
-        <form onSubmit={evt => {
-            evt.preventDefault();
-            onSubmit();
-        }}>
-            <Typography variant="body1">
-                {competenceName}
-            </Typography>
-            <CustomDeleteButton disabled={!deletedQuestions.length} type="submit">Удалить</CustomDeleteButton>
-            <List>
-                {
-                    questions.map(el1 => {
-                        return (
-                            <ListItem key={el1.id}>
-                                <ListItemText>{el1.body}</ListItemText>
-                                <input type="checkbox" onChange={() => onQuestionCheck(el1.id)} checked={deletedQuestions.some(el2 => el2 == el1.id)}/>
-                            </ListItem>
-                        );
-                    })
-                }
-            </List>
-        </form>
+        <DeleteFormView 
+            description={`Компетенция: ${competenceName}`}
+            hasCheckedItems={!!deletedQuestions.length}
+            searchAble={false}
+            addButton={{
+                label: 'Добавить вопрос',
+                onClick: onAddQuestion
+            }}
+            deleteButton={{
+                label: 'Удалить',
+                onClick: onDeleteQuestions
+            }}>
+            <DeleteFormTableView 
+                columns={['Вопрос', '']}
+                items={questions} 
+                renderRow={question => {
+                    const { id, body } = question;
+                    
+                    return (
+                        <TableRow>
+                            <TableCell>{body}</TableCell>
+                            <TableCell>
+                                <input 
+                                    type="checkbox" 
+                                    checked={deletedQuestions.indexOf(id) !== -1} 
+                                    onChange={() => onQuestionCheck(id)} />
+                            </TableCell>
+                        </TableRow>
+                    );
+                }} />
+        </DeleteFormView>
     );
 }
 

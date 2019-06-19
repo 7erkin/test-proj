@@ -24,9 +24,10 @@ const DeleteButton = withStyles(deleteButtonsStyles)(Button)
 
 const DeleteFormView = ({
     description = null,
-    onSearchChange,
-    searchPlaceholder,
+    onSearchChange = () => {},
+    searchPlaceholder = '',
     hasCheckedItems,
+    searchAble = true,
     addButton: {
         label: addButtonLabel,
         onClick: addButtonClick
@@ -48,7 +49,7 @@ const DeleteFormView = ({
             <Typography variant="body1" gutterBottom>
                 {Description}
             </Typography>
-            <CustomSearchView onChange={(evt) => onSearchChange(evt.target.value)} placeholder={searchPlaceholder}/>
+            {searchAble ? <CustomSearchView onChange={(evt) => onSearchChange(evt.target.value)} placeholder={searchPlaceholder}/> : null}
             <div className="buttons">
                 <AddButton variant="contained" onClick={addButtonClick}>{addButtonLabel}</AddButton>
                 <DeleteButton variant="contained" type="submit" disabled={!hasCheckedItems}>{deleteButtonLabel}</DeleteButton>
