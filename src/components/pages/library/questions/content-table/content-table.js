@@ -6,6 +6,7 @@ import { TableRow, TableCell, TableBody, TableHead } from '@material-ui/core';
 import {
     Link
 } from 'react-router-dom'
+import { questionDeclination } from '../../../../../custom-library';
 
 export default ({
     columns,
@@ -25,13 +26,14 @@ export default ({
             <TableBody>
                 {
                     values.map(el => {
-                        console.log(values)
+                        const questionsFieldName = `${el.questions} ${questionDeclination(el.questions)}`
+
                         return (
                             <TableRow>
                                 <TableCell>{el.competenceName}</TableCell>
                                 <TableCell>{el.competenceDescription}</TableCell>
                                 <TableCell>
-                                    <Link to={`/library/questions-groups/${competenciesGroupId}/questions/${el.idCompetence}`}>{el.questions}</Link>
+                                    <Link to={`/library/questions-groups/${competenciesGroupId}/questions/${el.idCompetence}`}>{questionsFieldName}</Link>
                                 </TableCell>
                             </TableRow>
                         );
