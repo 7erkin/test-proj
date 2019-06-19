@@ -9,6 +9,7 @@ import {
 import { updateDeletedIndicatorsGroups, indicatorsGroupsDeleted, updateVisibleIndicatorsGroups } from '../../../../../action-creators/library-page/indicators/indicators';
 import { startApplyingChanges, finishApplyingChanges, resetInitialLoading } from '../../../../../action-creators/library-page/page-managing';
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
+import IndicatorsGroupTabelView from '../../../../../components/pages/library/indicators/indicators-group-table-view';
 
 class ListGroupsIndicators extends Component {
     constructor(props) {
@@ -48,13 +49,8 @@ class ListGroupsIndicators extends Component {
 
         return (
             <DeleteFormView 
-                items={indicatorsGroups}
-                deletedItemIds={deletedIndicatorsGroups}
-                renderItemName={(itemId, name) => {
-                    return <Link to={`/library/indicators-groups/edit/${itemId}`}>{name}</Link>
-                }}
+                searchPlaceholder="Введите название группы..."
                 onSearchChange={this.onSearchChange}
-                onItemCheck={this.onIndicatorsGroupCheck}
                 addButton={{
                     label: 'Добавить группу',
                     onClick: this.onAddIndicatorsGroupClick
@@ -63,7 +59,15 @@ class ListGroupsIndicators extends Component {
                     label: 'Удалить',
                     onClick: this.onIndicatorsGroupsDeleteClick
                 }}
-            />
+            >
+                <IndicatorsGroupTabelView 
+                    deletedGroupIds={deletedIndicatorsGroups}
+                    groups={indicatorsGroups}
+                    renderName={(itemId, name) => {
+                        return <Link to={`/library/indicators-groups/edit/${itemId}`}>{name}</Link>
+                    }}
+                    onGroupCheck={this.onIndicatorsGroupCheck} />
+            </DeleteFormView>
         );
     }
 }

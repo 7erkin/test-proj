@@ -10,14 +10,11 @@ import {
 import { updateDeletedCompetenciesGroups, competenciesGroupsDeleted, updateVisibleCompetenciesGroups } from '../../../../../action-creators/library-page/competencies/competencies';
 import { startApplyingChanges, finishApplyingChanges, resetInitialLoading } from '../../../../../action-creators/library-page/page-managing';
 import DeleteFormView from '../../../../../components/pages/library/delete-form-view';
+import CompetenciesGroupTableView from '../../../../../components/pages/library/competencies/competencies-group-table-view';
 
 class CompetenciesGroupList extends Component {
     constructor(props) {
         super(props);
-    }
-
-    _isValid = name => {
-        return true;
     }
 
     onDeleteCompetenciesGroupsClick = () => {
@@ -49,17 +46,8 @@ class CompetenciesGroupList extends Component {
 
         return (
             <DeleteFormView 
-                items={competenciesGroups}
-                deletedItemIds={deletedCompetenciesGroups}
-                renderItemName={(id, name) => {
-                    return (
-                        <Link to={`/library/competencies-groups/edit/${id}`}>
-                            {name}
-                        </Link>
-                    );
-                }}
+                searchPlaceholder="Введите название группы..."
                 onSearchChange={this.onSearchChange}
-                onItemCheck={this.onCompetenciesGroupCheck}
                 addButton={{
                     label: 'Добавить группу',
                     onClick: this.onAddCompetenciesGroupClick
@@ -67,7 +55,19 @@ class CompetenciesGroupList extends Component {
                 deleteButton={{
                     label: 'Удалить',
                     onClick: this.onDeleteCompetenciesGroupsClick
-                }}/>
+                }}>
+                    <CompetenciesGroupTableView 
+                        deletedGroupIds={deletedCompetenciesGroups}
+                        groups={competenciesGroups}
+                        renderName={(id, name) => {
+                            return (
+                                <Link to={`/library/competencies-groups/edit/${id}`}>
+                                    {name}
+                                </Link>
+                            );
+                        }} 
+                        onGroupCheck={this.onCompetenciesGroupCheck} />
+                </DeleteFormView>
         );
     }
 }
