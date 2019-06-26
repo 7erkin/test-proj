@@ -62,7 +62,7 @@ class DummyStaffixService {
         })
     }
 
-    addCompany = (company) => {
+    createCompany = (company) => {
         return new Promise((resolve, reject) => {
             this._companies.push({
                 id: Math.floor(Math.random() * 1000),
@@ -94,6 +94,18 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._companies);
+            }, TIMEOUT)
+        })
+    }
+
+    deleteCompanies = (ids) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                ids.forEach(id => {
+                    const index = this._companies.findIndex(el => el.id == id);
+                    this._companies.splice(index, 1);
+                })
+                resolve();
             }, TIMEOUT)
         })
     }
@@ -457,6 +469,14 @@ class DummyStaffixService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this._groupsIndicator.some(el => el.name === name));
+            }, TIMEOUT);
+        })
+    }
+
+    isCompanyWithNameExist = name => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(this._companies.some(el => el.name.toUpperCase() === name.toUpperCase()));
             }, TIMEOUT);
         })
     }

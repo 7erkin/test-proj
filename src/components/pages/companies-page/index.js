@@ -4,6 +4,10 @@ import Search from '../../bootstrap/search';
 import Table from '@material-ui/core/Table';
 import { TableRow, TableCell, TableBody, TableHead } from '@material-ui/core';
 
+import {
+    Link
+} from 'react-router-dom'
+
 const columns = [
     'Компании',
     'Заявки'
@@ -31,7 +35,9 @@ const CompaniesPageComponent = ({
                     companies.map(el => {
                         return (
                             <TableRow onClick={() => onRowClicked(el.id)}>
-                                <TableCell>{el.name}</TableCell>
+                                <TableCell>
+                                    <Link to={`/companies/${el.id}`}>{el.name}</Link>
+                                </TableCell>
                                 <TableCell>{el.requests}</TableCell>
                             </TableRow>
                         );

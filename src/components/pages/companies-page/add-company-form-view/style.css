@@ -1,0 +1,28 @@
+.add-company-form input {
+    width: 600px;
+}
+
+.add-company-form .field {
+    margin-bottom: 40px;
+}
+
+.add-company-form {
+    margin: 0 auto;
+}
+
+.add-company-form .container {
+    display: block;
+    margin: 0 auto;
+    width: 600px;
+    margin-top: 50px;
+}
+
+.add-company-form .buttons {
+    position: relative;
+    margin-top: 60px;
+}
+
+.add-company-form .buttons button:last-of-type {
+    position: absolute;
+    right: 0px;
+}
