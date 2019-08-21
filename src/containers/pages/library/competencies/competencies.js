@@ -70,12 +70,12 @@ class Competencies extends Component {
         if(loadingInitial)
             return;
     
-            staffixService.getCompetenciesGroups()
-                .then(groups => {
-                    dispatch(saveLoadedCompetenciesGroups(groups));
-                    this._initialCompetenciesGroupId = this._defineIdGroupRendering(groups);
-                    dispatch(fulfilInitialLoading());
-                })
+        staffixService.getCompetenciesGroups()
+            .then(groups => {
+                dispatch(saveLoadedCompetenciesGroups(groups));
+                this._initialCompetenciesGroupId = this._defineIdGroupRendering(groups);
+                dispatch(fulfilInitialLoading());
+            })
     }
 
     render() {
@@ -95,7 +95,7 @@ class Competencies extends Component {
                 <Route path="/library/competencies-groups/:idGroup" render={props => {
                     return (
                         <Fragment>
-                            <AsideList {...props}/>
+                            <AsideList {...props} />
                             <LibraryContentCenterView>
                                 <Switch>
                                     <Route exact path="/library/competencies-groups/:idGroup/add-competence" render={(props) => <AddCompetenceForm {...props}/>}/>

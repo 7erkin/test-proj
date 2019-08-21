@@ -15,9 +15,9 @@ const Companies = ({
 
     return (
         <Switch>
-            <Route path="/companies/new" render={(props) => <AddCompanyForm {...props} /> }/>
-            <Route path="/companies" render={(props) => <CompaniesList {...props} /> }/>
-            <Route path="/companies/:id" render={() => <Company />} />
+            <Route exact path="/companies/new" render={(props) => <AddCompanyForm {...props} /> }/>
+            <Route exact path="/companies" render={(props) => <CompaniesList {...props} /> }/>
+            <Route path="/companies/:id/" render={(props) => <Company {...props} />} />
         </Switch>
     );
 }
